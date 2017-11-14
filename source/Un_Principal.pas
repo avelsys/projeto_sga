@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ComCtrls, Vcl.ImgList,
-  Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Buttons;
+  Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Buttons, Vcl.Imaging.jpeg,
+  Vcl.ExtCtrls;
 
 type
   Tfrm_principal = class(TForm)
@@ -29,6 +30,7 @@ type
     SpeedButton3: TSpeedButton;
     N1: TMenuItem;
     Sair1: TMenuItem;
+    Image1: TImage;
     procedure btnCombustivelExecute(Sender: TObject);
     procedure btnTanqueExecute(Sender: TObject);
     procedure btnSairExecute(Sender: TObject);
@@ -46,12 +48,12 @@ implementation
 
 {$R *.dfm}
 
-uses Un_DmSistema, Un_MDDialog, Un_Funcoes;
+uses Un_DmSistema, Un_MDDialog, Un_Funcoes, Un_Combustivel;
 
 procedure Tfrm_principal.btnCombustivelExecute(Sender: TObject);
 begin
-   MD_Dialog := TMD_Dialog.Create(Self);
-   MD_Dialog.Show;
+   frmCombustivel := TfrmCombustivel.Create(Self,Sender);
+   frmCombustivel.Show;
 end;
 
 procedure Tfrm_principal.btnSairExecute(Sender: TObject);

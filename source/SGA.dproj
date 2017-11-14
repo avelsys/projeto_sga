@@ -99,6 +99,12 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Un_Funcoes.pas"/>
+        <DCCReference Include="U_ClassConfig.pas"/>
+        <DCCReference Include="EditTuning.pas"/>
+        <DCCReference Include="Un_Combustivel.pas">
+            <Form>frmCombustivel</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

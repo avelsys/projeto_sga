@@ -12,6 +12,7 @@ object dmSistema: TdmSistema
       'CharacterSet=WIN1252'
       'DriverID=FB')
     ConnectedStoredUsage = [auDesignTime]
+    Connected = True
     LoginPrompt = False
     Left = 24
     Top = 8
@@ -34,6 +35,7 @@ object dmSistema: TdmSistema
     Top = 64
   end
   object cdsCombustivel: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspCombustivel'
@@ -59,6 +61,34 @@ object dmSistema: TdmSistema
       EditFormat = 'R$ ###,##0.00'
       Precision = 18
       Size = 3
+    end
+    object cdsCombustivelCMB_USUINC: TStringField
+      FieldName = 'CMB_USUINC'
+      Origin = 'CMB_USUINC'
+      Size = 15
+    end
+    object cdsCombustivelCMB_HORINC: TStringField
+      FieldName = 'CMB_HORINC'
+      Origin = 'CMB_HORINC'
+      Size = 8
+    end
+    object cdsCombustivelCMB_DATINC: TDateField
+      FieldName = 'CMB_DATINC'
+      Origin = 'CMB_DATINC'
+    end
+    object cdsCombustivelCMB_USUALT: TStringField
+      FieldName = 'CMB_USUALT'
+      Origin = 'CMB_USUALT'
+      Size = 15
+    end
+    object cdsCombustivelCMB_HORALT: TStringField
+      FieldName = 'CMB_HORALT'
+      Origin = 'CMB_HORALT'
+      Size = 8
+    end
+    object cdsCombustivelCMB_DATALT: TDateField
+      FieldName = 'CMB_DATALT'
+      Origin = 'CMB_DATALT'
     end
   end
   object dsCombustivel: TDataSource

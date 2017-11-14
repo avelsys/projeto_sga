@@ -5,7 +5,10 @@ uses
   Un_Principal in 'Un_Principal.pas' {frm_principal},
   Un_DmSistema in 'Un_DmSistema.pas' {dmSistema: TDataModule},
   Un_MDDialog in 'Un_MDDialog.pas' {MD_Dialog},
-  Un_Funcoes in 'Un_Funcoes.pas';
+  Un_Funcoes in 'Un_Funcoes.pas',
+  U_ClassConfig in 'U_ClassConfig.pas',
+  EditTuning in 'EditTuning.pas',
+  Un_Combustivel in 'Un_Combustivel.pas' {frmCombustivel};
 
 {$R *.res}
 

@@ -19,11 +19,29 @@ uses
   function Criptografar(wStri: String): String;
   function LoadImage(AImage: TImage; ABlobField: TBlobField): Boolean;
   function fIIF( pCond:Boolean; pTrue, pFalse:Variant ): Variant;
-
+  Function PegarPrimaryKey( cTab: string ): string;
+  Function PegarPrimaryHeyType( cTab, cCampo: string ): string;
+  Function FormataNum( cNum: String ): Double;
+  function RemoveChar(texto: string): string; stdcall;
+  function StrZero(Num, Size: Integer): String;
+  procedure MoedaKeyEdit(Key: Char; edMoeda_: TObject);
 
 implementation
 
 uses Un_DmSistema;
+
+function StrZero(Num, Size: Integer): String;
+var
+Text: String;
+i, Tam: integer;
+begin
+Text := IntToStr(Num);
+Tam := Length(Text);
+for i := 1 to (Size-Tam) do
+Text := '0' + Text;
+Result := Text;
+end;
+
 
 function fIIF( pCond:Boolean; pTrue, pFalse:Variant ): Variant;
 begin
@@ -32,11 +50,63 @@ begin
   else
      Result := pFalse;
 end;
+Function FormataNum( cNum: String ): Double;
+Var
+  Num: Double;
+  x: Integer;
+  cR: String;
+
+begin
+
+if cNum <> ''  then Begin
+
+    cNum := RemoveChar(cNum);
+    for x := 1 to Length(cNum) do Begin
+         If cNum[x] = '.' then begin
+            cR := cR + ','
+         end else Begin
+            cR :=  cR + cNum[x];
+         End;
+    End;
+    Num  := StrToFloat( cR );
+
+End Else begin
+  Num:= 0 ;
+end;
+result := Num;
+end;
+
+function RemoveChar(texto: string): string; stdcall;
+{Função que serve para nao aceitar caracteres especiais tipo !@#$%^&*()}
+const
+  _Remove = 'LtCmQTDqtdRKg:;.,`!@#$%^&*()_+=|\<>?/æ-';
+var
+  x: Integer;
+  cR: String;
+begin
+  if Length(texto) = 0 then
+    Begin
+      result := '0';
+       Exit;
+    End;
+
+  for x := 1 to Length(texto) do Begin
+    if Pos(texto[x], _Remove) <> 0 then Begin
+       If texto[x] = ',' then begin
+          cR := cR + '.'
+       end;
+
+    End else Begin
+      cR :=  cR + texto[x];
+    End;
+  End;
+  result := cR;
+
+end;
 
 
 function PegaType(cField, cTabela : String ): String;
 Var
-cSql : String;
 qQry : TFDQuery ;
 Begin
   cField  := LowerCase( cField ) ;
@@ -63,8 +133,8 @@ Begin
                   +'  FROM                                                                    '
                   +'    RDB$RELATIONS TABELAS, RDB$RELATION_FIELDS CAMPOS, RDB$FIELDS         '
                   +'    DADOSCAMPO, RDB$TYPES TIPOS                                           '
-                  +'  WHERE TABELAS.RDB$RELATION_NAME = '+QuotedStr(cTabela)+'                '
-                  +'    AND CAMPOS.RDB$FIELD_NAME     = '+QuotedStr(cField)+'                '
+                  +'  WHERE TABELAS.RDB$RELATION_NAME = '+QuotedStr( UPPERCASE( cTabela ) )
+                  +'    AND CAMPOS.RDB$FIELD_NAME     = '+QuotedStr( UPPERCASE( cField ) )
                   +'    AND TIPOS.RDB$FIELD_NAME      = ''RDB$FIELD_TYPE''                    '
                   +'    AND TABELAS.RDB$RELATION_NAME = CAMPOS.RDB$RELATION_NAME              '
                   +'    AND CAMPOS.RDB$FIELD_SOURCE   = DADOSCAMPO.RDB$FIELD_NAME             '
@@ -73,13 +143,12 @@ Begin
 
       Open;
   end;
-  Result := LowerCase( qQry.FieldByName('FIELD_TYPE').Value );
+  Result := UpperCase( qQry.FieldByName('FIELD_TYPE').Value );
   FreeAndNil(qQry);
 End;
 
 function ChkType(cField, cTabela : String; dbgCrud :Tdbgrid ): String;
 Var
-cSql : String;
 qQry : TFDQuery ;
 Begin
   cField  := LowerCase( cField ) ;
@@ -184,6 +253,153 @@ begin
   end;
   Result := True;
 end;
+
+Function PegarPrimaryKey( cTab: string ): string;
+Var
+ qSql : TFDQuery;
+begin
+  qSql := TFDQuery.Create(Nil);
+  with qSql do begin
+       Connection := dmSistema.fdConecta ;
+       SQL.Text   := ' select idx.RDB$FIELD_NAME as chave_pk                                  '
+                   +' from RDB$RELATION_CONSTRAINTS tc                                        '
+                   +' join RDB$INDEX_SEGMENTS idx on (idx.RDB$INDEX_NAME = tc.RDB$INDEX_NAME) '
+                   +' where tc.RDB$CONSTRAINT_TYPE = ''PRIMARY KEY''                          '
+                   +' and   tc.RDB$RELATION_NAME   = '+QuotedStr(UpperCase(cTab))
+                   +' order by idx.RDB$FIELD_POSITION                                         ';
+
+       Open;
+  end;
+  Result := Trim( qSql.FieldByName('chave_pk').Text ) ;
+
+end;
+
+Function PegarPrimaryHeyType( cTab, cCampo: string ): string;
+Var
+ qSql : TFDQuery;
+begin
+  qSql := TFDQuery.Create(Nil);
+  with qSql do begin
+       Connection := dmSistema.fdConecta ;
+       SQL.Text   :=' SELECT      RRF.RDB$RELATION_NAME AS TABELA,                                                                                                 '
+                   +' RRF.RDB$FIELD_NAME AS CAMPO,                                                                                                                 '
+                   +' CASE                                                                                                                                         '
+                   +' RTP.RDB$TYPE_NAME                                                                                                                            '
+                   +' WHEN ''VARYING''  THEN  ''VARCHAR''                                                                                                          '
+                   +' WHEN ''LONG''     THEN  ''INTEGER''                                                                                                          '
+                   +' WHEN ''SHORT''    THEN  ''SMALLINT''                                                                                                         '
+                   +' WHEN ''DOUBLE''   THEN  ''DOUBLE PRECISION''                                                                                                 '
+                   +' WHEN ''FLOAT''    THEN  ''DOUBLE PRECISION''                                                                                                 '
+                   +' WHEN ''INT64''    THEN  ''NUMERIC''                                                                                                          '
+                   +' WHEN ''TEXT''     THEN  ''CHAR''                                                                                                             '
+                   +' ELSE RTP.RDB$TYPE_NAME                                                                                                                       '
+                   +' END TIPO_CAMPO,                                                                                                                              '
+                   +' CASE                                                                                                                                         '
+                   +' RTP.RDB$TYPE_NAME                                                                                                                            '
+                   +' WHEN  ''VARYING'' THEN RFL.RDB$FIELD_LENGTH                                                                                                  '
+                   +' ELSE  RFL.RDB$FIELD_PRECISION                                                                                                                '
+                   +' END AS TAMANHO,                                                                                                                              '
+                   +' (RFL.RDB$FIELD_SCALE * -1) AS ESCALA,                                                                                                        '
+                   +' IIF(  EXISTS(   SELECT      FIRST 1 1                                                                                                        '
+                   +' FROM        RDB$RELATION_CONSTRAINTS  RCN                                                                                                    '
+                   +'        INNER JOIN  RDB$INDEX_SEGMENTS        ISG     ON    RCN.RDB$INDEX_NAME = ISG.RDB$INDEX_NAME AND                                       '
+                   +'                                                            ISG.RDB$FIELD_NAME = RRF.RDB$FIELD_NAME                                           '
+                   +' WHERE       RCN.RDB$CONSTRAINT_TYPE = ''PRIMARY KEY'' AND                                                                                    '
+                   +'                                         RCN.RDB$RELATION_NAME =  RRF.RDB$RELATION_NAME),                                                     '
+                   +'                   ''X'',                                                                                                                     '
+                   +'                   ''O'')  AS  PRIMARY_KEY,                                                                                                   '
+                   +'             IIF(  EXISTS(   SELECT      FIRST 1 1                                                                                            '
+                   +'                             FROM        RDB$RELATION_CONSTRAINTS  RCN                                                                        '
+                   +'                             INNER JOIN  RDB$CHECK_CONSTRAINTS     CCN     ON    RCN.RDB$CONSTRAINT_NAME = CCN.RDB$CONSTRAINT_NAME AND        '
+                   +'                                                                                 CCN.RDB$TRIGGER_NAME = RRF.RDB$FIELD_NAME                    '
+                   +'                              WHERE      RCN.RDB$RELATION_NAME =  RRF.RDB$RELATION_NAME ),                                                    '
+                   +'                   ''X'',                                                                                                                     '
+                   +'                   ''O'')  AS  NOT_NULL,                                                                                                      '
+                   +'             IIF(  RRC.RDB$RELATION_NAME IS NOT NULL,                                                                                         '
+                   +'                   ''X'',                                                                                                                     '
+                   +'                   ''O'')  AS  FOREIGN_KEY,                                                                                                   '
+                   +'             RFC.RDB$CONST_NAME_UQ AS  INDICE_CHAVE,                                                                                          '
+                   +'             RRC.RDB$RELATION_NAME AS  TABELA_CHAVE,                                                                                          '
+                   +'             RIS2.RDB$FIELD_NAME   AS  CAMPO_CHAVE,                                                                                           '
+                   +'             RFC.RDB$UPDATE_RULE   AS  REGRA_UPDATE,                                                                                          '
+                   +'             RFC.RDB$DELETE_RULE   AS  REGRA_DELETE                                                                                           '
+                   +' FROM        RDB$RELATION_FIELDS   RRF                                                                                                        '
+                   +' INNER JOIN  RDB$FIELDS            RFL     ON    RFL.RDB$FIELD_NAME = RRF.RDB$FIELD_SOURCE                                                    '
+                   +' INNER JOIN  RDB$TYPES             RTP     ON    RTP.RDB$TYPE = RFL.RDB$FIELD_TYPE AND                                                        '
+                   +'                                                 RTP.RDB$FIELD_NAME = ''RDB$FIELD_TYPE''                                                      '
+                   +' LEFT JOIN   RDB$INDEX_SEGMENTS    RIS     ON    RIS.RDB$FIELD_NAME = RRF.RDB$FIELD_NAME AND                                                  '
+                   +'                                                 EXISTS (  SELECT      FIRST 1 1                                                              '
+                   +'                                                           FROM        RDB$INDICES   IND                                                      '
+                   +'                                                           INNER JOIN  RDB$REF_CONSTRAINTS   RFC   ON    RFC.RDB$CONSTRAINT_NAME = IND.RDB$INDEX_NAME '
+                   +'                                                           WHERE       IND.RDB$INDEX_NAME = RIS.RDB$INDEX_NAME AND                             '
+                   +'                                                                       IND.RDB$RELATION_NAME = RRF.RDB$RELATION_NAME)                          '
+                   +' LEFT JOIN   RDB$REF_CONSTRAINTS   RFC     ON    RFC.RDB$CONSTRAINT_NAME = RIS.RDB$INDEX_NAME                                                  '
+                   +' LEFT JOIN   RDB$INDEX_SEGMENTS    RIS2    ON    RIS2.RDB$INDEX_NAME = RFC.RDB$CONST_NAME_UQ AND                                               '
+                   +'                                                 RIS2.RDB$FIELD_POSITION = RIS.RDB$FIELD_POSITION                                              '
+                   +' LEFT  JOIN  RDB$RELATION_CONSTRAINTS RRC  ON    RFC.RDB$CONST_NAME_UQ = RRC.RDB$CONSTRAINT_NAME AND                                           '
+                   +'                                                 RRC.RDB$CONSTRAINT_TYPE = ''PRIMARY KEY''                                                     '
+                   +' WHERE       RRF.RDB$RELATION_NAME NOT STARTING WITH ''RDB$''                                                                                  '
+                   +'   AND       RRF.RDB$RELATION_NAME = '+QuotedStr(UpperCase(cTab))
+                   +'   AND       RRF.RDB$FIELD_NAME    = '+QuotedStr(UpperCase(cCampo))
+                   +' ORDER BY    RRF.RDB$RELATION_NAME                                                                                                             ';
+     Open;
+
+  end;
+  Result := Trim( qSql.FieldByName('TIPO_CAMPO').Text ) ;
+
+end;
+
+procedure MoedaKeyEdit(Key: Char; edMoeda_: TObject);
+var
+   Texto, Texto2: string;
+   i: byte;
+   cCanvas : TControlCanvas;
+   edMoeda: TMaskEdit;
+begin
+   edMoeda  := TMaskEdit(edMoeda_);
+   cCanvas  := TControlCanvas.Create;
+   TControlCanvas(cCanvas).Control := Application.MainForm;
+
+   if (Key in ['0'..'9',chr(vk_back)]) then
+   begin
+      // limito a 23 caracteres senão haverá um erro na função StrToInt64()
+      if (key in ['0'..'9']) and (Length(Trim(edMoeda.Text))>23) then
+         key := #0;
+
+      // pego somente os caracteres de 0 a 9, ignorando a pontuação
+      Texto2 := '0';
+      Texto := Trim(edMoeda.Text)+Key;
+      for i := 1 to Length(Texto) do
+         if Texto[i] in ['0'..'9'] then
+            Texto2 := Texto2 + Texto[i];
+
+      // se foi pressionado BACKSPACE (única tecla válida, fora os números)
+      // apago o último caractere da string
+      if key = chr(vk_back) then
+         Delete(Texto2,Length(Texto2),1);
+
+      // formato o texto que depois será colocado no Edit
+      Texto2 := FormatFloat('R$ ###,###,##0.00', StrToInt64(Texto2)/100);
+
+      // preencho os espaços à esquerda, de modo a deixar o texto
+      // alinhado à direita (gambiarra)
+      {
+      repeat
+         Texto2 := ' '+Texto2;
+      until  ccanvas.TextWidth(Texto2) >= edMoeda.Width;
+      }
+
+      // atribuo a string à propriedade Text do Edit
+
+      edMoeda.Text := Texto2;
+
+      // posiciono o cursor no fim do texto
+      edMoeda.SelStart := Length(Texto2);
+   end;
+
+//   Key := #0;
+end;
+
 
 
 end.

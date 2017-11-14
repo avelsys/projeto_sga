@@ -23,6 +23,12 @@ type
     cdsCombustivelCMB_VLRLIT: TBCDField;
     dsCombustivel: TDataSource;
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    cdsCombustivelCMB_USUINC: TStringField;
+    cdsCombustivelCMB_HORINC: TStringField;
+    cdsCombustivelCMB_DATINC: TDateField;
+    cdsCombustivelCMB_USUALT: TStringField;
+    cdsCombustivelCMB_HORALT: TStringField;
+    cdsCombustivelCMB_DATALT: TDateField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
