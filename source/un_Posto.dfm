@@ -3,7 +3,6 @@ inherited frmPosto: TfrmPosto
   PixelsPerInch = 96
   TextHeight = 13
   inherited tabCrud: TPageControl
-    ActivePage = tbItemCrud
     inherited tbItemLista: TTabSheet
       inherited dbgCrud: TDBGrid
         Columns = <
@@ -85,9 +84,17 @@ inherited frmPosto: TfrmPosto
       end
     end
     inherited tbItemCrud: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 1193
+      ExplicitHeight = 406
       inherited pnControls: TPanel
         inherited pgForm: TPageControl
           inherited pgFormDados: TTabSheet
+            ExplicitLeft = 4
+            ExplicitTop = 24
+            ExplicitWidth = 1183
+            ExplicitHeight = 376
             inherited gbxPrincipal: TGroupBox
               object Label1: TLabel
                 Left = 24
@@ -259,7 +266,7 @@ inherited frmPosto: TfrmPosto
   end
   inherited imlCrud: TImageList
     Bitmap = {
-      494C01010C002800740018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010C002800780018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000006000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

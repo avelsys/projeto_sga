@@ -147,16 +147,18 @@ Var
 cPath : String;
 begin
   cPath := GetCurrentDir;
+
   with fdConecta do Begin
-      Params.Add('DriverID=FB');
-      Params.Add('Server=localhost');
-      Params.Add('Database='+cPath+'\database\DBSGA.FDB');
-      Params.Add('User_Name=SYSDBA');
-      Params.Add('Password=masterkey');
-      Params.Add('CharacterSet=WIN1252');
-      Params.Add('LoginPrompt:= False');
+      Connected                     := false;
+      LoginPrompt                   := false;
+      Params.Values['DriverID']     := 'FB';
+      Params.Values['Server']       := 'localhost';
+      Params.Values['Database']     := cPath+'\database\DBSGA.FDB';
+      Params.Values['User_Name']    := 'SYSDBA';
+      Params.Values['Password']     := 'masterkey';
+      Params.Values['CharacterSet'] := 'WIN1252';
       Try
-        fdConecta.Open;
+        Connected := True;
       except on e : exception do
         ShowMessage('Erro de Conexão: '+ e.message);
 

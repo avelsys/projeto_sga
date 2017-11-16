@@ -5,14 +5,13 @@ object dmSistema: TdmSistema
   Width = 475
   object fdConecta: TFDConnection
     Params.Strings = (
-      'Database=D:\000_GIT_DELPHI\projeto_sga\database\DBSGA.FDB'
+      'Database=.\database\DBSGA.FDB'
       'User_Name=sysdba'
       'Password=masterkey'
       'Protocol=localhost'
       'CharacterSet=WIN1252'
       'DriverID=FB')
     ConnectedStoredUsage = [auDesignTime]
-    Connected = True
     LoginPrompt = False
     Left = 24
     Top = 8
@@ -35,7 +34,6 @@ object dmSistema: TdmSistema
     Top = 176
   end
   object cdsCombustivel: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspCombustivel'
@@ -299,7 +297,6 @@ object dmSistema: TdmSistema
     Top = 232
   end
   object fdqBomba: TFDQuery
-    Active = True
     Connection = fdConecta
     SQL.Strings = (
       
@@ -431,7 +428,6 @@ object dmSistema: TdmSistema
     Top = 352
   end
   object cdsVeiculo: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspVeiculo'
@@ -543,7 +539,6 @@ object dmSistema: TdmSistema
     Top = 448
   end
   object cdsAbastece: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspAbastece'
