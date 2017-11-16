@@ -1,5 +1,5 @@
-inherited frmCombustivel: TfrmCombustivel
-  Caption = 'frmCombustivel'
+inherited frmPosto: TfrmPosto
+  Caption = 'frmPosto'
   PixelsPerInch = 96
   TextHeight = 13
   inherited tabCrud: TPageControl
@@ -9,67 +9,77 @@ inherited frmCombustivel: TfrmCombustivel
         Columns = <
           item
             Expanded = False
-            FieldName = 'CMB_CODIGO'
+            FieldName = 'PST_CODIGO'
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'CMB_NOME'
+            FieldName = 'PST_CNPJ'
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'CMB_VLRLIT'
+            FieldName = 'PST_NOME'
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'CMB_USUINC'
-            Title.Alignment = taCenter
-            Title.Caption = 'Usu Inclus'#227'o'
-            Visible = True
-          end
-          item
-            Alignment = taCenter
-            Expanded = False
-            FieldName = 'CMB_HORINC'
-            Title.Alignment = taCenter
-            Title.Caption = 'Hr Inclus'#227'o'
-            Width = 69
-            Visible = True
-          end
-          item
-            Alignment = taCenter
-            Expanded = False
-            FieldName = 'CMB_DATINC'
-            Title.Alignment = taCenter
-            Title.Caption = 'Dt Inclus'#227'o'
-            Width = 72
+            FieldName = 'PST_ENDERECO'
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'CMB_USUALT'
-            Title.Alignment = taCenter
-            Title.Caption = 'Usu Altera'#231#227'o'
+            FieldName = 'PST_BAIRRO'
             Visible = True
           end
           item
-            Alignment = taCenter
             Expanded = False
-            FieldName = 'CMB_HORALT'
-            Title.Alignment = taCenter
-            Title.Caption = 'Hr Altera'#231#227'o'
-            Width = 77
+            FieldName = 'PST_CIDADE'
             Visible = True
           end
           item
-            Alignment = taCenter
             Expanded = False
-            FieldName = 'CMB_DATALT'
-            Title.Alignment = taCenter
-            Title.Caption = 'Dt Altera'#231#227'o'
-            Width = 76
+            FieldName = 'PST_ESTADO'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_CEP'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_TELEFONE'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_USUINC'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_HORINC'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_DATINC'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_USUALT'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_HORALT'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'PST_DATALT'
             Visible = True
           end>
       end
@@ -86,27 +96,81 @@ inherited frmCombustivel: TfrmCombustivel
                 Height = 13
                 CustomHint = HintPrincipal
                 Caption = 'C'#243'digo:'
-                FocusControl = cmb_codigo
+                FocusControl = pst_codigo
               end
               object Label2: TLabel
                 Left = 104
                 Top = 16
-                Width = 50
+                Width = 64
                 Height = 13
                 CustomHint = HintPrincipal
-                Caption = 'Descri'#231#227'o:'
-                FocusControl = cmb_nome
+                Caption = 'Raz'#227'o Social:'
+                FocusControl = pst_nome
               end
-              object Label3: TLabel
-                Left = 352
+              object Label4: TLabel
+                Left = 24
+                Top = 64
+                Width = 45
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Endere'#231'o'
+                FocusControl = pst_endereco
+              end
+              object Label5: TLabel
+                Left = 589
                 Top = 16
+                Width = 29
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'CNPJ:'
+                FocusControl = pst_cnpj
+              end
+              object Label6: TLabel
+                Left = 415
+                Top = 64
                 Width = 28
                 Height = 13
                 CustomHint = HintPrincipal
-                Caption = 'Valor:'
-                FocusControl = cmb_vlrlit
+                Caption = 'Bairro'
+                FocusControl = pst_bairro
               end
-              object cmb_codigo: TEdit
+              object Label7: TLabel
+                Left = 24
+                Top = 112
+                Width = 33
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Cidade'
+                FocusControl = pst_cidade
+              end
+              object Label8: TLabel
+                Left = 368
+                Top = 112
+                Width = 17
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'UF:'
+                FocusControl = pst_estado
+              end
+              object Label3: TLabel
+                Left = 408
+                Top = 112
+                Width = 23
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Cep:'
+                FocusControl = pst_cep
+              end
+              object Label9: TLabel
+                Left = 589
+                Top = 112
+                Width = 46
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Telefone:'
+                FocusControl = pst_telefone
+              end
+              object pst_codigo: TEdit
                 Left = 24
                 Top = 35
                 Width = 63
@@ -114,21 +178,77 @@ inherited frmCombustivel: TfrmCombustivel
                 CustomHint = HintPrincipal
                 TabOrder = 0
               end
-              object cmb_nome: TEdit
+              object pst_nome: TEdit
                 Left = 104
                 Top = 35
-                Width = 233
+                Width = 465
                 Height = 21
                 CustomHint = HintPrincipal
                 TabOrder = 1
               end
-              object cmb_vlrlit: TMaskEdit
-                Left = 352
-                Top = 35
-                Width = 97
+              object pst_endereco: TEdit
+                Left = 24
+                Top = 83
+                Width = 371
                 Height = 21
                 CustomHint = HintPrincipal
+                TabOrder = 3
+              end
+              object pst_cnpj: TMaskEdit
+                Left = 589
+                Top = 35
+                Width = 108
+                Height = 21
+                CustomHint = HintPrincipal
+                EditMask = '!99\.999\.999\/0000\.00;0;_'
+                MaxLength = 18
                 TabOrder = 2
+                Text = ''
+              end
+              object pst_bairro: TEdit
+                Left = 408
+                Top = 83
+                Width = 289
+                Height = 21
+                CustomHint = HintPrincipal
+                TabOrder = 4
+              end
+              object pst_cidade: TEdit
+                Left = 24
+                Top = 131
+                Width = 329
+                Height = 21
+                CustomHint = HintPrincipal
+                TabOrder = 5
+              end
+              object pst_estado: TEdit
+                Left = 368
+                Top = 131
+                Width = 27
+                Height = 21
+                CustomHint = HintPrincipal
+                TabOrder = 6
+              end
+              object pst_cep: TMaskEdit
+                Left = 408
+                Top = 131
+                Width = 89
+                Height = 21
+                CustomHint = HintPrincipal
+                EditMask = '!99\.999\-999;0;_'
+                MaxLength = 10
+                TabOrder = 7
+                Text = ''
+              end
+              object pst_telefone: TMaskEdit
+                Left = 589
+                Top = 131
+                Width = 108
+                Height = 21
+                CustomHint = HintPrincipal
+                EditMask = '!\(00\)0000\-0000;0;_'
+                MaxLength = 13
+                TabOrder = 8
                 Text = ''
               end
             end
@@ -139,7 +259,7 @@ inherited frmCombustivel: TfrmCombustivel
   end
   inherited imlCrud: TImageList
     Bitmap = {
-      494C01010C002800780018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010C002800740018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000006000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1333,5 +1453,8 @@ inherited frmCombustivel: TfrmCombustivel
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
+  end
+  inherited dsCrud: TDataSource
+    DataSet = dmSistema.cdsPosto
   end
 end

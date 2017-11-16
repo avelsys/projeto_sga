@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   System.Actions, Vcl.ActnList, Vcl.ImgList, Data.DB, Vcl.Grids, Vcl.DBGrids,
   Vcl.ComCtrls, System.Generics.Collections,
-  FireDAC.Comp.Client, System.UITypes, Vcl.Mask, EditTuning;
+  FireDAC.Comp.Client, System.UITypes, Vcl.Mask, EditTuning, Un_ClassPesq;
 
 type
   TRecordState = ( rsNew, rsEdit, rsDelete, rsVizu, rsNil );
@@ -103,6 +103,7 @@ type
     procedure DoAfterScroll(DataSet: TDataset);
     function PegaCmpFrm(ClassComponent: Tcomponent): Tcomponent;
     procedure XSetFocus;
+    procedure MaskEditLabel(Sender: TObject; var Key: Char);
     { Private declarations }
   Protected
       lVerif      : Boolean  ;
@@ -123,6 +124,7 @@ type
   public
     { Public declarations }
     btnAtive : TAction ;
+    cnsConsulta : TConsulta;
     aTabDel  : array of array[0..1] of string;
     property nRecno      : integer                      read FRecNo       write FRecNo ;
  published
@@ -140,7 +142,7 @@ implementation
 {$R *.dfm}
 
 uses Un_DmSistema, Un_Funcoes, Un_Principal,
-  U_ClassConfig, Datasnap.DBClient, System.StrUtils;
+  U_ClassConfig, Datasnap.DBClient, System.StrUtils ;
 
 procedure TMD_Dialog.btnAnteriorExecute(Sender: TObject);
 begin
@@ -245,8 +247,11 @@ begin
                   if (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) then
                       cTipoCp := aGets[i].Name;
 
+                  if dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ReadOnly then Continue;
+
                   if ( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) ) or
-                     ( (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) and ( PegaType( aGets[i].Name, cTabela )  <> 'INTEGER' ) )  then begin
+                     ( (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) and
+                     ( PegaType( aGets[i].Name, cTabela )  <> 'INTEGER' ) )  then begin
                       if I= Length(aGets)-1 then Begin
                            cCmapos := cCmapos+cVirgula+LowerCase( aGets[i].Name )      ;
                            cRegist := cRegist+cVirgula+' :'+LowerCase( aGets[i].Name ) ;
@@ -269,6 +274,8 @@ begin
             for I := 0 to Length(aGets)-1 do begin
                   if (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) then
                       cTipoCp := aGets[i].Name;
+
+                  if dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ReadOnly then Continue;
 
                   if  ( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) ) then begin
                       cCmapos := cCmapos+cVirgula+LowerCase( aGets[i].Name )+' = :'+LowerCase( aGets[i].Name ) ;
@@ -314,6 +321,9 @@ begin
         SQL.Text    := UpperCase( cQuery+cCmapos+cRegist );
         if FRecordState <> rsDelete then begin
             for I := 0 to Length(aGets)-1 do begin
+
+                if dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ReadOnly then Continue;
+
                 if ( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) or
                    ( (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) and
                      ( PegaType( aGets[i].Name, cTabela ) <> 'INTEGER' ) and
@@ -441,16 +451,52 @@ Function TMD_Dialog.SetCampos( Source: TObject ): Variant;
 begin
   If Source.ClassName = 'TEdit'           then Result := fIIF( TEdit(Source).PasswordChar=#0, InCodigoText( Source ), Criptografar( trim(TEdit(Source).Text) ) );
   If Source.ClassName = 'TMaskEdit'       then begin
-     if ( Copy( TMaskEdit(Source).Name,5,3 ) = 'vlr' ) then begin
+     if ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) ) = 'vlr' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'qtd' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'lts' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'pct' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'etq' ) then begin
           Result := FormataNum( TMaskEdit(Source).Text );
      End Else Begin
           Result := TMaskEdit(Source).Text;
      End;
   end;
-  If Source.ClassName = 'TButtonedEdit'   then  Result := TButtonedEdit(Source).Text;
+  If Source.ClassName = 'TButtonedEdit'   then Result := TButtonedEdit(Source).Text;
   If Source.ClassName = 'TComboBox'       then Result := TComboBox(Source).text;
   If Source.ClassName = 'TCheckBox'       then Result := fIIF( TCheckBox(Source).Checked, 1, 0);
-  If Source.ClassName = 'TDateTimePicker' then Result := TDateTimePicker(Source ).Date;
+  If Source.ClassName = 'TDateTimePicker' then
+     if ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) ) = 'hor' ) then
+          Result := TimeToStr( TDateTimePicker(Source).Time )
+     Else
+          Result := TDateTimePicker(Source).Date;
+end;
+
+procedure TMD_Dialog.MaskEditLabel(Sender: TObject; var Key: Char);
+Var
+  cKey: String;
+begin
+  inherited;
+   if ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'qtd' ) or
+      ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'lts' ) or
+      ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'etq' ) then begin
+          cKey:=Key;
+          qtdadeKeyEdit( Key, Sender );
+          Key := #0 ;
+   end else
+   if ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'vlr' ) then begin
+          cKey:=Key;
+          MoedaKeyEdit( Key, Sender );
+          Key := #0 ;
+   end else
+   if ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'pct' ) then begin
+          cKey:=Key;
+          PorcentKeyEdit( Key, Sender );
+          Key := #0 ;
+
+   end;
+
+
+
 end;
 
 
@@ -658,6 +704,13 @@ Var
 I: Integer;
 Begin
   for I := 0 to Length( aGets ) -1 do begin
+
+        if aGets[I].ClassName = 'TMaskEdit' then
+           if TMaskEdit(aGets[I]).Enabled  then begin
+              TMaskEdit(aGets[I]).SetFocus;
+              Exit;
+           end;
+
         if aGets[I].ClassName = 'TEdit' then
            if TEdit(aGets[I]).Enabled  then begin
               TEdit(aGets[I]).SetFocus;
@@ -669,6 +722,8 @@ Begin
               TButtonedEdit(aGets[I]).SetFocus;
               Exit;
            end;
+
+
   end;
 end;
 
@@ -1047,23 +1102,45 @@ begin
                                               (( pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) and
                                                ( ( PegaType( aGets[i].Name, cTabela ) <> 'INTEGER' ) and ( FRecordState = rsNew ) ) ) ) and
                                                (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) and ( aGets[i].Tag <> 9 ));
+
             end Else
             if ( aGets[i].ClassName = 'TMaskEdit' ) and
                ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
 
               if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'vlr' ) then begin
                   if (( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ) then begin
-                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('R$ #,##0.00',0);
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('R$ #,##0.000',0);
                        TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
                   end else begin
-                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('R$ #,##0.00',dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('R$ #,##0.000',dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end;
+              End Else
+             if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'etq' ) or ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'qtd' ) then begin
+                  if (( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ) then begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('Lts #,###,##0.000',0);
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end else begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('Lts #,###,##0.000',dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end;
+              End Else
+             if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'pct' ) then begin
+                  if (( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ) then begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('##0.00%',0);
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end else begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('##0.00%.00',dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
                        TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
                   end;
               End Else Begin
                  TMaskEdit( aGets[i] ).Text     := fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,'',
                                                     dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
               end;
-               TMaskEdit( aGets[i] ).Enabled  := (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) ;
+
+              TMaskEdit( aGets[i] ).OnKeyPress  := MaskEditLabel;
+              TMaskEdit( aGets[i] ).Enabled     := ( (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) and ( TMaskEdit( aGets[i] ).Tag <> 9 ) ) ;
+
 
             end Else
             if ( aGets[i].ClassName = 'TCheckBox' ) and
@@ -1087,8 +1164,13 @@ begin
             end Else
             if ( aGets[i].ClassName = 'TDateTimePicker' ) and
                ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
-               TDateTimePicker( aGets[i] ).DateTime := fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,Now,
-                                                       dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+                if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'hor' ) then
+                   TDateTimePicker( aGets[i] ).Time     := StrToTime( fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,FormatDateTime('hh:mm', Now ) ,
+                                                           dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value ) )
+                Else
+                   TDateTimePicker( aGets[i] ).DateTime := fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,Now,
+                                                           dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+
                TDateTimePicker( aGets[i] ).Enabled  := (( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) and
                                                (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) );
 
@@ -1144,6 +1226,7 @@ end;
 
 procedure TMD_Dialog.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  FreeAndNil(cnsConsulta);
   dsCrud.DataSet.Close;
   if NOT ( pBtn = Nil ) then
      pBtn.Enabled := True;
@@ -1228,7 +1311,6 @@ begin
   //  dsQuery.DataSet.AfterScroll    := DoAfterScroll;
   tabCrud.ActivePage             := tbItemLista;
   btnVizualiza.Caption           := 'Formulário';
-
 end;
 Function TMD_Dialog.ChecaComp(ClassComponent: Tcomponent ): Boolean ;
 begin

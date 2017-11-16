@@ -16,7 +16,6 @@ type
     Label2: TLabel;
     Label3: TLabel;
     cmb_vlrlit: TMaskEdit;
-    procedure cmb_vlrlitKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -31,16 +30,5 @@ implementation
 {$R *.dfm}
 
 uses Un_Funcoes;
-
-procedure TfrmCombustivel.cmb_vlrlitKeyPress(Sender: TObject; var Key: Char);
-Var
-  cKey: String;
-begin
-  inherited;
-  cKey:=Key;
-  MoedaKeyEdit( Key, Sender );
-  Key := #0 ;
-
-end;
 
 end.

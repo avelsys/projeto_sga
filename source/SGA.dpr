@@ -8,7 +8,14 @@ uses
   Un_Funcoes in 'Un_Funcoes.pas',
   U_ClassConfig in 'U_ClassConfig.pas',
   EditTuning in 'EditTuning.pas',
-  Un_Combustivel in 'Un_Combustivel.pas' {frmCombustivel};
+  Un_Combustivel in 'Un_Combustivel.pas' {frmCombustivel},
+  un_Posto in 'un_Posto.pas' {frmPosto},
+  un_Tanque in 'un_Tanque.pas' {frmTanque},
+  Un_ClassPesq in 'Un_ClassPesq.pas' {frmConsulta},
+  Un_Bomba in 'Un_Bomba.pas' {frmBomba},
+  Un_Veiculo in 'Un_Veiculo.pas' {frmVeiculo},
+  Un_Abastece in 'Un_Abastece.pas' {frmAbastece},
+  un_ClassCalculo in 'un_ClassCalculo.pas';
 
 {$R *.res}
 

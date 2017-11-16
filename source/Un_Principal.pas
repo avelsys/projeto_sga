@@ -31,10 +31,29 @@ type
     N1: TMenuItem;
     Sair1: TMenuItem;
     Image1: TImage;
+    SpeedButton4: TSpeedButton;
+    btnPosto: TAction;
+    Posto1: TMenuItem;
+    SpeedButton5: TSpeedButton;
+    imlSecundario: TImageList;
+    btnBomba: TAction;
+    SpeedButton6: TSpeedButton;
+    btnVeiculo: TAction;
+    Veculo1: TMenuItem;
+    N2: TMenuItem;
+    Bomba1: TMenuItem;
+    btnAbastece: TAction;
+    ToolButton2: TToolButton;
+    SpeedButton7: TSpeedButton;
+    Abastecer1: TMenuItem;
     procedure btnCombustivelExecute(Sender: TObject);
     procedure btnTanqueExecute(Sender: TObject);
     procedure btnSairExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnPostoExecute(Sender: TObject);
+    procedure btnBombaExecute(Sender: TObject);
+    procedure btnVeiculoExecute(Sender: TObject);
+    procedure btnAbasteceExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -48,12 +67,32 @@ implementation
 
 {$R *.dfm}
 
-uses Un_DmSistema, Un_MDDialog, Un_Funcoes, Un_Combustivel;
+uses Un_DmSistema, Un_MDDialog, Un_Funcoes, Un_Combustivel, un_Posto, un_Tanque,
+  Un_Bomba, Un_Veiculo, Un_Abastece;
+
+procedure Tfrm_principal.btnAbasteceExecute(Sender: TObject);
+begin
+   frmAbastece := TfrmAbastece.Create(Self,Sender);
+   frmAbastece.Show;
+end;
+
+procedure Tfrm_principal.btnBombaExecute(Sender: TObject);
+begin
+   frmBomba := TfrmBomba.Create(Self,Sender);
+   frmBomba.Show;
+end;
 
 procedure Tfrm_principal.btnCombustivelExecute(Sender: TObject);
 begin
    frmCombustivel := TfrmCombustivel.Create(Self,Sender);
    frmCombustivel.Show;
+end;
+
+procedure Tfrm_principal.btnPostoExecute(Sender: TObject);
+begin
+   frmPosto := TfrmPosto.Create(Self,Sender);
+   frmPosto.Show;
+
 end;
 
 procedure Tfrm_principal.btnSairExecute(Sender: TObject);
@@ -63,7 +102,14 @@ end;
 
 procedure Tfrm_principal.btnTanqueExecute(Sender: TObject);
 begin
-  ShowMessage('Cadastro de Tanques');
+   frmTanque := TfrmTanque.Create(Self,Sender);
+   frmTanque.Show;
+end;
+
+procedure Tfrm_principal.btnVeiculoExecute(Sender: TObject);
+begin
+   frmVeiculo := TfrmVeiculo.Create(Self,Sender);
+   frmVeiculo.Show;
 end;
 
 procedure Tfrm_principal.FormClose(Sender: TObject; var Action: TCloseAction);

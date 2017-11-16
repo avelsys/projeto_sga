@@ -25,6 +25,8 @@ uses
   function RemoveChar(texto: string): string; stdcall;
   function StrZero(Num, Size: Integer): String;
   procedure MoedaKeyEdit(Key: Char; edMoeda_: TObject);
+  procedure QtdadeKeyEdit(Key: Char; edMoeda_: TObject);
+  procedure PorcentKeyEdit(Key: Char; edMoeda_: TObject);
 
 implementation
 
@@ -79,7 +81,7 @@ end;
 function RemoveChar(texto: string): string; stdcall;
 {Função que serve para nao aceitar caracteres especiais tipo !@#$%^&*()}
 const
-  _Remove = 'LtCmQTDqtdRKg:;.,`!@#$%^&*()_+=|\<>?/æ-';
+  _Remove = 'LtCmQTDqtdRKgs:;.,`!@#$%^&*()_+=|\<>?/æ-';
 var
   x: Integer;
   cR: String;
@@ -188,8 +190,7 @@ Begin
   if dbgCrud.DataSource.DataSet.FieldByName(cField ).IsNull then
      exit;
 
-  if ( LowerCase( qQry.FieldByName('FIELD_TYPE').Value ) = 'int4' )   or
-     ( LowerCase( qQry.FieldByName('FIELD_TYPE').Value ) = 'integer' ) then begin
+  if  (  qQry.FieldByName('FIELD_TYPE').AsString = 'INTEGER' ) then begin
        Result := IntToStr(dbgCrud.DataSource.DataSet.FieldByName(cField ).Value );
   end else begin
        Result := dbgCrud.DataSource.DataSet.FieldByName(cField ).Value;
@@ -379,7 +380,7 @@ begin
          Delete(Texto2,Length(Texto2),1);
 
       // formato o texto que depois será colocado no Edit
-      Texto2 := FormatFloat('R$ ###,###,##0.00', StrToInt64(Texto2)/100);
+      Texto2 := FormatFloat('R$ ###,###,##0.000', StrToInt64(Texto2)/1000);
 
       // preencho os espaços à esquerda, de modo a deixar o texto
       // alinhado à direita (gambiarra)
@@ -399,6 +400,108 @@ begin
 
 //   Key := #0;
 end;
+
+procedure qtdadeKeyEdit(Key: Char; edMoeda_: TObject);
+var
+   Texto, Texto2: string;
+   i: byte;
+   cCanvas : TControlCanvas;
+   edMoeda: TMaskEdit;
+begin
+   edMoeda  := TMaskEdit(edMoeda_);
+   cCanvas  := TControlCanvas.Create;
+   TControlCanvas(cCanvas).Control := Application.MainForm;
+
+   if (Key in ['0'..'9',chr(vk_back)]) then
+   begin
+      // limito a 23 caracteres senão haverá um erro na função StrToInt64()
+      if (key in ['0'..'9']) and (Length(Trim(edMoeda.Text))>23) then
+         key := #0;
+
+      // pego somente os caracteres de 0 a 9, ignorando a pontuação
+      Texto2 := '0';
+      Texto := Trim(edMoeda.Text)+Key;
+      for i := 1 to Length(Texto) do
+         if Texto[i] in ['0'..'9'] then
+            Texto2 := Texto2 + Texto[i];
+
+      // se foi pressionado BACKSPACE (única tecla válida, fora os números)
+      // apago o último caractere da string
+      if key = chr(vk_back) then
+         Delete(Texto2,Length(Texto2),1);
+
+      // formato o texto que depois será colocado no Edit
+      Texto2 := FormatFloat('Lts #,###,##0.000', StrToInt64(Texto2)/1000);
+
+      // preencho os espaços à esquerda, de modo a deixar o texto
+      // alinhado à direita (gambiarra)
+      {
+      repeat
+         Texto2 := ' '+Texto2;
+      until  ccanvas.TextWidth(Texto2) >= edMoeda.Width;
+      }
+
+      // atribuo a string à propriedade Text do Edit
+
+      edMoeda.Text := Texto2;
+
+      // posiciono o cursor no fim do texto
+      edMoeda.SelStart := Length(Texto2);
+   end;
+
+//   Key := #0;
+end;
+procedure PorcentKeyEdit(Key: Char; edMoeda_: TObject);
+var
+   Texto, Texto2: string;
+   i: byte;
+   cCanvas : TControlCanvas;
+   edMoeda: TMaskEdit;
+begin
+   edMoeda  := TMaskEdit(edMoeda_);
+   cCanvas  := TControlCanvas.Create;
+   TControlCanvas(cCanvas).Control := Application.MainForm;
+
+   if (Key in ['0'..'9',chr(vk_back)]) then
+   begin
+      // limito a 23 caracteres senão haverá um erro na função StrToInt64()
+      if (key in ['0'..'9']) and (Length(Trim(edMoeda.Text))>23) then
+         key := #0;
+
+      // pego somente os caracteres de 0 a 9, ignorando a pontuação
+      Texto2 := '0';
+      Texto := Trim(edMoeda.Text)+Key;
+      for i := 1 to Length(Texto) do
+         if Texto[i] in ['0'..'9'] then
+            Texto2 := Texto2 + Texto[i];
+
+      // se foi pressionado BACKSPACE (única tecla válida, fora os números)
+      // apago o último caractere da string
+      if key = chr(vk_back) then
+         Delete(Texto2,Length(Texto2),1);
+
+      // formato o texto que depois será colocado no Edit
+      Texto2 := FormatFloat('##0.00%', StrToInt64(Texto2)/100);
+
+      // preencho os espaços à esquerda, de modo a deixar o texto
+      // alinhado à direita (gambiarra)
+      {
+      repeat
+         Texto2 := ' '+Texto2;
+      until  ccanvas.TextWidth(Texto2) >= edMoeda.Width;
+      }
+
+      // atribuo a string à propriedade Text do Edit
+
+      edMoeda.Text := Texto2;
+
+      // posiciono o cursor no fim do texto
+      edMoeda.SelStart := Length(Texto2);
+   end;
+
+//   Key := #0;
+end;
+
 
 
 

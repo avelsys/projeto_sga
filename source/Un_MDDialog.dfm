@@ -414,13 +414,11 @@ object MD_Dialog: TMD_Dialog
     TabOrder = 2
     Touch.ParentTabletOptions = False
     Touch.TabletOptions = [toPressAndHold]
-    ExplicitHeight = 453
     object tbItemLista: TTabSheet
       CustomHint = HintPrincipal
       Caption = 'tbItemLista'
       Touch.ParentTabletOptions = False
       Touch.TabletOptions = [toPressAndHold, toPenBarrelFeedback]
-      ExplicitHeight = 425
       object pnPesquisa: TPanel
         Left = 0
         Top = 0
@@ -565,7 +563,6 @@ object MD_Dialog: TMD_Dialog
       CustomHint = HintPrincipal
       Caption = 'tbItemCrud'
       ImageIndex = 1
-      ExplicitHeight = 425
       object pnControls: TPanel
         Left = 0
         Top = 0
@@ -574,7 +571,6 @@ object MD_Dialog: TMD_Dialog
         CustomHint = HintPrincipal
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 425
         object pgForm: TPageControl
           Left = 1
           Top = 1
@@ -584,12 +580,10 @@ object MD_Dialog: TMD_Dialog
           ActivePage = pgFormDados
           Align = alClient
           TabOrder = 0
-          ExplicitHeight = 423
           object pgFormDados: TTabSheet
             CustomHint = HintPrincipal
             Caption = 'Folha de Dados'
             ImageIndex = 1993
-            ExplicitHeight = 395
             object gbxPrincipal: TGroupBox
               Left = 0
               Top = 0
@@ -599,7 +593,6 @@ object MD_Dialog: TMD_Dialog
               Align = alClient
               TabOrder = 0
               TabStop = True
-              ExplicitHeight = 395
             end
           end
         end
@@ -641,9 +634,6 @@ object MD_Dialog: TMD_Dialog
         Text = '[Esc] Sair'
         Width = 50
       end>
-    ExplicitLeft = 608
-    ExplicitTop = 272
-    ExplicitWidth = 0
   end
   object imlCrud: TImageList
     ColorDepth = cd32Bit
@@ -651,7 +641,7 @@ object MD_Dialog: TMD_Dialog
     Width = 24
     Left = 392
     Bitmap = {
-      494C01010C0028006C0018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010C002800700018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000006000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

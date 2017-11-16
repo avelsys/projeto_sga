@@ -1,7 +1,7 @@
 object dmSistema: TdmSistema
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 380
+  Height = 543
   Width = 475
   object fdConecta: TFDConnection
     Params.Strings = (
@@ -27,12 +27,12 @@ object dmSistema: TdmSistema
     SQL.Strings = (
       'Select * From combustivel')
     Left = 32
-    Top = 64
+    Top = 176
   end
   object dspCombustivel: TDataSetProvider
     DataSet = fdqCombustivel
     Left = 112
-    Top = 64
+    Top = 176
   end
   object cdsCombustivel: TClientDataSet
     Active = True
@@ -40,7 +40,7 @@ object dmSistema: TdmSistema
     Params = <>
     ProviderName = 'dspCombustivel'
     Left = 192
-    Top = 64
+    Top = 176
     object cdsCombustivelCMB_CODIGO: TIntegerField
       DisplayLabel = 'C'#243'digo:'
       FieldName = 'CMB_CODIGO'
@@ -94,11 +94,572 @@ object dmSistema: TdmSistema
   object dsCombustivel: TDataSource
     DataSet = cdsCombustivel
     Left = 272
-    Top = 64
+    Top = 176
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor
     Provider = 'Forms'
     Left = 168
     Top = 8
+  end
+  object fdqPosto: TFDQuery
+    Connection = fdConecta
+    SQL.Strings = (
+      'Select * From posto')
+    Left = 32
+    Top = 120
+  end
+  object dspPosto: TDataSetProvider
+    DataSet = fdqPosto
+    Left = 112
+    Top = 120
+  end
+  object cdsPosto: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspPosto'
+    Left = 192
+    Top = 120
+    object cdsPostoPST_CODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'PST_CODIGO'
+      Required = True
+    end
+    object cdsPostoPST_CNPJ: TStringField
+      DisplayLabel = 'CNPJ'
+      FieldName = 'PST_CNPJ'
+      EditMask = '00\.000\.000\/0000\-00;0;_'
+      Size = 14
+    end
+    object cdsPostoPST_NOME: TStringField
+      DisplayLabel = 'Raz'#227'o Social'
+      FieldName = 'PST_NOME'
+      Size = 50
+    end
+    object cdsPostoPST_ENDERECO: TStringField
+      DisplayLabel = 'Endere'#231'o'
+      FieldName = 'PST_ENDERECO'
+      Size = 35
+    end
+    object cdsPostoPST_BAIRRO: TStringField
+      DisplayLabel = 'Bairro'
+      FieldName = 'PST_BAIRRO'
+      Size = 25
+    end
+    object cdsPostoPST_CIDADE: TStringField
+      DisplayLabel = 'Cidade'
+      FieldName = 'PST_CIDADE'
+      Size = 25
+    end
+    object cdsPostoPST_ESTADO: TStringField
+      DisplayLabel = 'UF'
+      FieldName = 'PST_ESTADO'
+      Size = 2
+    end
+    object cdsPostoPST_CEP: TStringField
+      DisplayLabel = 'CEP'
+      FieldName = 'PST_CEP'
+      EditMask = '00\.000\-000;0;_'
+      Size = 25
+    end
+    object cdsPostoPST_TELEFONE: TStringField
+      DisplayLabel = 'Telefone'
+      FieldName = 'PST_TELEFONE'
+      EditMask = '!\(99\)0000-0000;0;_'
+      Size = 25
+    end
+    object cdsPostoPST_USUINC: TStringField
+      DisplayLabel = 'Usu Inclus'#227'o'
+      FieldName = 'PST_USUINC'
+      Size = 15
+    end
+    object cdsPostoPST_HORINC: TStringField
+      DisplayLabel = 'Hr Inclus'#227'o'
+      FieldName = 'PST_HORINC'
+      Size = 8
+    end
+    object cdsPostoPST_DATINC: TDateField
+      DisplayLabel = 'Dt Inclus'#227'o'
+      FieldName = 'PST_DATINC'
+    end
+    object cdsPostoPST_USUALT: TStringField
+      DisplayLabel = 'Usu Altera'#231#227'o'
+      FieldName = 'PST_USUALT'
+      Size = 15
+    end
+    object cdsPostoPST_HORALT: TStringField
+      DisplayLabel = 'Hr Altera'#231#227'o'
+      FieldName = 'PST_HORALT'
+      Size = 8
+    end
+    object cdsPostoPST_DATALT: TDateField
+      DisplayLabel = 'Dt Altera'#231#227'o'
+      FieldName = 'PST_DATALT'
+    end
+  end
+  object dsPosto: TDataSource
+    DataSet = cdsPosto
+    Left = 272
+    Top = 120
+  end
+  object fdqTanque: TFDQuery
+    Connection = fdConecta
+    SQL.Strings = (
+      'Select tanque.*, cmb_nome From tanque'
+      'inner join combustivel on cmb_codigo = tnq_codcmb')
+    Left = 32
+    Top = 232
+  end
+  object dspTanque: TDataSetProvider
+    DataSet = fdqTanque
+    Left = 112
+    Top = 232
+  end
+  object cdsTanque: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTanque'
+    Left = 192
+    Top = 232
+    object cdsTanqueTNQ_CODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'TNQ_CODIGO'
+      Required = True
+    end
+    object cdsTanqueTNQ_NOME: TStringField
+      DisplayLabel = 'Nm Tanque'
+      FieldName = 'TNQ_NOME'
+      Size = 25
+    end
+    object cdsTanqueTNQ_CODCMB: TIntegerField
+      DisplayLabel = 'Cd Combust'#237'vel'
+      FieldName = 'TNQ_CODCMB'
+      Required = True
+    end
+    object cdsTanqueTNQ_ETQMIN: TBCDField
+      DisplayLabel = 'Etq Minimo'
+      FieldName = 'TNQ_ETQMIN'
+      DisplayFormat = 'Lt #,###,###0.000'
+      EditFormat = 'Lt #,###,###0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsTanqueTNQ_ETQMAX: TBCDField
+      DisplayLabel = 'Etq M'#225'ximo'
+      FieldName = 'TNQ_ETQMAX'
+      DisplayFormat = 'Lt #,###,###0.000'
+      EditFormat = 'Lt #,###,###0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsTanqueTNQ_ETQATU: TBCDField
+      DisplayLabel = 'Etq Atual'
+      FieldName = 'TNQ_ETQATU'
+      DisplayFormat = 'Lt #,###,###0.000'
+      EditFormat = 'Lt #,###,###0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsTanqueTNQ_USUINC: TStringField
+      DisplayLabel = 'Usu Inclus'#227'o'
+      FieldName = 'TNQ_USUINC'
+      Size = 15
+    end
+    object cdsTanqueTNQ_HORINC: TStringField
+      DisplayLabel = 'Hr Inclus'#227'o'
+      FieldName = 'TNQ_HORINC'
+      Size = 8
+    end
+    object cdsTanqueTNQ_DATINC: TDateField
+      DisplayLabel = 'Dt Inclus'#227'o'
+      FieldName = 'TNQ_DATINC'
+    end
+    object cdsTanqueTNQ_USUALT: TStringField
+      DisplayLabel = 'Usu Altera'#231#227'o'
+      FieldName = 'TNQ_USUALT'
+      Size = 15
+    end
+    object cdsTanqueTNQ_HORALT: TStringField
+      DisplayLabel = 'Hr Altera'#231#227'o'
+      FieldName = 'TNQ_HORALT'
+      Size = 8
+    end
+    object cdsTanqueTNQ_DATALT: TDateField
+      DisplayLabel = 'Dt Altera'#231#227'o'
+      FieldName = 'TNQ_DATALT'
+    end
+    object cdsTanqueCMB_NOME: TStringField
+      DisplayLabel = 'Combust'#237'vel'
+      FieldName = 'CMB_NOME'
+      ReadOnly = True
+    end
+  end
+  object dsTanque: TDataSource
+    DataSet = cdsTanque
+    Left = 272
+    Top = 232
+  end
+  object fdqBomba: TFDQuery
+    Active = True
+    Connection = fdConecta
+    SQL.Strings = (
+      
+        'Select bomba.*, tnq_nome, cmb_nome, CMB_VLRLIT, TNQ_ETQMIN, TNQ_' +
+        'ETQMAX, TNQ_ETQATU From bomba'
+      'inner join tanque on tnq_codigo = bmb_codtnq'
+      'inner join combustivel on cmb_codigo = tnq_codcmb')
+    Left = 32
+    Top = 288
+  end
+  object dspBomba: TDataSetProvider
+    DataSet = fdqBomba
+    Left = 112
+    Top = 288
+  end
+  object cdsBomba: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspBomba'
+    Left = 192
+    Top = 288
+    object cdsBombaBMB_CODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'BMB_CODIGO'
+      Required = True
+    end
+    object cdsBombaBMB_NOME: TStringField
+      DisplayLabel = 'Nome da Bomba'
+      FieldName = 'BMB_NOME'
+      Size = 25
+    end
+    object cdsBombaBMB_CODTNQ: TIntegerField
+      DisplayLabel = 'Cd Tanque'
+      FieldName = 'BMB_CODTNQ'
+      Required = True
+    end
+    object cdsBombaBMB_USUINC: TStringField
+      DisplayLabel = 'Usu Inclus'#227'o'
+      FieldName = 'BMB_USUINC'
+      Size = 15
+    end
+    object cdsBombaBMB_HORINC: TStringField
+      DisplayLabel = 'Hr Inclus'#227'o'
+      FieldName = 'BMB_HORINC'
+      Size = 8
+    end
+    object cdsBombaBMB_DATINC: TDateField
+      DisplayLabel = 'Dt Inclus'#227'o'
+      FieldName = 'BMB_DATINC'
+    end
+    object cdsBombaBMB_USUALT: TStringField
+      DisplayLabel = 'Usu Altera'#231#227'o'
+      FieldName = 'BMB_USUALT'
+      Size = 15
+    end
+    object cdsBombaBMB_HORALT: TStringField
+      DisplayLabel = 'Hr Altera'#231#227'o'
+      FieldName = 'BMB_HORALT'
+      Size = 8
+    end
+    object cdsBombaBMB_DATALT: TDateField
+      DisplayLabel = 'Dt Altera'#231#227'o'
+      FieldName = 'BMB_DATALT'
+    end
+    object cdsBombaTNQ_NOME: TStringField
+      DisplayLabel = 'Tanque'
+      FieldName = 'TNQ_NOME'
+      ReadOnly = True
+      Size = 25
+    end
+    object cdsBombaCMB_NOME: TStringField
+      DisplayLabel = 'Combustivel'
+      FieldName = 'CMB_NOME'
+      ReadOnly = True
+    end
+    object cdsBombaCMB_VLRLIT: TBCDField
+      DisplayLabel = 'Valor Comb'
+      FieldName = 'CMB_VLRLIT'
+      ReadOnly = True
+      DisplayFormat = 'R$ #,###,##0.000'
+      EditFormat = 'R$ #,###,##0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsBombaTNQ_ETQMIN: TBCDField
+      DisplayLabel = 'Est Minimo'
+      FieldName = 'TNQ_ETQMIN'
+      ReadOnly = True
+      DisplayFormat = 'Lt #,###,##0.000'
+      EditFormat = 'Lt #,###,##0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsBombaTNQ_ETQMAX: TBCDField
+      DisplayLabel = 'Est Maximo'
+      FieldName = 'TNQ_ETQMAX'
+      ReadOnly = True
+      DisplayFormat = 'Lt #,###,##0.000'
+      EditFormat = 'Lt #,###,##0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsBombaTNQ_ETQATU: TBCDField
+      DisplayLabel = 'Est Atual'
+      FieldName = 'TNQ_ETQATU'
+      ReadOnly = True
+      DisplayFormat = 'Lt #,###,##0.000'
+      EditFormat = 'Lt #,###,##0.000'
+      Precision = 18
+      Size = 3
+    end
+  end
+  object dsBomba: TDataSource
+    DataSet = cdsBomba
+    Left = 272
+    Top = 288
+  end
+  object fdqVeiculo: TFDQuery
+    Connection = fdConecta
+    SQL.Strings = (
+      'Select veiculo.*, cmb_nome From veiculo'
+      'inner join combustivel on cmb_codigo = VIC_CODCMB')
+    Left = 32
+    Top = 352
+  end
+  object dspVeiculo: TDataSetProvider
+    DataSet = fdqVeiculo
+    Left = 112
+    Top = 352
+  end
+  object cdsVeiculo: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspVeiculo'
+    Left = 192
+    Top = 352
+    object cdsVeiculoVIC_PLACA: TStringField
+      DisplayLabel = 'Placa'
+      FieldName = 'VIC_PLACA'
+      Required = True
+      EditMask = 'AAA\-0000;0;_'
+      Size = 7
+    end
+    object cdsVeiculoVIC_CODFTA: TIntegerField
+      DisplayLabel = 'Cd Frota'
+      FieldName = 'VIC_CODFTA'
+      Required = True
+    end
+    object cdsVeiculoVIC_CODCMB: TIntegerField
+      DisplayLabel = 'Cd Comb'
+      FieldName = 'VIC_CODCMB'
+      Required = True
+    end
+    object cdsVeiculoVIC_MARCA: TStringField
+      DisplayLabel = 'Marca'
+      FieldName = 'VIC_MARCA'
+      Size = 35
+    end
+    object cdsVeiculoVIC_MODELO: TStringField
+      DisplayLabel = 'Modelo'
+      FieldName = 'VIC_MODELO'
+      Size = 35
+    end
+    object cdsVeiculoVIC_ANO: TStringField
+      DisplayLabel = 'Ano'
+      FieldName = 'VIC_ANO'
+      EditMask = '!99/99;0;_'
+      Size = 4
+    end
+    object cdsVeiculoVIC_USUINC: TStringField
+      DisplayLabel = 'Usu Inclus'#227'o'
+      FieldName = 'VIC_USUINC'
+      Size = 15
+    end
+    object cdsVeiculoVIC_HORINC: TStringField
+      DisplayLabel = 'Hr Inclus'#227'o'
+      FieldName = 'VIC_HORINC'
+      Size = 8
+    end
+    object cdsVeiculoVIC_DATINC: TDateField
+      DisplayLabel = 'Dt Inclus'#227'o'
+      FieldName = 'VIC_DATINC'
+    end
+    object cdsVeiculoVIC_USUALT: TStringField
+      DisplayLabel = 'Usu Altera'#231#227'o'
+      FieldName = 'VIC_USUALT'
+      Size = 15
+    end
+    object cdsVeiculoVIC_HORALT: TStringField
+      DisplayLabel = 'Hr Altera'#231#227'o'
+      FieldName = 'VIC_HORALT'
+      Size = 8
+    end
+    object cdsVeiculoVIC_DATALT: TDateField
+      DisplayLabel = 'Dt Altera'#231#227'o'
+      FieldName = 'VIC_DATALT'
+    end
+    object cdsVeiculoCMB_NOME: TStringField
+      DisplayLabel = 'Combustivel'
+      FieldName = 'CMB_NOME'
+      ReadOnly = True
+    end
+  end
+  object dsVeiculo: TDataSource
+    DataSet = cdsVeiculo
+    Left = 272
+    Top = 352
+  end
+  object fdqAbastece: TFDQuery
+    Connection = fdConecta
+    SQL.Strings = (
+      
+        'Select abastece.*, bmb_nome, tnq_nome, tnq_etqatu, cmb_nome, cmb' +
+        '_vlrlit From abastece'
+      'inner join bomba on bmb_codigo = aba_codbmb'
+      'inner join tanque on tnq_codigo = bmb_codtnq'
+      'inner join combustivel on cmb_codigo = tnq_codcmb'
+      'inner join veiculo on vic_placa = aba_codplc')
+    Left = 32
+    Top = 448
+  end
+  object dspAbastece: TDataSetProvider
+    DataSet = fdqAbastece
+    Left = 112
+    Top = 448
+  end
+  object cdsAbastece: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspAbastece'
+    Left = 192
+    Top = 448
+    object cdsAbasteceABA_CODIGO: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'ABA_CODIGO'
+      Required = True
+    end
+    object cdsAbasteceABA_CODPLC: TStringField
+      DisplayLabel = 'Placa'
+      FieldName = 'ABA_CODPLC'
+      Required = True
+      EditMask = 'AAA\-9999;0;_'
+      Size = 7
+    end
+    object cdsAbasteceABA_CODBMB: TIntegerField
+      DisplayLabel = 'Cd Bomba'
+      FieldName = 'ABA_CODBMB'
+      Required = True
+    end
+    object cdsAbasteceABA_CODCMB: TIntegerField
+      DisplayLabel = 'Cd Combustivel'
+      FieldName = 'ABA_CODCMB'
+      Required = True
+    end
+    object cdsAbasteceABA_VLRLIT: TBCDField
+      DisplayLabel = 'Valor'
+      FieldName = 'ABA_VLRLIT'
+      DisplayFormat = 'R$ #,##0.00'
+      EditFormat = 'R$ #,##0.00'
+      Precision = 18
+      Size = 3
+    end
+    object cdsAbasteceABA_QTDLIT: TBCDField
+      DisplayLabel = 'Litros'
+      FieldName = 'ABA_QTDLIT'
+      DisplayFormat = 'Lts ###,##0.000'
+      EditFormat = 'Lts ###,##0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsAbasteceABA_PCTACM: TBCDField
+      DisplayLabel = 'Acrescimo'
+      FieldName = 'ABA_PCTACM'
+      DisplayFormat = '##0.00%'
+      EditFormat = '##0.00%'
+      Precision = 18
+      Size = 3
+    end
+    object cdsAbasteceABA_VLRTOT: TBCDField
+      DisplayLabel = 'Total'
+      FieldName = 'ABA_VLRTOT'
+      DisplayFormat = 'R$ ##,##0.000'
+      EditFormat = 'R$ ##,##0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsAbasteceABA_DATABA: TDateField
+      DisplayLabel = 'Dt Abastecido'
+      FieldName = 'ABA_DATABA'
+    end
+    object cdsAbasteceABA_HORABA: TStringField
+      DisplayLabel = 'Hora'
+      FieldName = 'ABA_HORABA'
+      Size = 8
+    end
+    object cdsAbasteceABA_USUINC: TStringField
+      DisplayLabel = 'Usu Inclus'#227'o'
+      FieldName = 'ABA_USUINC'
+      Size = 15
+    end
+    object cdsAbasteceABA_HORINC: TStringField
+      DisplayLabel = 'Hr Inclus'#227'o'
+      FieldName = 'ABA_HORINC'
+      Size = 8
+    end
+    object cdsAbasteceABA_DATINC: TDateField
+      DisplayLabel = 'Dt Inclus'#227'o'
+      FieldName = 'ABA_DATINC'
+    end
+    object cdsAbasteceABA_USUALT: TStringField
+      DisplayLabel = 'Usu Altera'#231#227'o'
+      FieldName = 'ABA_USUALT'
+      Size = 15
+    end
+    object cdsAbasteceABA_HORALT: TStringField
+      DisplayLabel = 'Hr Altera'#231#227'o'
+      FieldName = 'ABA_HORALT'
+      Size = 8
+    end
+    object cdsAbasteceABA_DATALT: TDateField
+      DisplayLabel = 'Dt Altera'#231#227'o'
+      FieldName = 'ABA_DATALT'
+    end
+    object cdsAbasteceBMB_NOME: TStringField
+      DisplayLabel = 'Bomba'
+      FieldName = 'BMB_NOME'
+      ReadOnly = True
+      Size = 25
+    end
+    object cdsAbasteceTNQ_NOME: TStringField
+      DisplayLabel = 'Tanque'
+      FieldName = 'TNQ_NOME'
+      ReadOnly = True
+      Size = 25
+    end
+    object cdsAbasteceTNQ_ETQATU: TBCDField
+      DisplayLabel = 'Estoque'
+      FieldName = 'TNQ_ETQATU'
+      ReadOnly = True
+      Precision = 18
+      Size = 3
+    end
+    object cdsAbasteceCMB_NOME: TStringField
+      DisplayLabel = 'Combustivel'
+      FieldName = 'CMB_NOME'
+      ReadOnly = True
+    end
+    object cdsAbasteceCMB_VLRLIT: TBCDField
+      DisplayLabel = 'Valor Litro'
+      FieldName = 'CMB_VLRLIT'
+      ReadOnly = True
+      DisplayFormat = 'R$ #,##0.000'
+      EditFormat = 'R$ #,##0.000'
+      Precision = 18
+      Size = 3
+    end
+  end
+  object dsAbastece: TDataSource
+    DataSet = cdsAbastece
+    Left = 272
+    Top = 448
   end
 end

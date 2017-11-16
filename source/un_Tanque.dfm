@@ -1,15 +1,32 @@
-inherited frmCombustivel: TfrmCombustivel
-  Caption = 'frmCombustivel'
+inherited frmTanque: TfrmTanque
+  Caption = 'frmTanque'
+  ExplicitWidth = 320
+  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   inherited tabCrud: TPageControl
     ActivePage = tbItemCrud
+    ExplicitHeight = 453
     inherited tbItemLista: TTabSheet
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 425
       inherited dbgCrud: TDBGrid
         Columns = <
           item
             Expanded = False
-            FieldName = 'CMB_CODIGO'
+            FieldName = 'TNQ_CODIGO'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TNQ_NOME'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TNQ_CODCMB'
             Visible = True
           end
           item
@@ -19,57 +36,47 @@ inherited frmCombustivel: TfrmCombustivel
           end
           item
             Expanded = False
-            FieldName = 'CMB_VLRLIT'
+            FieldName = 'TNQ_ETQMIN'
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'CMB_USUINC'
-            Title.Alignment = taCenter
-            Title.Caption = 'Usu Inclus'#227'o'
-            Visible = True
-          end
-          item
-            Alignment = taCenter
-            Expanded = False
-            FieldName = 'CMB_HORINC'
-            Title.Alignment = taCenter
-            Title.Caption = 'Hr Inclus'#227'o'
-            Width = 69
-            Visible = True
-          end
-          item
-            Alignment = taCenter
-            Expanded = False
-            FieldName = 'CMB_DATINC'
-            Title.Alignment = taCenter
-            Title.Caption = 'Dt Inclus'#227'o'
-            Width = 72
+            FieldName = 'TNQ_ETQMAX'
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'CMB_USUALT'
-            Title.Alignment = taCenter
-            Title.Caption = 'Usu Altera'#231#227'o'
+            FieldName = 'TNQ_ETQATU'
             Visible = True
           end
           item
-            Alignment = taCenter
             Expanded = False
-            FieldName = 'CMB_HORALT'
-            Title.Alignment = taCenter
-            Title.Caption = 'Hr Altera'#231#227'o'
-            Width = 77
+            FieldName = 'TNQ_USUINC'
             Visible = True
           end
           item
-            Alignment = taCenter
             Expanded = False
-            FieldName = 'CMB_DATALT'
-            Title.Alignment = taCenter
-            Title.Caption = 'Dt Altera'#231#227'o'
-            Width = 76
+            FieldName = 'TNQ_HORINC'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TNQ_DATINC'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TNQ_USUALT'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TNQ_HORALT'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'TNQ_DATALT'
             Visible = True
           end>
       end
@@ -79,6 +86,7 @@ inherited frmCombustivel: TfrmCombustivel
         inherited pgForm: TPageControl
           inherited pgFormDados: TTabSheet
             inherited gbxPrincipal: TGroupBox
+              ExplicitTop = 3
               object Label1: TLabel
                 Left = 24
                 Top = 16
@@ -86,49 +94,131 @@ inherited frmCombustivel: TfrmCombustivel
                 Height = 13
                 CustomHint = HintPrincipal
                 Caption = 'C'#243'digo:'
-                FocusControl = cmb_codigo
+                FocusControl = tnq_codigo
               end
               object Label2: TLabel
-                Left = 104
+                Left = 119
                 Top = 16
-                Width = 50
+                Width = 85
                 Height = 13
                 CustomHint = HintPrincipal
-                Caption = 'Descri'#231#227'o:'
-                FocusControl = cmb_nome
+                Caption = 'Nome do Tanque:'
+                FocusControl = tnq_nome
               end
               object Label3: TLabel
-                Left = 352
-                Top = 16
-                Width = 28
+                Left = 24
+                Top = 68
+                Width = 78
                 Height = 13
                 CustomHint = HintPrincipal
-                Caption = 'Valor:'
-                FocusControl = cmb_vlrlit
+                Caption = 'Cd Combust'#237'vel:'
+                FocusControl = tnq_codigo
               end
-              object cmb_codigo: TEdit
+              object Label4: TLabel
+                Left = 119
+                Top = 67
+                Width = 103
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Nome do Combust'#237'vel'
+              end
+              object Label5: TLabel
+                Left = 24
+                Top = 120
+                Width = 74
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Estoque Minimo'
+                FocusControl = tnq_etqmin
+              end
+              object Label6: TLabel
+                Left = 162
+                Top = 120
+                Width = 78
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Estoque Maximo'
+                FocusControl = tnq_etqmax
+              end
+              object Label7: TLabel
+                Left = 303
+                Top = 120
+                Width = 67
+                Height = 13
+                CustomHint = HintPrincipal
+                Caption = 'Estoque Atual'
+                FocusControl = tnq_etqatu
+              end
+              object tnq_codigo: TEdit
                 Left = 24
                 Top = 35
-                Width = 63
+                Width = 78
                 Height = 21
                 CustomHint = HintPrincipal
                 TabOrder = 0
               end
-              object cmb_nome: TEdit
-                Left = 104
+              object tnq_nome: TEdit
+                Left = 119
                 Top = 35
-                Width = 233
+                Width = 321
                 Height = 21
                 CustomHint = HintPrincipal
                 TabOrder = 1
               end
-              object cmb_vlrlit: TMaskEdit
-                Left = 352
-                Top = 35
-                Width = 97
+              object tnq_codcmb: TButtonedEdit
+                Left = 24
+                Top = 86
+                Width = 78
                 Height = 21
                 CustomHint = HintPrincipal
+                Images = frm_principal.imlSecundario
+                LeftButton.CustomHint = HintPrincipal
+                RightButton.CustomHint = HintPrincipal
+                RightButton.DisabledImageIndex = 0
+                RightButton.HotImageIndex = 0
+                RightButton.ImageIndex = 0
+                RightButton.PressedImageIndex = 0
+                RightButton.Visible = True
                 TabOrder = 2
+                OnChange = tnq_codcmbExit
+                OnExit = tnq_codcmbExit
+              end
+              object edCMB_NOME: TEdit
+                Tag = 9
+                Left = 119
+                Top = 86
+                Width = 321
+                Height = 21
+                CustomHint = HintPrincipal
+                Enabled = False
+                TabOrder = 3
+              end
+              object tnq_etqmin: TMaskEdit
+                Left = 24
+                Top = 139
+                Width = 121
+                Height = 21
+                CustomHint = HintPrincipal
+                TabOrder = 4
+                Text = ''
+              end
+              object tnq_etqmax: TMaskEdit
+                Left = 162
+                Top = 139
+                Width = 121
+                Height = 21
+                CustomHint = HintPrincipal
+                TabOrder = 5
+                Text = ''
+              end
+              object tnq_etqatu: TMaskEdit
+                Tag = 9
+                Left = 303
+                Top = 139
+                Width = 137
+                Height = 21
+                CustomHint = HintPrincipal
+                TabOrder = 6
                 Text = ''
               end
             end
@@ -137,9 +227,14 @@ inherited frmCombustivel: TfrmCombustivel
       end
     end
   end
+  inherited StatusBar1: TStatusBar
+    ExplicitLeft = 608
+    ExplicitTop = 272
+    ExplicitWidth = 0
+  end
   inherited imlCrud: TImageList
     Bitmap = {
-      494C01010C002800780018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010C002800740018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000006000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1333,5 +1428,8 @@ inherited frmCombustivel: TfrmCombustivel
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
+  end
+  inherited dsCrud: TDataSource
+    DataSet = dmSistema.cdsTanque
   end
 end
