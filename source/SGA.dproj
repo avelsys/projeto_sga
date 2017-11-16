@@ -131,6 +131,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="un_ClassCalculo.pas"/>
+        <DCCReference Include="Un_RelAbastece.pas">
+            <Form>frmRelAbastece</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

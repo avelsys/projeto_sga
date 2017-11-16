@@ -46,6 +46,8 @@ type
     ToolButton2: TToolButton;
     SpeedButton7: TSpeedButton;
     Abastecer1: TMenuItem;
+    btnRelAbastece: TAction;
+    RelatriodeAbastecimentoporData1: TMenuItem;
     procedure btnCombustivelExecute(Sender: TObject);
     procedure btnTanqueExecute(Sender: TObject);
     procedure btnSairExecute(Sender: TObject);
@@ -54,6 +56,7 @@ type
     procedure btnBombaExecute(Sender: TObject);
     procedure btnVeiculoExecute(Sender: TObject);
     procedure btnAbasteceExecute(Sender: TObject);
+    procedure btnRelAbasteceExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -68,7 +71,7 @@ implementation
 {$R *.dfm}
 
 uses Un_DmSistema, Un_MDDialog, Un_Funcoes, Un_Combustivel, un_Posto, un_Tanque,
-  Un_Bomba, Un_Veiculo, Un_Abastece;
+  Un_Bomba, Un_Veiculo, Un_Abastece, Un_RelAbastece;
 
 procedure Tfrm_principal.btnAbasteceExecute(Sender: TObject);
 begin
@@ -93,6 +96,12 @@ begin
    frmPosto := TfrmPosto.Create(Self,Sender);
    frmPosto.Show;
 
+end;
+
+procedure Tfrm_principal.btnRelAbasteceExecute(Sender: TObject);
+begin
+   frmRelAbastece := TfrmRelAbastece.Create(Self);
+   frmRelAbastece.Show;
 end;
 
 procedure Tfrm_principal.btnSairExecute(Sender: TObject);

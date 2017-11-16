@@ -15,7 +15,8 @@ uses
   Un_Bomba in 'Un_Bomba.pas' {frmBomba},
   Un_Veiculo in 'Un_Veiculo.pas' {frmVeiculo},
   Un_Abastece in 'Un_Abastece.pas' {frmAbastece},
-  un_ClassCalculo in 'un_ClassCalculo.pas';
+  un_ClassCalculo in 'un_ClassCalculo.pas',
+  Un_RelAbastece in 'Un_RelAbastece.pas' {frmRelAbastece};
 
 {$R *.res}
 
@@ -24,5 +25,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmSistema, dmSistema);
   Application.CreateForm(Tfrm_principal, frm_principal);
+  Application.CreateForm(TfrmRelAbastece, frmRelAbastece);
   Application.Run;
 end.

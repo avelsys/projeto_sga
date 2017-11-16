@@ -45,6 +45,7 @@ type
     procedure aba_codplcExit(Sender: TObject);
     procedure aba_codbmbExit(Sender: TObject);
     procedure ABA_VLRTOTKeyPress(Sender: TObject; var Key: Char);
+    procedure ABA_QTDLITExit(Sender: TObject);
   private
     procedure Calculo;
     { Private declarations }
@@ -68,7 +69,13 @@ begin
   with cnsConsulta do Begin
        getRetorno( edBMB_NOME );
        getRetorno( edTNQ_NOME );
-       ABA_VLRLIT.Text := FormatCurr('R$ #,##0.000', dmSistema.cdsBomba.FieldByName('cmb_vlrlit').AsFloat );
+       if ABA_CODCMB.Text <> '' then begin
+         dmSistema.cdsCombustivel.Locate('CMB_CODIGO', VarArrayOf([ABA_CODCMB.Text]),[]);
+         ABA_VLRLIT.Text := FormatCurr('R$ #,##0.000', dmSistema.cdsCombustivel.FieldByName('cmb_vlrlit').AsFloat );
+         ABA_PCTACM.Text := FormatCurr('##0.00%',13);
+       end else
+         ABA_VLRLIT.Text := FormatCurr('R$ #,##0.000', 0 );
+
   End;
   FreeAndNil( cnsConsulta );
 end;
@@ -80,7 +87,11 @@ begin
   with cnsConsulta do Begin
        getRetorno( edVIC_MODELO );
        getRetorno( edCMB_NOME   );
-       ABA_CODCMB.Text := dmSistema.cdsVeiculo.FieldByName('vic_codcmb').AsString ;
+       if aba_codplc.Text <> '' then begin
+         dmSistema.cdsVeiculo.Locate('VIC_PLACA', VarArrayOf([aba_codplc.Text]),[]);
+         ABA_CODCMB.Text := dmSistema.cdsVeiculo.FieldByName('vic_codcmb').AsString ;
+       end;
+
   End;
   FreeAndNil( cnsConsulta );
 end;
@@ -95,6 +106,17 @@ procedure TfrmAbastece.ABA_QTDLITChange(Sender: TObject);
 begin
   inherited;
   Calculo;
+end;
+
+procedure TfrmAbastece.ABA_QTDLITExit(Sender: TObject);
+begin
+  inherited;
+  if FormataNum(ABA_QTDLIT.Text ) <= 0 then begin
+     ShowMessage('Quantidade Invalida!');
+     ABA_QTDLIT.SetFocus;
+     Exit;
+  end;
+
 end;
 
 procedure TfrmAbastece.ABA_VLRLITChange(Sender: TObject);

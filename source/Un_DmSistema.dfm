@@ -57,8 +57,8 @@ object dmSistema: TdmSistema
       DisplayLabel = 'Valor:'
       FieldName = 'CMB_VLRLIT'
       Origin = 'CMB_VLRLIT'
-      DisplayFormat = 'R$ ###,##0.00'
-      EditFormat = 'R$ ###,##0.00'
+      DisplayFormat = 'R$ #,##0.000'
+      EditFormat = 'R$ #,##0.000'
       Precision = 18
       Size = 3
     end
@@ -431,6 +431,7 @@ object dmSistema: TdmSistema
     Top = 352
   end
   object cdsVeiculo: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspVeiculo'
@@ -439,6 +440,8 @@ object dmSistema: TdmSistema
     object cdsVeiculoVIC_PLACA: TStringField
       DisplayLabel = 'Placa'
       FieldName = 'VIC_PLACA'
+      Origin = 'VIC_PLACA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
       EditMask = 'AAA\-0000;0;_'
       Size = 7
@@ -446,60 +449,73 @@ object dmSistema: TdmSistema
     object cdsVeiculoVIC_CODFTA: TIntegerField
       DisplayLabel = 'Cd Frota'
       FieldName = 'VIC_CODFTA'
+      Origin = 'VIC_CODFTA'
       Required = True
     end
     object cdsVeiculoVIC_CODCMB: TIntegerField
       DisplayLabel = 'Cd Comb'
       FieldName = 'VIC_CODCMB'
+      Origin = 'VIC_CODCMB'
       Required = True
     end
     object cdsVeiculoVIC_MARCA: TStringField
       DisplayLabel = 'Marca'
       FieldName = 'VIC_MARCA'
+      Origin = 'VIC_MARCA'
       Size = 35
     end
     object cdsVeiculoVIC_MODELO: TStringField
       DisplayLabel = 'Modelo'
       FieldName = 'VIC_MODELO'
+      Origin = 'VIC_MODELO'
       Size = 35
     end
     object cdsVeiculoVIC_ANO: TStringField
       DisplayLabel = 'Ano'
       FieldName = 'VIC_ANO'
+      Origin = 'VIC_ANO'
       EditMask = '!99/99;0;_'
       Size = 4
     end
     object cdsVeiculoVIC_USUINC: TStringField
       DisplayLabel = 'Usu Inclus'#227'o'
       FieldName = 'VIC_USUINC'
+      Origin = 'VIC_USUINC'
       Size = 15
     end
     object cdsVeiculoVIC_HORINC: TStringField
       DisplayLabel = 'Hr Inclus'#227'o'
       FieldName = 'VIC_HORINC'
+      Origin = 'VIC_HORINC'
       Size = 8
     end
     object cdsVeiculoVIC_DATINC: TDateField
       DisplayLabel = 'Dt Inclus'#227'o'
       FieldName = 'VIC_DATINC'
+      Origin = 'VIC_DATINC'
     end
     object cdsVeiculoVIC_USUALT: TStringField
       DisplayLabel = 'Usu Altera'#231#227'o'
       FieldName = 'VIC_USUALT'
+      Origin = 'VIC_USUALT'
       Size = 15
     end
     object cdsVeiculoVIC_HORALT: TStringField
       DisplayLabel = 'Hr Altera'#231#227'o'
       FieldName = 'VIC_HORALT'
+      Origin = 'VIC_HORALT'
       Size = 8
     end
     object cdsVeiculoVIC_DATALT: TDateField
       DisplayLabel = 'Dt Altera'#231#227'o'
       FieldName = 'VIC_DATALT'
+      Origin = 'VIC_DATALT'
     end
     object cdsVeiculoCMB_NOME: TStringField
       DisplayLabel = 'Combustivel'
       FieldName = 'CMB_NOME'
+      Origin = 'CMB_NOME'
+      ProviderFlags = []
       ReadOnly = True
     end
   end
@@ -527,6 +543,7 @@ object dmSistema: TdmSistema
     Top = 448
   end
   object cdsAbastece: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspAbastece'
@@ -535,11 +552,14 @@ object dmSistema: TdmSistema
     object cdsAbasteceABA_CODIGO: TIntegerField
       DisplayLabel = 'C'#243'digo'
       FieldName = 'ABA_CODIGO'
+      Origin = 'ABA_CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object cdsAbasteceABA_CODPLC: TStringField
       DisplayLabel = 'Placa'
       FieldName = 'ABA_CODPLC'
+      Origin = 'ABA_CODPLC'
       Required = True
       EditMask = 'AAA\-9999;0;_'
       Size = 7
@@ -547,16 +567,19 @@ object dmSistema: TdmSistema
     object cdsAbasteceABA_CODBMB: TIntegerField
       DisplayLabel = 'Cd Bomba'
       FieldName = 'ABA_CODBMB'
+      Origin = 'ABA_CODBMB'
       Required = True
     end
     object cdsAbasteceABA_CODCMB: TIntegerField
       DisplayLabel = 'Cd Combustivel'
       FieldName = 'ABA_CODCMB'
+      Origin = 'ABA_CODCMB'
       Required = True
     end
     object cdsAbasteceABA_VLRLIT: TBCDField
       DisplayLabel = 'Valor'
       FieldName = 'ABA_VLRLIT'
+      Origin = 'ABA_VLRLIT'
       DisplayFormat = 'R$ #,##0.00'
       EditFormat = 'R$ #,##0.00'
       Precision = 18
@@ -565,6 +588,7 @@ object dmSistema: TdmSistema
     object cdsAbasteceABA_QTDLIT: TBCDField
       DisplayLabel = 'Litros'
       FieldName = 'ABA_QTDLIT'
+      Origin = 'ABA_QTDLIT'
       DisplayFormat = 'Lts ###,##0.000'
       EditFormat = 'Lts ###,##0.000'
       Precision = 18
@@ -573,6 +597,7 @@ object dmSistema: TdmSistema
     object cdsAbasteceABA_PCTACM: TBCDField
       DisplayLabel = 'Acrescimo'
       FieldName = 'ABA_PCTACM'
+      Origin = 'ABA_PCTACM'
       DisplayFormat = '##0.00%'
       EditFormat = '##0.00%'
       Precision = 18
@@ -581,6 +606,7 @@ object dmSistema: TdmSistema
     object cdsAbasteceABA_VLRTOT: TBCDField
       DisplayLabel = 'Total'
       FieldName = 'ABA_VLRTOT'
+      Origin = 'ABA_VLRTOT'
       DisplayFormat = 'R$ ##,##0.000'
       EditFormat = 'R$ ##,##0.000'
       Precision = 18
@@ -589,55 +615,69 @@ object dmSistema: TdmSistema
     object cdsAbasteceABA_DATABA: TDateField
       DisplayLabel = 'Dt Abastecido'
       FieldName = 'ABA_DATABA'
+      Origin = 'ABA_DATABA'
     end
     object cdsAbasteceABA_HORABA: TStringField
       DisplayLabel = 'Hora'
       FieldName = 'ABA_HORABA'
+      Origin = 'ABA_HORABA'
       Size = 8
     end
     object cdsAbasteceABA_USUINC: TStringField
       DisplayLabel = 'Usu Inclus'#227'o'
       FieldName = 'ABA_USUINC'
+      Origin = 'ABA_USUINC'
       Size = 15
     end
     object cdsAbasteceABA_HORINC: TStringField
       DisplayLabel = 'Hr Inclus'#227'o'
       FieldName = 'ABA_HORINC'
+      Origin = 'ABA_HORINC'
       Size = 8
     end
     object cdsAbasteceABA_DATINC: TDateField
       DisplayLabel = 'Dt Inclus'#227'o'
       FieldName = 'ABA_DATINC'
+      Origin = 'ABA_DATINC'
     end
     object cdsAbasteceABA_USUALT: TStringField
       DisplayLabel = 'Usu Altera'#231#227'o'
       FieldName = 'ABA_USUALT'
+      Origin = 'ABA_USUALT'
       Size = 15
     end
     object cdsAbasteceABA_HORALT: TStringField
       DisplayLabel = 'Hr Altera'#231#227'o'
       FieldName = 'ABA_HORALT'
+      Origin = 'ABA_HORALT'
       Size = 8
     end
     object cdsAbasteceABA_DATALT: TDateField
       DisplayLabel = 'Dt Altera'#231#227'o'
       FieldName = 'ABA_DATALT'
+      Origin = 'ABA_DATALT'
     end
     object cdsAbasteceBMB_NOME: TStringField
       DisplayLabel = 'Bomba'
       FieldName = 'BMB_NOME'
+      Origin = 'BMB_NOME'
+      ProviderFlags = []
       ReadOnly = True
       Size = 25
     end
     object cdsAbasteceTNQ_NOME: TStringField
       DisplayLabel = 'Tanque'
       FieldName = 'TNQ_NOME'
+      Origin = 'TNQ_NOME'
+      ProviderFlags = []
       ReadOnly = True
       Size = 25
     end
     object cdsAbasteceTNQ_ETQATU: TBCDField
       DisplayLabel = 'Estoque'
       FieldName = 'TNQ_ETQATU'
+      Origin = 'TNQ_ETQATU'
+      ProviderFlags = []
       ReadOnly = True
       Precision = 18
       Size = 3
@@ -645,11 +685,15 @@ object dmSistema: TdmSistema
     object cdsAbasteceCMB_NOME: TStringField
       DisplayLabel = 'Combustivel'
       FieldName = 'CMB_NOME'
+      Origin = 'CMB_NOME'
+      ProviderFlags = []
       ReadOnly = True
     end
     object cdsAbasteceCMB_VLRLIT: TBCDField
       DisplayLabel = 'Valor Litro'
       FieldName = 'CMB_VLRLIT'
+      Origin = 'CMB_VLRLIT'
+      ProviderFlags = []
       ReadOnly = True
       DisplayFormat = 'R$ #,##0.000'
       EditFormat = 'R$ #,##0.000'

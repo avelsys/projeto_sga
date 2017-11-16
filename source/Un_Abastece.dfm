@@ -1,12 +1,32 @@
 inherited frmAbastece: TfrmAbastece
   Caption = 'frmAbastece'
+  ClientWidth = 1155
   WindowState = wsMaximized
+  ExplicitWidth = 1171
+  ExplicitHeight = 569
   PixelsPerInch = 96
   TextHeight = 13
+  inherited pnModelo: TPanel
+    Width = 1155
+    ExplicitWidth = 120
+  end
+  inherited pnMenu: TPanel
+    Width = 1155
+    ExplicitWidth = 120
+    inherited SpeedButton5: TSpeedButton
+      Left = 1043
+    end
+  end
   inherited tabCrud: TPageControl
+    Width = 1155
     ActivePage = tbItemCrud
+    ExplicitWidth = 120
     inherited tbItemLista: TTabSheet
+      inherited pnPesquisa: TPanel
+        Width = 1147
+      end
       inherited dbgCrud: TDBGrid
+        Width = 1147
         Columns = <
           item
             Expanded = False
@@ -116,12 +136,27 @@ inherited frmAbastece: TfrmAbastece
       end
     end
     inherited tbItemCrud: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 42
+      ExplicitWidth = 112
+      ExplicitHeight = 388
       inherited pnControls: TPanel
+        Width = 1147
+        ExplicitWidth = 112
+        ExplicitHeight = 388
         inherited pgForm: TPageControl
+          Width = 1145
+          ExplicitWidth = 110
+          ExplicitHeight = 386
           inherited pgFormDados: TTabSheet
+            ExplicitLeft = 4
+            ExplicitTop = 24
+            ExplicitWidth = 102
+            ExplicitHeight = 358
             inherited gbxPrincipal: TGroupBox
-              ExplicitLeft = 1
-              ExplicitTop = 3
+              Width = 1137
+              ExplicitWidth = 102
+              ExplicitHeight = 358
               object Label1: TLabel
                 Left = 21
                 Top = 16
@@ -297,6 +332,7 @@ inherited frmAbastece: TfrmAbastece
                 TabOrder = 10
                 Text = ''
                 OnChange = ABA_VLRLITChange
+                OnExit = ABA_QTDLITExit
               end
               object edCMB_NOME: TEdit
                 Tag = 9
@@ -410,9 +446,14 @@ inherited frmAbastece: TfrmAbastece
       end
     end
   end
+  inherited StatusBar1: TStatusBar
+    Width = 1155
+    ExplicitTop = -19
+    ExplicitWidth = 120
+  end
   inherited imlCrud: TImageList
     Bitmap = {
-      494C01010C002800740018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010C002800780018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000006000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

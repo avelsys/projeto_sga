@@ -2186,6 +2186,9 @@ object frm_principal: Tfrm_principal
     end
     object Relatrio1: TMenuItem
       Caption = '&Relat'#243'rio'
+      object RelatriodeAbastecimentoporData1: TMenuItem
+        Action = btnRelAbastece
+      end
     end
   end
   object imlPrincipal: TImageList
@@ -2195,7 +2198,7 @@ object frm_principal: Tfrm_principal
     Left = 32
     Top = 192
     Bitmap = {
-      494C010180011402540020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010180011402580020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000080000000200C000001002000000000000040
       1800000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -53457,6 +53460,10 @@ object frm_principal: Tfrm_principal
       ImageIndex = 383
       OnExecute = btnAbasteceExecute
     end
+    object btnRelAbastece: TAction
+      Caption = 'Relat'#243'rio de Abastecimento por Data'
+      OnExecute = btnRelAbasteceExecute
+    end
   end
   object imlSecundario: TImageList
     ColorDepth = cd32Bit
@@ -53465,7 +53472,7 @@ object frm_principal: Tfrm_principal
     Left = 32
     Top = 248
     Bitmap = {
-      494C010101001400200012001200FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010101001400240012001200FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000480000001200000001002000000000004014
       0000000000000000000000000000000000000000000000000000000000000000
       000003030364CECFCEFFD0CFCFFFD2D3D2FFD4D4D4FFD4D4D4FFD4D4D3FFD2D3
