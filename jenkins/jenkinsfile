@@ -4,6 +4,12 @@ pipeline{
        stage('Prepara'){     
          steps{
               dir('source') {    
+                 @echo 'preparando o diretorio'                     
+               }             
+         }
+      }
+       stage('Compila'){
+         steps{               
                bat '''REM Busca compilador
                call "C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin\\rsvars.bat"
                REM Busca arquivo do projeto
@@ -13,13 +19,7 @@ pipeline{
                @echo off
                REM Extrai nome do projeto
                set nome_projeto=%projeto:.dproj=%
-               @echo on'''              
-               }             
-         }
-      }
-       stage('Compila'){
-         steps{
-               @echo 'Teste'              
+               @echo on'''                      
          }
       }      
    }
