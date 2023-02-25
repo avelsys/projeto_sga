@@ -2,6 +2,10 @@ pipeline{
      agent any
      stages{           
        stage('build'){     
+          steps {
+                dir('\\source') {
+                    echo 'Acessando a pasta de fontes'
+                }       
          steps{
                   echo "Calling multi line batch command"
                   bat '''
