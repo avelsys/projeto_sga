@@ -2,9 +2,9 @@ pipeline{
      agent any
      stages{           
        stage('Preparacao'){
-         steps{
-               sh 'cd source'
-         }
+          dir ('source') {
+              sh 'pwd'
+          }      
       }     
        stage('build'){     
          steps{
