@@ -5,14 +5,14 @@ pipeline{
          steps{
                   echo "Calling multi line batch command"
                   bat '''
-                  call "C:\\teste\\teste.bat"
+                  call "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Novo_Teste\\source\\teste.bat"
                   set myVar=exampleVar
                   echo > Sometimes you want to keep environment variables set by the .bat script
                   echo > so multiline script works best in this case: %myVar%
                   '''
 
                   echo "Calling single line batch command"
-                  bat "C:\\teste\\teste.bat"        
+                  bat "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Novo_Teste\\source\\teste.bat"
          }
       }
        stage('Compilação'){
