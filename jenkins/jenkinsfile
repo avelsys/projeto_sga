@@ -3,7 +3,8 @@ pipeline{
      stages{
        stage('build'){
          steps{
-            echo 'Fazendo Build'
+           cmd_exec('echo "Buils starting..."')
+           cmd_exec('echo "dir /a /b"')            
          }
       }
        stage('Compilação'){
