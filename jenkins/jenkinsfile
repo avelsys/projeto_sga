@@ -1,10 +1,7 @@
 pipeline{
      agent any
      stages{           
-       stage('build'){
-          steps {
-              sh "pwd"
-          }        
+       stage('build'){     
          steps{
                   echo "Calling multi line batch command"
                   bat '''
