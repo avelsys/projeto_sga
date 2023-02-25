@@ -1,9 +1,14 @@
 pipeline{
      agent any
      stages{           
-       stage('build'){     
+       stage('Prepara'){     
          steps{
               dir('source') {                                        
+               }             
+         }
+      }
+       stage('Compila'){
+         steps{
                          bat '''REM Busca compilador
                          call "C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin\\rsvars.bat"
                          REM Busca arquivo do projeto
@@ -18,12 +23,6 @@ pipeline{
                          REM executa
                          %executavel%
                          @echo on'''
-               }             
-         }
-      }
-       stage('Testes'){
-         steps{
-            echo 'reakuzando testes'
          }
       }      
    }
