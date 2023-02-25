@@ -3,7 +3,7 @@ pipeline{
      stages{           
        stage('build'){     
           steps {
-                dir('\\source') {
+                dir('C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Novo_Teste\\source') {
                     echo 'Acessando a pasta de fontes'
                 }       
          steps{
