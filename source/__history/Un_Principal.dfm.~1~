@@ -12,8 +12,10 @@ object frm_principal: Tfrm_principal
   Font.Style = []
   FormStyle = fsMDIForm
   Menu = mnPrincipal
+  OldCreateOrder = False
   WindowState = wsMaximized
   OnClose = FormClose
+  PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 0
@@ -2052,8 +2054,6 @@ object frm_principal: Tfrm_principal
         Text = 'Usu'#225'rio: ADMIN'
         Width = 50
       end>
-    ExplicitTop = 555
-    ExplicitWidth = 922
   end
   object ToolBar1: TToolBar
     Left = 0
@@ -2065,7 +2065,6 @@ object frm_principal: Tfrm_principal
     Caption = 'ToolBar1'
     DrawingStyle = dsGradient
     TabOrder = 1
-    ExplicitWidth = 922
     object SpeedButton6: TSpeedButton
       Left = 0
       Top = 0
@@ -2199,7 +2198,7 @@ object frm_principal: Tfrm_principal
     Left = 32
     Top = 192
     Bitmap = {
-      494C010180011402040020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010180011402580020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000080000000200C000001002000000000000040
       1800000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -53473,7 +53472,7 @@ object frm_principal: Tfrm_principal
     Left = 32
     Top = 248
     Bitmap = {
-      494C010101001400040012001200FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010101001400240012001200FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000480000001200000001002000000000004014
       0000000000000000000000000000000000000000000000000000000000000000
       000003030364CECFCEFFD0CFCFFFD2D3D2FFD4D4D4FFD4D4D4FFD4D4D3FFD2D3
