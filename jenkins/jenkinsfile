@@ -4,10 +4,6 @@ pipeline{
        stage('build'){
           steps {
               sh "pwd"
-              dir('source') {
-                sh "pwd"
-              }
-              sh "pwd"
           }        
          steps{
                   echo "Calling multi line batch command"
