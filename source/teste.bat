@@ -13,5 +13,3 @@ FOR /F "delims=" %%i IN ('dir /s /b "%nome_projeto%.exe"') DO set executavel=%%i
 REM executa
 %executavel%
 @echo on
-
-pause
