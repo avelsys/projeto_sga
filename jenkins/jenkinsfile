@@ -2,6 +2,9 @@ pipeline{
      agent any
      stages{           
        stage('build'){     
+         steps {
+                sh 'cd source'
+            }       
          steps{
                   echo "Calling multi line batch command"
                   bat '''
