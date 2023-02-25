@@ -3,19 +3,9 @@ pipeline{
      stages{           
        stage('build'){     
          steps{
-         
-               dir('source') {
-               
-                  echo "Calling multi line batch command"
-                  bat '''
-                  call "teste.bat"
-                  set myVar=exampleVar
-                  echo > Sometimes you want to keep environment variables set by the .bat script
-                  echo > so multiline script works best in this case: %myVar%
-                  '''                  
-               
+              dir('source') {                                        
+                    call "teste.bat"               
                }             
-
          }
       }
        stage('Testes'){
