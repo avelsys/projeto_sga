@@ -2,10 +2,6 @@ pipeline{
      agent any
      stages{           
        stage('build'){     
-          steps {
-                dir('C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Novo_Teste\\source') {
-                    echo 'Acessando a pasta de fontes'
-                }       
          steps{
                   echo "Calling multi line batch command"
                   bat '''
