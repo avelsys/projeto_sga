@@ -1,5 +1,5 @@
 REM Busca compilador
-call "C:\Program Files (x86)\Embarcadero\Studio\18.0\bin\rsvars.bat"
+call "C:\Program Files (x86)\Embarcadero\Studio\22.0\bin\rsvars.bat"
 REM Busca arquivo do projeto
 FOR /F "delims=" %%i IN ('dir /b "*.dproj"') DO set projeto=%%i
 REM Compila projeto
