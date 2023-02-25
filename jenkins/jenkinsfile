@@ -2,9 +2,11 @@ pipeline{
      agent any
      stages{           
        stage('Preparacao'){
-          dir ('source') {
-              sh 'pwd'
-          }      
+          steps{       
+               dir('source') {
+                   echo "Mudando o Diretorio"
+               }    
+           }    
       }     
        stage('build'){     
          steps{
