@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ComCtrls, Vcl.ImgList,
   Vcl.ToolWin, System.Actions, Vcl.ActnList, Vcl.Buttons, Vcl.Imaging.jpeg,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, System.ImageList;
 
 type
   Tfrm_principal = class(TForm)
