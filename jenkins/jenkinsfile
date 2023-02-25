@@ -1,10 +1,12 @@
 pipeline{
      agent any
      stages{           
-       stage('source'){     
-         steps {
-                sh 'cd source'
-            }       
+       stage('Preparacao'){
+         steps{
+               sh 'cd source'
+         }
+      }     
+       stage('build'){     
          steps{
                   echo "Calling multi line batch command"
                   bat '''
@@ -16,11 +18,6 @@ pipeline{
 
                   echo "Calling single line batch command"
                   bat "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Novo_Teste\\source\\teste.bat"
-         }
-      }
-       stage('Compilação'){
-         steps{
-           echo 'Fazendo compilação'
          }
       }
        stage('Testes'){
