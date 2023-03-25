@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Un_MDDialog, Data.DB, System.Actions,
   Vcl.ActnList, Vcl.ImgList, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Mask, Un_Funcoes;
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Mask, Un_Funcoes, System.ImageList;
 
 type
   TfrmAbastece = class(TMD_Dialog)
@@ -51,6 +51,9 @@ type
     { Private declarations }
   public
     { Public declarations }
+  protected
+    Function  GetKeyField:     String; override;
+    Function  GetQueryKeyFiled: String; override;
   end;
 
 var
@@ -160,5 +163,15 @@ end;
 
 
 
+
+function TfrmAbastece.GetKeyField: String;
+begin
+  result := '';
+end;
+
+function TfrmAbastece.GetQueryKeyFiled: String;
+begin
+  result := '';
+end;
 
 end.

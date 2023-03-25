@@ -1,0 +1,1505 @@
+unit Un_MDDialog;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  System.Actions, Vcl.ActnList, Vcl.ImgList, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ComCtrls, System.Generics.Collections,
+  FireDAC.Comp.Client, System.UITypes, Vcl.Mask, EditTuning, Un_ClassPesq;
+
+type
+  TRecordState = ( rsNew, rsEdit, rsDelete, rsVizu, rsNil );
+  TArrayComp   = array of TComponent;
+
+  TMD_Dialog = class(TForm)
+    pnModelo: TPanel;
+    lbTitulo: TLabel;
+    pnMenu: TPanel;
+    SpeedButton1: TSpeedButton;
+    imlCrud: TImageList;
+    aclCrud: TActionList;
+    btnNovo: TAction;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    SpeedButton4: TSpeedButton;
+    btnEditar: TAction;
+    btnGravar: TAction;
+    btnExcluir: TAction;
+    SpeedButton5: TSpeedButton;
+    btnSair: TAction;
+    tabCrud: TPageControl;
+    tbItemLista: TTabSheet;
+    pnPesquisa: TPanel;
+    lbTitReg: TLabel;
+    lbTotalReg: TLabel;
+    edPesquisa: TEdit;
+    tbItemCrud: TTabSheet;
+    pnControls: TPanel;
+    pgForm: TPageControl;
+    pgFormDados: TTabSheet;
+    gbxPrincipal: TGroupBox;
+    SpeedButton6: TSpeedButton;
+    SpeedButton9: TSpeedButton;
+    SpeedButton10: TSpeedButton;
+    SpeedButton11: TSpeedButton;
+    btnInicio: TAction;
+    btnAnterior: TAction;
+    btnProximo: TAction;
+    btnTermino: TAction;
+    dbgCrud: TDBGrid;
+    dsCrud: TDataSource;
+    SpeedButton7: TSpeedButton;
+    btnCancela: TAction;
+    btnVizualiza: TAction;
+    SpeedButton8: TSpeedButton;
+    dsQuery: TDataSource;
+    HintPrincipal: TBalloonHint;
+    StatusBar1: TStatusBar;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnNovoExecute(Sender: TObject);
+    procedure btnEditarExecute(Sender: TObject);
+    procedure btnGravarExecute(Sender: TObject);
+    procedure btnExcluirExecute(Sender: TObject);
+    procedure btnSairExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnInicioExecute(Sender: TObject);
+    procedure btnProximoExecute(Sender: TObject);
+    procedure btnTerminoExecute(Sender: TObject);
+    procedure dbgCrudTitleClick(Column: TColumn);
+    procedure btnCancelaExecute(Sender: TObject);
+    procedure btnVizualizaExecute(Sender: TObject);
+    procedure edPesquisaChange(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure dbgCrudDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure btnAnteriorExecute(Sender: TObject);
+  private
+    FCheckUnique  : Tdictionary<String, String>;
+    FRecordState  : TRecordState;
+    FRecNo        : Integer;
+    btnAtiva      : TAction ;
+    aGets, aCpts  : TArrayComp;
+    aCmps         : array of String;
+    cPref, cPesqStr : String;
+    pBtn          : TAction ;
+    titleindex    : Integer;
+    procedure OcultarSheets(PageControl: TPageControl);
+    procedure prefixo;
+    procedure AtivaBtns;
+    procedure BarraNavega;
+    procedure GetDados;
+    procedure RefrehTitulos;
+    procedure GetSize;
+    function ChkNulo(cField: String): boolean;
+    procedure DadoRequerido(Labels: TLabel);
+    procedure GetVariantType(query: TfdQuery; Field: TField; Source: TObject);
+    function InCodigoText(Source: TObject): String;
+    procedure GeraParams(query: TfdQuery; Source: TObject);
+    function NomeCampos(Source: TObject): String;
+    function SetCampos(Source: TObject): Variant;
+    function ChecaComp(ClassComponent: Tcomponent): Boolean;
+    procedure DoAfterScroll(DataSet: TDataset);
+    function PegaCmpFrm(ClassComponent: Tcomponent): Tcomponent;
+    procedure XSetFocus;
+    procedure MaskEditLabel(Sender: TObject; var Key: Char);
+    { Private declarations }
+  Protected
+      lVerif      : Boolean  ;
+      cTabela     : string   ;
+      FieldFilter : TField   ;
+      qTabeka     : TFDQuery ;
+    // Funcao que retorna o campo chave do dataset Crud
+    Function  GetKeyField:     String;virtual;abstract;
+    // Funcao que retorna o campo chave do dataset Crud
+    Function  GetQueryKeyFiled: String; Virtual; abstract;
+    // procedimento que carraga a permissão do usuario logado para o formulario em questão
+    procedure LoadPermisso;     virtual;
+    // procedimento que carrega as restrilçies dos campos do formulario em quetão
+    Procedure LoadRestricao;    Virtual;
+    // Funcao que verifica a existencia de rgistros ja cadastrados
+    Function  DoCheckUnique:    Boolean; Virtual;
+
+  public
+    { Public declarations }
+    btnAtive : TAction ;
+    cnsConsulta : TConsulta;
+    aTabDel  : array of array[0..1] of string;
+    property nRecno      : integer                      read FRecNo       write FRecNo ;
+ published
+    procedure PesquisaSql(cPesquisa, cCampo: String );
+    constructor Create(AOwner : TComponent; fBtn : TObject);
+
+  end;
+
+var
+  MD_Dialog: TMD_Dialog;
+  cCmapoDel, cIten02 : String;
+
+implementation
+
+{$R *.dfm}
+
+uses Un_DmSistema, Un_Funcoes, Un_Principal,
+  U_ClassConfig, Datasnap.DBClient, System.StrUtils ;
+
+procedure TMD_Dialog.btnAnteriorExecute(Sender: TObject);
+begin
+  FRecordState := rsVizu;
+  dsCrud.DataSet.Prior;
+  GetDados;
+  BarraNavega;
+end;
+
+procedure TMD_Dialog.btnCancelaExecute(Sender: TObject);
+begin
+  if (dsCrud.DataSet.State in [dsInsert]) and ( NoT DoCheckUnique) then Exit;
+  case FRecordState of
+    rsNew     :
+          if  TConfig.GetInstance.ConfirmaGravacao then
+              if MessageDlg('Deseja Cancelar a Inclusão?', mtConfirmation,mbYesNo, 0)= mrNo then begin exit;  end;
+    rsEdit    :
+          if  TConfig.GetInstance.ConfirmaGravacao then
+              if MessageDlg('Deseja Cancelar a Edição', mtConfirmation,mbYesNo, 0)= mrNo then begin exit; end;
+    rsDelete  :
+          if  TConfig.GetInstance.ConfirmaGravacao then
+              if MessageDlg('Deseja Cancelar a Exclusão?', mtConfirmation,mbYesNo, 0)= mrNo then begin exit;  end;
+  end;
+  Tclientdataset(Self.dsCrud.DataSet).CancelUpdates;
+  Self.dsCrud.DataSet.Close;
+  Self.dsCrud.DataSet.Open;
+  tabCrud.ActivePage := tbItemLista;
+  FRecordState        := rsNil ;
+  GetDados;
+  dbgCrud.SetFocus ;
+  dbgCrud.DataSource.DataSet.RecNo := nRecno ;
+  AtivaBtns ;
+
+end;
+
+procedure TMD_Dialog.btnEditarExecute(Sender: TObject);
+begin
+  Self.dsCrud.DataSet.Edit;
+  FRecordState        := rsEdit ;
+  nRecno              := dbgCrud.DataSource.DataSet.RecNo ;
+  tabCrud.ActivePage  := tbItemCrud;
+  GetDados;
+  AtivaBtns;
+  btnGravar.Caption   := 'Salvar';
+  XSetFocus;
+end;
+
+procedure TMD_Dialog.btnExcluirExecute(Sender: TObject);
+begin
+  FRecordState        := rsDelete ;
+  nRecno              := dbgCrud.DataSource.DataSet.RecNo ;
+  cCmapoDel           := dsCrud.DataSet.FieldByName(pegarprimarykey( cTabela )).text ;
+  cIten02             := dbgCrud.DataSource.DataSet.Fields[1].Text ;
+  tabCrud.ActivePage  := tbItemCrud;
+  Self.dsCrud.DataSet.Edit;
+  AtivaBtns;
+  GetDados;
+  btnGravar.Caption   := 'Excluir';
+  btnGravarExecute(Nil);
+        tabCrud.ActivePage := tbItemLista;
+        dbgCrudTitleClick(dbgCrud.Columns[0]);
+        dbgCrud.SetFocus ;
+        AtivaBtns ;
+        if nRecno > 1 then
+           dbgCrud.DataSource.DataSet.RecNo := (nRecno-1);
+end;
+
+procedure TMD_Dialog.btnGravarExecute(Sender: TObject);
+Var
+Configs : TConfig;
+cQuery, cMSG : String;
+oBj : TObject;
+I, n: Integer;
+cCmapos: string;
+cRegist: string;
+sqlQuery,   qSql, qTrf : TFDQuery ;
+cVirgula, cPrimaryKey, cDados,   cTipoCp, cAction : string;
+BinFile : TMemoryStream;
+Stream  : TMemoryStream;
+begin
+  inherited;
+  BinFile           := TMemoryStream.Create;
+  Stream            := TMemoryStream.Create;
+  oBj               := TObject.Create;
+  sqlQuery          := TFDQuery.Create(nil);
+  qTrf              := TFDQuery.Create(nil);
+  Configs           := TConfig.GetInstance;
+  case FRecordState of
+   rsNew     : if MessageDlg('Confirma gravação?', mtConfirmation,mbYesNo, 0) = mrNo    then exit;
+   rsEdit    : if MessageDlg('Confirma Edição?',   mtConfirmation,mbYesNo, 0) = mrNo    then exit;
+   rsDelete  : if MessageDlg('Confirma Exclusão?', mtConfirmation,mbYesNo, 0) = mrYes   then dsCrud.DataSet.Delete  Else  exit;
+  end;
+
+  try
+
+      if FRecordState = rsNew then begin
+            cQuery    :=' Insert Into '+cTabela;
+            cCmapos   := ' ( ';
+            cRegist   := ' Values ( ';
+            cVirgula  := '';
+            for I := 0 to Length(aGets)-1 do begin
+                  if (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) then
+                      cTipoCp := aGets[i].Name;
+
+                  if dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ReadOnly then Continue;
+
+                  if ( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) ) or
+                     ( (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) and
+                     ( PegaType( aGets[i].Name, cTabela )  <> 'INTEGER' ) )  then begin
+                      if I= Length(aGets)-1 then Begin
+                           cCmapos := cCmapos+cVirgula+LowerCase( aGets[i].Name )      ;
+                           cRegist := cRegist+cVirgula+' :'+LowerCase( aGets[i].Name ) ;
+                      End Else begin
+                           cCmapos := cCmapos+cVirgula+LowerCase( aGets[i].Name ) ;
+                           cRegist := cRegist+cVirgula+' :'+LowerCase( aGets[i].Name ) ;
+                      End;
+                      cVirgula := ', ';
+                  end;
+            end;
+            cCmapos := cCmapos+', '+cPref+'usuinc, '+cPref+'datinc, '+cPref+'horinc )';
+            cRegist := cRegist+', :usuario, :data, :hora )';
+
+        End Else
+        if FRecordState = rsEdit then begin
+            cQuery    :=' Update '+cTabela;
+            cCmapos   :=' Set ';
+            cRegist   := '';
+            cVirgula  := '';
+            for I := 0 to Length(aGets)-1 do begin
+                  if (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) then
+                      cTipoCp := aGets[i].Name;
+
+                  if dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ReadOnly then Continue;
+
+                  if  ( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) ) then begin
+                      cCmapos := cCmapos+cVirgula+LowerCase( aGets[i].Name )+' = :'+LowerCase( aGets[i].Name ) ;
+                      cVirgula := ', ';
+                  End Else begin
+                      cRegist := cRegist+' where '+LowerCase( aGets[i].Name )+' = '+InCodigoText( aGets[I] );
+                  end;
+            end;
+            cCmapos := cCmapos+', '+cPref+'usualt = :usuario , '+cPref+'datalt = :data, '+cPref+'horalt = :hora '
+        End Else
+        if FRecordState = rsDelete then begin
+            for I := 0 to Length(aGets)-1 do begin
+
+                  if  (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags)  then begin
+                      if Length( aTabDel )>0 then begin
+                          for n := 0 to Length(aTabDel)-1 do begin
+                                cQuery    :=' Delete From '+aTabDel[n,0]
+                                           +' where '+LowerCase( aTabDel[n,1] )+' = '+FiiF(PegarPrimaryHeyType( cTabela, pegarprimarykey( cTabela ) )='integer',cCmapoDel, QuotedStr( cCmapoDel ) ) ;
+                                sqlQuery.Close;
+                                sqlQuery.Connection  := dmSistema.fdConecta;
+                                sqlQuery.SQL.Text    := cQuery;
+                                sqlQuery.ExecSQL;
+
+                          end;
+
+                      end;
+                      cQuery    :=' Delete From '+cTabela
+                      +' where '+pegarprimarykey( cTabela )+' = '+FiiF(PegarPrimaryHeyType( cTabela, pegarprimarykey( cTabela ) )='integer',cCmapoDel, QuotedStr( cCmapoDel ) );
+                      cDados    := cCmapoDel ;
+                      cTipoCp   := pegarprimarykey( cTabela ) ;
+                  end;
+
+            end;
+            cCmapos   :=' ';
+            cRegist   := '';
+            cVirgula  := '';
+        end;
+
+        with sqlQuery do
+        begin
+        Close;
+        Connection  := dmSistema.fdConecta;
+        SQL.Text    := UpperCase( cQuery+cCmapos+cRegist );
+        if FRecordState <> rsDelete then begin
+            for I := 0 to Length(aGets)-1 do begin
+
+                if dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ReadOnly then Continue;
+
+                if ( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) or
+                   ( (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) and
+                     ( PegaType( aGets[i].Name, cTabela ) <> 'INTEGER' ) and
+                     ( FRecordState = rsNew  ) )  then begin
+                   { Verifica campos como Fotos e Memos}
+                    If aGets[i].ClassName = 'TRichEdit' Then Begin
+                        TRichEdit(aGets[i]).Lines.SaveToStream(Stream);
+                        //ParamByName(aGets[i].Name).AsMemo  := TRichEdit(aGets[i]).Lines.GetText;
+                        End Else
+                    If aGets[i].ClassName = 'TImage' Then Begin
+                        if TImage(aGets[i]).Picture.Graphic <> Nil then Begin
+                           TImage(aGets[i]).Picture.Graphic.SaveToStream(BinFile);
+                        End;
+                        ParamByName(aGets[i].Name).LoadFromStream(BinFile, ftBlob);
+                    End Else Begin
+                        GeraParams(sqlQuery, aGets[I] );
+                    End;
+                end;
+            end;
+            ParamByName( 'usuario' ).Text   := 'administrador' ;
+            ParamByName( 'data' ).AsDate    := now ;
+            ParamByName( 'hora' ).Text      := TimeToStr( now ) ;
+        end;
+        ExecSQL;
+      end;
+      //Tclientdataset(dsCrud.DataSet).ApplyUpdates(0);
+      dsCrud.DataSet.Close;
+      dsCrud.DataSet.Open;
+      dsCrud.DataSet.Refresh;
+      dsCrud.DataSet.Filtered := False;
+      tabCrud.ActivePage := tbItemLista;
+      AtivaBtns ;
+      dbgCrud.SetFocus ;
+      // Grava Informações no Auditor
+      case FRecordState of
+       rsNew     :
+          begin
+              cAction := 'N';
+              dbgCrudTitleClick(dbgCrud.Columns[0]);
+              dbgCrud.SetFocus ;
+              dbgCrud.DataSource.DataSet.Last;
+              cDados := Self.dbgCrud.DataSource.DataSet.Fields[0].Text ;
+          end;
+       rsEdit    :
+          begin
+              cAction := 'A';
+              dbgCrud.DataSource.DataSet.RecNo :=  nRecno ;
+              cDados := Self.dbgCrud.DataSource.DataSet.Fields[0].Text ;
+          end;
+       rsDelete :
+          begin
+              cAction := 'D';
+              dbgCrud.DataSource.DataSet.RecNo :=  (nRecno-1) ;
+              dbgCrud.DataSource.DataSet.RecNo := (nRecno-1) ;
+          end;
+      end;
+
+      // Inserindo informações no TRANSFER
+      // GravaTransfer(False, cAction, cTabela, cDados, cTipoCp , nTmpCodCliente ) ;
+      FRecordState       := rsNil ;
+
+  Except
+    on E : Exception do
+      begin
+        { Implementando informações de erros}
+        case FRecordState of
+         rsNew     :
+            begin
+                cMSG := 'Erro de Inclusão: '+#13+#13
+                       +'Todas os dados desta movimentação foram desconsiderados, consulte o suporte!'+#13+#13
+                       +E.ClassName+' error raised, with message : '+E.Message;
+                MessageDlg(cMSG, mtWarning ,[mbAbort], 0);
+            end;
+         rsEdit    :
+            begin
+                cMSG := 'Erro de Alteração: '+#13+#13
+                         +'Todas as alterações feitas nesta sessão serão desconsideradas, consulte o suporte!'+#13+#13
+                         +E.ClassName+' error raised, with message : '+E.Message;
+                MessageDlg(cMSG, mtWarning,[mbAbort], 0);
+            end;
+         rsDelete :
+            begin
+                cMSG := 'Erro de Exclusão: '+#13+#13
+                        +'Este registro não pode ser excluído devido as regras de integridade de informações, consulte o suporte!'+#13+#13
+                         +E.ClassName+' error raised, with message : '+E.Message;
+                MessageDlg(cMSG, mtWarning,[mbAbort], 0);
+            end;
+        end;
+        tabCrud.ActivePage := tbItemLista;
+        dbgCrudTitleClick(dbgCrud.Columns[0]);
+        dbgCrud.SetFocus ;
+        AtivaBtns ;
+        dbgCrud.DataSource.DataSet.RecNo :=  nRecno ;
+      end;
+  end;
+
+  FreeAndNil(sqlQuery);
+  FreeAndNil(qSql);
+  FreeAndNil(oBj);
+  FreeAndNil(BinFile);
+  FreeAndNil(Stream );
+
+
+end;
+procedure TMD_Dialog.GeraParams(query : TfdQuery; Source: TObject );
+
+begin
+  if dsCrud.DataSet.FieldByName( NomeCampos(Source) ).FieldKind =  fkData Then begin
+       GetVariantType( query, dsCrud.DataSet.FieldByName( NomeCampos(Source) ), Source ) ;
+
+  end;
+end;
+
+Function TMD_Dialog.NomeCampos( Source: TObject ): String;
+begin
+  If Source.ClassName = 'TEdit'           then Result := TEdit(Source).Name;
+  If Source.ClassName = 'TMaskEdit'       then Result := TMaskEdit(Source).Name;
+  If Source.ClassName = 'TButtonedEdit'   then Result := TButtonedEdit(Source).Name;
+  If Source.ClassName = 'TComboBox'       then Result := TComboBox(Source).Name;
+  If Source.ClassName = 'TCheckBox'       then Result := TCheckBox(Source).Name;
+  If Source.ClassName = 'TDateTimePicker' then Result := TDateTimePicker(Source).Name;
+end;
+
+Function TMD_Dialog.SetCampos( Source: TObject ): Variant;
+begin
+  If Source.ClassName = 'TEdit'           then Result := fIIF( TEdit(Source).PasswordChar=#0, InCodigoText( Source ), Criptografar( trim(TEdit(Source).Text) ) );
+  If Source.ClassName = 'TMaskEdit'       then begin
+     if ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) ) = 'vlr' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'qtd' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'lts' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'pct' ) or
+        ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) )= 'etq' ) then begin
+          Result := FormataNum( TMaskEdit(Source).Text );
+     End Else Begin
+          Result := TMaskEdit(Source).Text;
+     End;
+  end;
+  If Source.ClassName = 'TButtonedEdit'   then Result := TButtonedEdit(Source).Text;
+  If Source.ClassName = 'TComboBox'       then Result := TComboBox(Source).text;
+  If Source.ClassName = 'TCheckBox'       then Result := fIIF( TCheckBox(Source).Checked, 1, 0);
+  If Source.ClassName = 'TDateTimePicker' then
+     if ( LowerCase( Copy( TMaskEdit(Source).Name,5,3 ) ) = 'hor' ) then
+          Result := TimeToStr( TDateTimePicker(Source).Time )
+     Else
+          Result := TDateTimePicker(Source).Date;
+end;
+
+procedure TMD_Dialog.MaskEditLabel(Sender: TObject; var Key: Char);
+Var
+  cKey: String;
+begin
+  inherited;
+   if ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'qtd' ) or
+      ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'lts' ) or
+      ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'etq' ) then begin
+          cKey:=Key;
+          qtdadeKeyEdit( Key, Sender );
+          Key := #0 ;
+   end else
+   if ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'vlr' ) then begin
+          cKey:=Key;
+          MoedaKeyEdit( Key, Sender );
+          Key := #0 ;
+   end else
+   if ( LowerCase( Copy( TMaskEdit(Sender).Name,5,3 )) = 'pct' ) then begin
+          cKey:=Key;
+          PorcentKeyEdit( Key, Sender );
+          Key := #0 ;
+
+   end;
+
+
+
+end;
+
+
+Function TMD_Dialog.InCodigoText( Source: TObject ): String;
+Var
+cSql : String;
+nTamanho : Integer  ;
+qQry     : TFDQuery ;
+Begin
+  qQry    := TFDQuery.Create(Nil) ;
+  Result  := '';
+  with qQry do begin
+      Connection := dmSistema.fdConecta;
+       SQL.Text   :=' SELECT      RRF.RDB$RELATION_NAME AS TABELA,                                                                                                 '
+                   +' RRF.RDB$FIELD_NAME AS CAMPO,                                                                                                                 '
+                   +' CASE                                                                                                                                         '
+                   +' RTP.RDB$TYPE_NAME                                                                                                                            '
+                   +' WHEN ''VARYING''  THEN  ''VARCHAR''                                                                                                          '
+                   +' WHEN ''LONG''     THEN  ''INTEGER''                                                                                                          '
+                   +' WHEN ''SHORT''    THEN  ''SMALLINT''                                                                                                         '
+                   +' WHEN ''DOUBLE''   THEN  ''DOUBLE PRECISION''                                                                                                 '
+                   +' WHEN ''FLOAT''    THEN  ''DOUBLE PRECISION''                                                                                                 '
+                   +' WHEN ''INT64''    THEN  ''NUMERIC''                                                                                                          '
+                   +' WHEN ''TEXT''     THEN  ''CHAR''                                                                                                             '
+                   +' ELSE RTP.RDB$TYPE_NAME                                                                                                                       '
+                   +' END TIPO_CAMPO,                                                                                                                              '
+                   +' CASE                                                                                                                                         '
+                   +' RTP.RDB$TYPE_NAME                                                                                                                            '
+                   +' WHEN  ''VARYING'' THEN RFL.RDB$FIELD_LENGTH                                                                                                  '
+                   +' ELSE  RFL.RDB$FIELD_PRECISION                                                                                                                '
+                   +' END AS TAMANHO,                                                                                                                              '
+                   +' (RFL.RDB$FIELD_SCALE * -1) AS ESCALA,                                                                                                        '
+                   +' IIF(  EXISTS(   SELECT      FIRST 1 1                                                                                                        '
+                   +' FROM        RDB$RELATION_CONSTRAINTS  RCN                                                                                                    '
+                   +'        INNER JOIN  RDB$INDEX_SEGMENTS        ISG     ON    RCN.RDB$INDEX_NAME = ISG.RDB$INDEX_NAME AND                                       '
+                   +'                                                            ISG.RDB$FIELD_NAME = RRF.RDB$FIELD_NAME                                           '
+                   +' WHERE       RCN.RDB$CONSTRAINT_TYPE = ''PRIMARY KEY'' AND                                                                                    '
+                   +'                                         RCN.RDB$RELATION_NAME =  RRF.RDB$RELATION_NAME),                                                     '
+                   +'                   ''X'',                                                                                                                     '
+                   +'                   ''O'')  AS  PRIMARY_KEY,                                                                                                   '
+                   +'             IIF(  EXISTS(   SELECT      FIRST 1 1                                                                                            '
+                   +'                             FROM        RDB$RELATION_CONSTRAINTS  RCN                                                                        '
+                   +'                             INNER JOIN  RDB$CHECK_CONSTRAINTS     CCN     ON    RCN.RDB$CONSTRAINT_NAME = CCN.RDB$CONSTRAINT_NAME AND        '
+                   +'                                                                                 CCN.RDB$TRIGGER_NAME = RRF.RDB$FIELD_NAME                    '
+                   +'                              WHERE      RCN.RDB$RELATION_NAME =  RRF.RDB$RELATION_NAME ),                                                    '
+                   +'                   ''X'',                                                                                                                     '
+                   +'                   ''O'')  AS  NOT_NULL,                                                                                                      '
+                   +'             IIF(  RRC.RDB$RELATION_NAME IS NOT NULL,                                                                                         '
+                   +'                   ''X'',                                                                                                                     '
+                   +'                   ''O'')  AS  FOREIGN_KEY,                                                                                                   '
+                   +'             RFC.RDB$CONST_NAME_UQ AS  INDICE_CHAVE,                                                                                          '
+                   +'             RRC.RDB$RELATION_NAME AS  TABELA_CHAVE,                                                                                          '
+                   +'             RIS2.RDB$FIELD_NAME   AS  CAMPO_CHAVE,                                                                                           '
+                   +'             RFC.RDB$UPDATE_RULE   AS  REGRA_UPDATE,                                                                                          '
+                   +'             RFC.RDB$DELETE_RULE   AS  REGRA_DELETE                                                                                           '
+                   +' FROM        RDB$RELATION_FIELDS   RRF                                                                                                        '
+                   +' INNER JOIN  RDB$FIELDS            RFL     ON    RFL.RDB$FIELD_NAME = RRF.RDB$FIELD_SOURCE                                                    '
+                   +' INNER JOIN  RDB$TYPES             RTP     ON    RTP.RDB$TYPE = RFL.RDB$FIELD_TYPE AND                                                        '
+                   +'                                                 RTP.RDB$FIELD_NAME = ''RDB$FIELD_TYPE''                                                      '
+                   +' LEFT JOIN   RDB$INDEX_SEGMENTS    RIS     ON    RIS.RDB$FIELD_NAME = RRF.RDB$FIELD_NAME AND                                                  '
+                   +'                                                 EXISTS (  SELECT      FIRST 1 1                                                              '
+                   +'                                                           FROM        RDB$INDICES   IND                                                      '
+                   +'                                                           INNER JOIN  RDB$REF_CONSTRAINTS   RFC   ON    RFC.RDB$CONSTRAINT_NAME = IND.RDB$INDEX_NAME '
+                   +'                                                           WHERE       IND.RDB$INDEX_NAME = RIS.RDB$INDEX_NAME AND                             '
+                   +'                                                                       IND.RDB$RELATION_NAME = RRF.RDB$RELATION_NAME)                          '
+                   +' LEFT JOIN   RDB$REF_CONSTRAINTS   RFC     ON    RFC.RDB$CONSTRAINT_NAME = RIS.RDB$INDEX_NAME                                                  '
+                   +' LEFT JOIN   RDB$INDEX_SEGMENTS    RIS2    ON    RIS2.RDB$INDEX_NAME = RFC.RDB$CONST_NAME_UQ AND                                               '
+                   +'                                                 RIS2.RDB$FIELD_POSITION = RIS.RDB$FIELD_POSITION                                              '
+                   +' LEFT  JOIN  RDB$RELATION_CONSTRAINTS RRC  ON    RFC.RDB$CONST_NAME_UQ = RRC.RDB$CONSTRAINT_NAME AND                                           '
+                   +'                                                 RRC.RDB$CONSTRAINT_TYPE = ''PRIMARY KEY''                                                     '
+                   +' WHERE       RRF.RDB$RELATION_NAME NOT STARTING WITH ''RDB$''                                                                                  '
+                   +'   AND       RRF.RDB$RELATION_NAME = '+QuotedStr(UpperCase(cTabela))
+                   +'   AND       RRF.RDB$FIELD_NAME    = '+QuotedStr(UpperCase(TEdit(Source).Name))
+                   +' ORDER BY    RRF.RDB$RELATION_NAME                                                                                                             ';
+
+
+      Open;
+  end;
+  if (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( TEdit(Source).Name )).ProviderFlags) and
+     ( TEdit(Source).Text = '') and ( FRecordState =  rsNew ) then begin
+      nTamanho  := strtoint ( qQry.FieldByName('tamanho').Value );
+      qQry.Close;
+      with qQry do begin
+          Connection := dmSistema.fdConecta;
+          SQL.Text := 'SELECT coalesce(max( CAST( '+TEdit(Source).Name+' AS integer)), 0)+1 AS codigo From '+cTabela;
+          Open;
+      end;
+      Result := StrZero(qQry.FieldByName('codigo').Value,nTamanho);
+  end Else begin
+      if (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( TEdit(Source).Name )).ProviderFlags) then begin
+         Result := QuotedStr( TEdit(Source).Text );
+      end Else begin
+         Result := TEdit(Source).Text;
+      end;
+  end;
+  FreeAndNil(qQry);
+end;
+
+procedure TMD_Dialog.LoadPermisso;
+begin
+
+end;
+
+procedure TMD_Dialog.LoadRestricao;
+begin
+
+end;
+
+Procedure TMD_Dialog.GetVariantType( query : TfdQuery; Field : TField ; Source: TObject );
+begin
+  case Field.DataType of
+    ftInteger, ftSmallint, ftWord :
+    begin
+       if Trim(SetCampos( Source )) = '' then begin
+          query.ParamByName( NomeCampos(Source) ).AsInteger := dsCrud.DataSet.FieldByName( NomeCampos(Source) ).AsInteger ;
+       end else begin
+          query.ParamByName( NomeCampos(Source) ).AsInteger := StrToInt( SetCampos( Source ) ) ;
+       end;
+    end;
+    ftFloat, ftCurrency, ftBCD, ftFMTBcd  : query.ParamByName( NomeCampos(Source) ).AsFloat   := SetCampos( Source ) ;
+    ftDate                        : query.ParamByName( NomeCampos(Source) ).AsDate    := SetCampos( Source ) ;
+    ftString                      : query.ParamByName( NomeCampos(Source) ).Text      := SetCampos( Source ) ;
+    ftBoolean                     : query.ParamByName( NomeCampos(Source) ).AsBoolean := SetCampos( Source ) ;
+    ftVarBytes : ;
+  end;
+{
+
+
+}
+{  case TVarData(v).vType of
+    varEmpty    : result := 'Empty';
+    varNull     : result := 'Null';
+    varSmallInt : result := 'SmallInt';
+    varInteger  : result := 'Integer';
+    varSingle   : result := 'Single';
+    varDouble   : result := 'Double';
+    varCurrency : result := 'Currency';
+    varDate     : result := 'Date';
+    varOleStr   : result := 'OleStr';
+    varDispatch : result := 'Dispatch';
+    varError    : result := 'Error';
+    varBoolean  : result := 'Boolean';
+    varVariant  : result := 'Variant';
+    varUnknown  : result := 'Unknown';
+    varByte     : result := 'Byte';
+    varString   : result := 'String';
+    varTypeMask : result := 'TypeMask';
+    varArray    : result := 'Array';
+    varByRef    : result := 'ByRef';
+  end;
+  }
+end;
+
+
+procedure TMD_Dialog.btnInicioExecute(Sender: TObject);
+begin
+  FRecordState := rsVizu;
+  dsCrud.DataSet.First;
+  GetDados;
+  BarraNavega;
+
+end;
+
+procedure TMD_Dialog.btnNovoExecute(Sender: TObject);
+Var
+I: Integer;
+begin
+  nRecno              := dbgCrud.DataSource.DataSet.RecNo ;
+  FRecordState        := rsNew ;
+  Self.dsCrud.DataSet.Insert;
+  GetSize;
+  GetDados;
+  for I := 0 to self.ComponentCount -1 do begin
+     if self.Components[I] is TLabel then begin
+          if Assigned( TLabel(self.Components[I]).FocusControl  ) then begin
+             // TLabel(self.Components[I]).FocusControl.Name
+             if  TObject( TLabel(self.Components[I]).FocusControl).ClassName = 'TEdit'   then begin
+                  if Not ChkNulo( TLabel(self.Components[I]).FocusControl.Name ) then begin
+                     DadoRequerido( TLabel(self.Components[I]) );
+                     TLabel(self.Components[I]).Font.Color :=  clred;
+                     TLabel(self.Components[I]).Font.Style := [fsBold];
+                  end;
+                end else
+                if TObject( TLabel(self.Components[I]).FocusControl).ClassName = 'TButtonedEdit' then begin
+                  if Not ChkNulo( TLabel(self.Components[I]).FocusControl.Name ) then begin
+                     DadoRequerido( TLabel(self.Components[I]) );
+                     TLabel(self.Components[I]).Font.Color :=  clred;
+                     TLabel(self.Components[I]).Font.Style := [fsBold];
+                  end;
+
+                end;
+          end;
+     end;
+  end;
+
+  tabCrud.ActivePage  := tbItemCrud ;
+  Self.dsCrud.DataSet.Insert;
+  AtivaBtns;
+  btnGravar.Caption   := 'Gravar';
+  XSetFocus;
+
+end;
+procedure TMD_Dialog.XSetFocus;
+Var
+I: Integer;
+Begin
+  for I := 0 to Length( aGets ) -1 do begin
+
+        if aGets[I].ClassName = 'TMaskEdit' then
+           if TMaskEdit(aGets[I]).Enabled  then begin
+              TMaskEdit(aGets[I]).SetFocus;
+              Exit;
+           end;
+
+        if aGets[I].ClassName = 'TEdit' then
+           if TEdit(aGets[I]).Enabled  then begin
+              TEdit(aGets[I]).SetFocus;
+              Exit;
+           end;
+
+        if aGets[I].ClassName = 'TButtonedEdit' then
+           if TButtonedEdit(aGets[I]).Enabled  then begin
+              TButtonedEdit(aGets[I]).SetFocus;
+              Exit;
+           end;
+
+
+  end;
+end;
+
+procedure TMD_Dialog.DadoRequerido(Labels: TLabel);
+begin
+   Labels.Font.Color :=  clred;
+   Labels.Font.Style := [fsBold]
+end;
+
+procedure TMD_Dialog.dbgCrudDrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+  Var
+  nTmFonte : Integer;
+begin
+  nTmFonte := 10;
+
+    if gdFocused in State then  begin
+      dbgCrud.Canvas.Brush.Color  := clNavy;
+      if Column.Index = titleindex then
+      begin
+        dbgCrud.Canvas.Font.Color   := clWhite;
+        dbgCrud.Canvas.Font.Style   := [fsBold,fsItalic];
+      end Else Begin
+        dbgCrud.Canvas.Font.Color   := clWhite;
+      End;
+      dbgCrud.Canvas.Font.size    := nTmFonte;
+      dbgCrud.Canvas.FillRect(Rect);
+      dbgCrud.DefaultDrawDataCell(Rect, Column.Field, State);
+    end else begin
+
+        if Odd(dbgCrud.DataSource.DataSet.RecNo) then begin
+          dbgCrud.Canvas.Brush.Color  := clWhite;
+          if Column.Index = titleindex then
+          begin
+            dbgCrud.Canvas.Font.Color   := clNavy;
+            dbgCrud.Canvas.Font.Style   := [fsBold,fsItalic];
+          end Else Begin
+            dbgCrud.Canvas.Font.Color   := clBlack;
+          End;
+          dbgCrud.Canvas.Font.size      := nTmFonte;
+          dbgCrud.Canvas.FillRect(Rect);
+          dbgCrud.DefaultDrawDataCell(Rect, Column.Field, State);
+
+        End else Begin
+          dbgCrud.Canvas.Brush.Color    := clGradientInactiveCaption;
+          if Column.Index = titleindex then
+          begin
+            dbgCrud.Canvas.Font.Color   := clNavy;
+            dbgCrud.Canvas.Font.Style   := [fsBold,fsItalic];
+          end Else Begin
+            dbgCrud.Canvas.Font.Color   := clBlack;
+          End;
+          dbgCrud.Canvas.Font.size      := nTmFonte;
+          dbgCrud.Canvas.FillRect(Rect);
+          dbgCrud.DefaultDrawDataCell(Rect, Column.Field, State);
+        End;
+
+    end;
+
+
+
+    dbgCrud.Font.Size       := nTmFonte;
+    Column.Title.Font.Size  := nTmFonte;
+    Column.Title.Font.Color := clNavy;
+    Column.Title.Font.Style := [fsBold];
+
+
+end;
+
+procedure TMD_Dialog.dbgCrudTitleClick(Column: TColumn);
+Var
+  sqlUsu : TFDQuery ;
+begin
+  inherited;
+
+  if Column.field.FieldKind = fkData then
+  begin
+    FieldFilter         := Column.field;
+    titleindex          := Column.Index;
+    edPesquisa.Clear;
+    edPesquisa.TextHint := 'Digite aqui para pesquisa em '+Column.Title.Caption;
+    PesquisaSql( edPesquisa.Text, '' );
+    if tabCrud.ActivePage = tbItemLista then
+       edPesquisa.SetFocus;
+  end;
+
+
+end;
+
+function TMD_Dialog.DoCheckUnique: Boolean;
+Var
+Clone: TClientDataSet;
+Field: String;
+begin
+  Result := True;
+  Clone:= TClientDataSet.Create(Self);
+  Clone.CloneCursor(dsCrud.DataSet as TClientDataSet, True, True);
+  {
+  for field in FCheckUnique.Keys do
+    begin
+    if Clone.locate(Field,DsCrud.dataset.fieldbyname(Field).value, [loCaseInsensitive] ) then
+      begin
+        MessageDlg(FCheckUnique.Items[Field], mtWarning,[mbOK],0 );
+        Result := False;
+        Break;
+      end;
+    end;
+    FreeAndNil( Clone );
+   }
+
+end;
+
+procedure TMD_Dialog.edPesquisaChange(Sender: TObject);
+begin
+  if self.Active then
+     PesquisaSql( edPesquisa.Text, '') ;
+
+     AtivaBtns;
+
+end;
+
+procedure TMD_Dialog.PesquisaSql( cPesquisa, cCampo : String );
+Const
+aLimpa  : array[0..1] of string = ('order','where');
+_Remove = '0123456789';
+Var
+cQue    : String;
+Filter  : String;
+n, y    : Integer;
+begin
+  inherited;
+  if ( edPesquisa.Text <> '') and
+     ( tabCrud.ActivePage = tbItemLista ) and
+     ( Copy( PegaType( FieldFilter.FieldName, cTabela ),1,3 ) = 'INTEGER' ) then
+     if Pos( edPesquisa.Text , _Remove) = 0 then Begin
+        ShowMessage('Use apenas numeros');
+        edPesquisa.Clear ;
+        Exit;
+     End;
+
+
+  dsCrud.DataSet.Close;
+  if Not cPesquisa.IsEmpty  then begin
+
+      if Assigned(FieldFilter) then
+      begin
+        case fieldfilter.datatype of
+          ftUnknown,ftBoolean: ;
+
+          ftString, ftFixedChar, ftWideString,
+          ftFixedWideChar, ftWideMemo, ftMemo, ftFmtMemo:
+             Filter := ' Upper('+FieldFilter.FieldName+') Like ''%'+ UpperCase(edPesquisa.Text)+'%'' ' ;
+
+
+          ftSmallint, ftInteger, ftWord,
+          ftLargeint, ftLongWord, ftShortint,
+          ftBytes,  ftByte:
+             Filter :=  FieldFilter.FieldName+' = '+edPesquisa.Text ;
+
+
+          ftFloat, ftCurrency, ftBCD,
+          ftFMTBcd, ftExtended, ftSingle:
+             Begin
+               edPesquisa.Text      := StringReplace(edPesquisa.Text,',','.', [rfReplaceAll, rfIgnoreCase]);
+               edPesquisa.SelStart  := Length( edPesquisa.Text );
+               Filter := ' cast('+FieldFilter.FieldName+' as varchar(15)) Like ''%'+edPesquisa.Text+'%'' ' ;
+             End;
+
+          ftDate, ftTime, ftDateTime:
+             Begin
+               Filter :='   CAST(EXTRACT(DAY FROM '+FieldFilter.FieldName+') || ''/'' || EXTRACT(MONTH FROM      '
+                        +'  '+FieldFilter.FieldName+' ) || ''/'' || EXTRACT(YEAR FROM '+FieldFilter.FieldName+' ) AS VARCHAR(10)) Like ''%'+edPesquisa.Text+'%'' ' ;
+             End;
+
+          ftVarBytes: ;
+          ftAutoInc: ;
+          ftBlob: ;
+          ftGraphic: ;
+          ftParadoxOle: ;
+          ftDBaseOle: ;
+          ftTypedBinary: ;
+          ftCursor: ;
+          ftADT: ;
+          ftArray: ;
+          ftReference: ;
+          ftDataSet: ;
+          ftOraBlob: ;
+          ftOraClob: ;
+          ftVariant: ;
+          ftInterface: ;
+          ftIDispatch: ;
+          ftGuid: ;
+          ftTimeStamp: ;
+          ftOraTimeStamp: ;
+          ftOraInterval: ;
+          ftConnection: ;
+          ftParams: ;
+          ftStream: ;
+          ftTimeStampOffset: ;
+          ftObject: ;
+
+        end;
+
+      end;
+
+  end;
+
+
+  if Not Filter.IsEmpty then begin
+     Filter := ' where '+Filter+' order by '+FieldFilter.FieldName
+  end else
+     Filter := ' order by '+FieldFilter.FieldName;
+
+  cQue  := cPesqStr ;
+  for y := 0 to Length(aLimpa)-1 do begin
+     n:=Pos(aLimpa[y], cQue);
+     if n > 0 then begin
+       cQue    := Copy(cQue,1,(n-1) );
+     end;
+  end;
+  qTabeka.Close;
+  qTabeka.SQL.Text := cQue+Filter;
+  qTabeka.Open;
+  dsCrud.DataSet.Open;
+
+
+end;
+
+function TMD_Dialog.ChkNulo(cField : String ): boolean;
+Var
+cSql : String;
+qQry : TFDQuery ;
+Begin
+  cField  := LowerCase( cField ) ;
+  qQry    := TFDQuery.Create(Nil) ;
+  with qQry do begin
+      Connection := dmSistema.fdConecta;
+      SQL.Text := ' SELECT    IIF(  EXISTS(   SELECT      FIRST 1 1                                                                                                        '
+                  +'                             FROM        RDB$RELATION_CONSTRAINTS  RCN                                                                                 '
+                  +'                             INNER JOIN  RDB$CHECK_CONSTRAINTS     CCN     ON    RCN.RDB$CONSTRAINT_NAME = CCN.RDB$CONSTRAINT_NAME AND                 '
+                  +'                                                                                 CCN.RDB$TRIGGER_NAME = RRF.RDB$FIELD_NAME                             '
+                  +'                              WHERE      RCN.RDB$RELATION_NAME =  RRF.RDB$RELATION_NAME ),                                                             '
+                  +'                   ''X'',                                                                                                                              '
+                  +'                   ''O'')  AS  NOT_NULL                                                                                                                '
+                  +' FROM        RDB$RELATION_FIELDS   RRF                                                                                                                 '
+                  +' INNER JOIN  RDB$FIELDS            RFL     ON    RFL.RDB$FIELD_NAME = RRF.RDB$FIELD_SOURCE                                                             '
+                  +' INNER JOIN  RDB$TYPES             RTP     ON    RTP.RDB$TYPE = RFL.RDB$FIELD_TYPE AND                                                                 '
+                  +'                                                 RTP.RDB$FIELD_NAME = ''RDB$FIELD_TYPE''                                                               '
+                  +' LEFT JOIN   RDB$INDEX_SEGMENTS    RIS     ON    RIS.RDB$FIELD_NAME = RRF.RDB$FIELD_NAME AND                                                           '
+                  +'                                                 EXISTS (  SELECT      FIRST 1 1                                                                       '
+                  +'                                                           FROM        RDB$INDICES   IND                                                               '
+                  +'                                                           INNER JOIN  RDB$REF_CONSTRAINTS   RFC   ON    RFC.RDB$CONSTRAINT_NAME = IND.RDB$INDEX_NAME  '
+                  +'                                                           WHERE       IND.RDB$INDEX_NAME = RIS.RDB$INDEX_NAME AND                                     '
+                  +'                                                                       IND.RDB$RELATION_NAME = RRF.RDB$RELATION_NAME)                                  '
+                  +' LEFT JOIN   RDB$REF_CONSTRAINTS   RFC     ON    RFC.RDB$CONSTRAINT_NAME = RIS.RDB$INDEX_NAME                                                          '
+                  +' LEFT JOIN   RDB$INDEX_SEGMENTS    RIS2    ON    RIS2.RDB$INDEX_NAME = RFC.RDB$CONST_NAME_UQ AND                                                       '
+                  +'                                                 RIS2.RDB$FIELD_POSITION = RIS.RDB$FIELD_POSITION                                                      '
+                  +' LEFT  JOIN  RDB$RELATION_CONSTRAINTS RRC  ON    RFC.RDB$CONST_NAME_UQ = RRC.RDB$CONSTRAINT_NAME AND                                                   '
+                  +'                                                 RRC.RDB$CONSTRAINT_TYPE = ''PRIMARY KEY''                                                             '
+                  +' WHERE       RRF.RDB$RELATION_NAME NOT STARTING WITH ''RDB$''                                                                                          '
+                  +'   AND       RRF.RDB$RELATION_NAME = '+QuotedStr(UpperCase(cTabela))
+                  +'   AND       RRF.RDB$FIELD_NAME    = '+QuotedStr(UpperCase(cField))
+                  +' ORDER BY    RRF.RDB$RELATION_NAME   ';
+      Open;
+  end;
+  if (  qQry.FieldByName('NOT_NULL').Value = 'X' )  then begin
+       Result := True;
+  end else begin
+       Result := False;
+  end;
+  FreeAndNil(qQry);
+End;
+
+
+procedure TMD_Dialog.GetSize;
+Var
+i : Integer;
+begin
+  inherited;
+   //Varrer Campos
+  if ( FRecordState in [rsNew, rsEdit, rsDelete] ) then begin
+    for i := 0 to Length( aGets ) -1 do begin
+        if (aGets[i].ClassName = 'TEdit') and
+          ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+           TEdit( aGets[i] ).MaxLength     :=  Self.dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).Size ;
+        end else
+        if aGets[i].ClassName = 'TMaskEdit' then begin
+           TMaskEdit( aGets[i] ).MaxLength :=   Self.dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).Size ;
+
+        end Else
+        if aGets[i].ClassName = 'TButtonedEdit' then begin
+           TButtonedEdit( aGets[i] ).MaxLength := Self.dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).Size ;
+
+        end Else
+        if aGets[i].ClassName = 'TDateTimePicker' then begin
+           TDateTimePicker( aGets[i] ).DateTime := Now;
+        end Else
+        if aGets[i].ClassName = 'TCheckBox' then begin
+           TCheckBox( aGets[i] ).Checked := False;
+
+        end Else
+        if aGets[i].ClassName = 'TImage' then begin
+           TImage(aGets[i]).Picture.Bitmap.Assign(Nil);
+           TImage(aGets[i]).Parent.Repaint;
+
+        End;
+    end;
+  end;
+end;
+
+
+procedure TMD_Dialog.btnProximoExecute(Sender: TObject);
+begin
+  FRecordState := rsVizu;
+  dsCrud.DataSet.Next;
+  GetDados;
+  BarraNavega;
+end;
+
+procedure TMD_Dialog.btnSairExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TMD_Dialog.btnTerminoExecute(Sender: TObject);
+begin
+  FRecordState := rsVizu;
+  dsCrud.DataSet.Last;
+  GetDados;
+  BarraNavega;
+
+end;
+
+procedure TMD_Dialog.btnVizualizaExecute(Sender: TObject);
+begin
+
+   if tabCrud.ActivePage = tbItemCrud then
+   begin
+       tabCrud.ActivePage := tbItemLista;
+       btnVizualiza.Caption := 'Formulário';
+   End Else begin
+       dbgCrud.SetFocus;
+       FRecordState := rsVizu;
+       GetDados;
+       tabCrud.ActivePage := tbItemCrud;
+       btnVizualiza.Caption := 'Listagem';
+   end;
+
+
+
+end;
+
+procedure TMD_Dialog.GetDados;
+Var
+i : Integer;
+c : String;
+begin
+  inherited;
+  if ( FRecordState in [ rsNew, rsEdit, rsDelete, rsVizu ] ) then begin
+
+      //Varrer Campos
+      if   lVerif  then begin
+
+        for i := 0 to Length( aGets ) -1 do begin
+
+            if ( aGets[i].ClassName = 'TEdit' ) and ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+               if TEdit(aGets[i]).PasswordChar = #0 then begin
+                   TEdit( aGets[i] ).Text     := fIIF( ( FRecordState = rsNew ) or ( dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ) ,'', dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+               end Else
+                   if FRecordState = rsNew then begin
+                       TEdit( aGets[i] ).Text     := '';
+                   end Else
+                       TEdit( aGets[i] ).Text     := Criptografar( dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value )  ;
+
+               TEdit( aGets[i] ).Enabled  := ((( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) or
+                                              (( pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags ) and
+                                               ( ( PegaType( aGets[i].Name, cTabela ) <> 'INTEGER' ) and ( FRecordState = rsNew ) ) ) ) and
+                                               (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) and ( aGets[i].Tag <> 9 ));
+
+            end Else
+            if ( aGets[i].ClassName = 'TMaskEdit' ) and
+               ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+
+              if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'vlr' ) then begin
+                  if (( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ) then begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('R$ #,##0.000',0);
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end else begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('R$ #,##0.000',dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end;
+              End Else
+             if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'etq' ) or ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'qtd' ) then begin
+                  if (( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ) then begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('Lts #,###,##0.000',0);
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end else begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('Lts #,###,##0.000',dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end;
+              End Else
+             if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'pct' ) then begin
+                  if (( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ) then begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('##0.00%',0);
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end else begin
+                       TMaskEdit( aGets[i] ).Text     :=  FormatCurr('##0.00%.00',dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+                       TMaskEdit( aGets[i] ).Alignment := taRightJustify ;
+                  end;
+              End Else Begin
+                 TMaskEdit( aGets[i] ).Text     := fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,'',
+                                                    dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+              end;
+
+              TMaskEdit( aGets[i] ).OnKeyPress  := MaskEditLabel;
+              TMaskEdit( aGets[i] ).Enabled     := ( (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) and ( TMaskEdit( aGets[i] ).Tag <> 9 ) ) ;
+
+
+            end Else
+            if ( aGets[i].ClassName = 'TCheckBox' ) and
+               ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+               TCheckBox( aGets[i] ).Checked  := fIIF( ( ( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ), False,
+                                                  dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).AsBoolean );
+               TCheckBox( aGets[i] ).Enabled  := (( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) and
+                                               (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) );
+
+
+            end Else
+            if ( aGets[i].ClassName = 'TButtonedEdit' ) and
+               ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+               TButtonedEdit( aGets[i] ).Text     := fIIF( (( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull ), '', ChkType( aGets[i].Name, cTabela, dbgCrud ) );
+               TButtonedEdit( aGets[i] ).Enabled  := (( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) and
+                                                            (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) );
+               //TButtonedEdit( aGets[i] ).CustomHint := hbCrud;
+               TButtonedEdit( aGets[i] ).ShowHint   := True;
+               TButtonedEdit( aGets[i] ).Hint       := 'Consulta|Pressione para consultar '+#13+' um novo registro,'+#13+' ou precione a tecla END '+#13+' no seu teclado '+#13+'|300';
+
+            end Else
+            if ( aGets[i].ClassName = 'TDateTimePicker' ) and
+               ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+                if ( LowerCase( Copy( aGets[i].name,5,3 ) ) = 'hor' ) then
+                   TDateTimePicker( aGets[i] ).Time     := StrToTime( fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,FormatDateTime('hh:mm', Now ) ,
+                                                           dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value ) )
+                Else
+                   TDateTimePicker( aGets[i] ).DateTime := fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,Now,
+                                                           dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+
+               TDateTimePicker( aGets[i] ).Enabled  := (( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) and
+                                               (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) );
+
+            end Else
+            if ( aGets[i].ClassName = 'TComboBox' ) and
+               ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+               TComboBox( aGets[i] ).ItemIndex  := fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,0,
+                                                          TComboBox( aGets[i] ).Items.IndexOf( fIIF( dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,0, dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value ) )  );
+               TComboBox( aGets[i] ).Enabled    := (( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) and
+                                                   (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) );
+
+
+            end Else
+            if ( aGets[i].ClassName =  'TRichEdit' ) and
+               ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+               TRichEdit( aGets[i] ).Text     := fIIF(( FRecordState = rsNew ) or dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).IsNull,'',
+                                                  dbgCrud.DataSource.DataSet.FieldByName(LowerCase( aGets[i].Name )).Value );
+               TRichEdit( aGets[i] ).Enabled  := (( Not (pfInKey in dsCrud.DataSet.FieldByName(LowerCase( aGets[i].Name )).ProviderFlags) ) and
+                                               (( FRecordState = rsNew ) or ( FRecordState = rsEdit )) );
+
+            end Else
+            if ( aGets[i].ClassName = 'TImage' ) and
+               ( Copy( aGets[i].name,4,1 ) = '_' ) then begin
+
+                  if Not TBlobField( dbgCrud.DataSource.DataSet.FieldByName( aGets[i].Name ) ).IsNull then begin
+                     If LoadImage( TImage(aGets[i]), TBlobField( dbgCrud.DataSource.DataSet.FieldByName( aGets[i].Name ) ) ) then
+                  End Else Begin
+                    TImage(aGets[i]).Picture.Bitmap.Assign(Nil);
+                    TImage(aGets[i]).Parent.Repaint;
+                  End;
+
+            End;
+        end;
+
+        for i := 0 to Length( aCpts ) -1 do begin
+            if ( aCpts[i].ClassName = 'TDBGrid' )  then begin
+               TDBGrid( aCpts[i] ).Enabled  := (( FRecordState = rsNew ) or ( FRecordState = rsEdit ));
+            end Else
+            if ( aCpts[i].ClassName = 'TRadioButton' )  then begin
+               TRadioButton( aCpts[i] ).Enabled  := (( FRecordState = rsNew ) or ( FRecordState = rsEdit ));
+            end Else
+            if ( aCpts[i].ClassName = 'TGroupBox' )  then begin
+               TGroupBox( aCpts[i] ).Enabled  := (( FRecordState = rsNew ) or ( FRecordState = rsEdit ));
+
+            End;
+        end;
+
+
+      end;
+  end;
+end;
+
+
+procedure TMD_Dialog.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(cnsConsulta);
+  dsCrud.DataSet.Close;
+  if NOT ( pBtn = Nil ) then
+     pBtn.Enabled := True;
+
+  self.Release;
+  self := nil;
+
+
+end;
+
+
+procedure TMD_Dialog.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+
+   case Key of
+      VK_ESCAPE : Close;
+      VK_RETURN : Perform(WM_NEXTDLGCTL, 0, 0);
+   end
+
+end;
+
+constructor TMD_Dialog.Create(AOwner: TComponent; fBtn: TObject);
+Var
+  I: Integer;
+  cSt, cN : String;
+begin
+  inherited Create(AOwner);
+  pBtn := TAction( fBtn ) ;
+  pBtn.Enabled := False;
+
+  cTabela                        := LowerCase( Trim( Copy(dsCrud.DataSet.Name,4, length(dsCrud.DataSet.Name)-3) ) ) ;
+  qTabeka                        := TFDQuery.Create(Nil) ;
+  lbTitulo.Caption               :=  'Formulário de '+UpperCase(Copy(cTabela,1,1))+Copy(cTabela,2,length(cTabela))  ;
+  Self.Caption                   := cTabela ;
+  cSt                            := 'fdq'+cTabela;
+  SetLength(aTabDel, 0);
+
+  for i := 0 to dmSistema.ComponentCount -1 do begin
+      if  dmSistema.Components[i].ClassType = TFDQuery  then begin
+          if Pos(LowerCase( TFDQuery( dmSistema.Components[i] ).Name ), cSt   ) > 0 then begin
+             TFDQuery( dmSistema.Components[i] ).SQL.Text := TFDQuery( dmSistema.Components[i] ).SQL.Text ;
+             cPesqStr := TFDQuery( dmSistema.Components[i] ).SQL.Text ;
+             qTabeka  := TFDQuery( dmSistema.Components[i] ) ;
+          end;
+
+      end;
+  end;
+
+  //Varrer Campos
+  //Varrer Gets
+  SetLength(aGets,0);
+  SetLength(aCpts,0);
+  for i := 0 to Self.ComponentCount -1 do begin
+       if ChecaComp( Self.Components[i] ) and ( ( Self.Components[i].Tag = 0 ) or ( Self.Components[i].Tag = 9 ) ) then begin
+            SetLength(aGets,Length(aGets)+1); aGets[Length(aGets) - 1] := PegaCmpFrm(Self.Components[i])  ;
+       end Else Begin
+        if  (( Self.Components[i].ClassName = 'TDBGrid'      )   OR
+             ( Self.Components[i].ClassName = 'TGroupBox'    )   OR
+             ( Self.Components[i].ClassName = 'TRadioButton' )) and
+             ( Self.Components[i].Tag = 0 )                   THEN
+              Begin
+                SetLength(aCpts,Length(aCpts)+1); aCpts[Length(aCpts) - 1] := PegaCmpFrm(Self.Components[i])  ;
+              End;
+       End;
+  end;
+  btnNovo.Hint      := 'Novo Registro|Pressione para inserir '+#13+' um novo registro,'+#13+' ou precione a tecla INS '+#13+' no seu teclado '+#13+'|300';
+  btnEditar.Hint    := 'Altera Registro|Pressione para alterar '+#13+' um registro selecionado,'+#13+' ou precione a tecla ENTER '+#13+' no seu teclado '+#13+'|300';
+  btnExcluir.Hint   := 'Exclui Registro|Pressione para excluir '+#13+' um registro selecionado,'+#13+' ou precione a tecla DEL '+#13+' no seu teclado '+#13+'|300';
+  btnVizualiza.Hint := 'Vizualize Registro|Pressione para Ver o Formulário '+#13+' de um registro selecionado,'+#13+' ou precione as teclas CTRL+I '+#13+' no seu teclado '+#13+'|300';
+  btnCancela.Hint   := 'Cancelar Processos|Pressione para cancelar '+#13+' processos de Inserção/Edição/Exclusão,'+#13+' ou precione as teclas F12 '+#13+' no seu teclado '+#13+'|300';
+  btnGravar.Hint    := 'Grava Processos|Pressione para Executar '+#13+'  processos de Inserção/Edição/Exclusão,'+#13+' ou precione as teclas CTRL+S '+#13+' no seu teclado '+#13+'|300';
+  btnInicio.Hint    := 'Navegação |Vai para o inicio '+#13+' do(s) registro(s) da tela,'+#13+' ou precione as teclas HOME'+#13+' no seu teclado '+#13+'|300';
+  btnAnterior.Hint  := 'Navegação |Vai para o anterrior '+#13+' registro da tela,'+#13+' ou precione as teclas SETA < '+#13+' no seu teclado '+#13+'|300';
+  btnProximo.Hint   := 'Navegação |Vai para o próximo '+#13+' registro da tela,'+#13+' ou precione as teclas SETA >'+#13+' no seu teclado '+#13+'|300';
+  btnTermino.Hint   := 'Navegação |Vai para o final '+#13+' do(s) registro(s) da tela,'+#13+' ou precione as teclas END'+#13+' no seu teclado '+#13+'|300';
+  btnSair.Hint      := 'Sair |Sai do sistema ou '+#13+' precione as teclas ESC'+#13+' no seu teclado '+#13+'|300';
+  edPesquisa.Hint   := 'Pesquisar | Clique no cabeçalho da coluna '+#13+' do campo a ser pesquisado, '+#13+' depois digite sua pesquisa '+#13+'|300';
+
+
+  FCheckUnique                   := TDictionary<String, String>.Create;
+  //  dsQuery.DataSet.AfterScroll    := DoAfterScroll;
+  tabCrud.ActivePage             := tbItemLista;
+  btnVizualiza.Caption           := 'Formulário';
+end;
+Function TMD_Dialog.ChecaComp(ClassComponent: Tcomponent ): Boolean ;
+begin
+if  (( ClassComponent.ClassName = 'TEdit')            OR
+     ( ClassComponent.ClassName = 'TMaskEdit' )       OR
+     ( ClassComponent.ClassName = 'TComboBox' )       OR
+     ( ClassComponent.ClassName = 'TDateTimePicker' ) OR
+     ( ClassComponent.ClassName = 'TButtonedEdit' )   OR
+     ( ClassComponent.ClassName = 'TRichEdit' )       OR
+     ( ClassComponent.ClassName = 'TMemo' )           OR
+     ( ClassComponent.ClassName = 'TImage' )          OR
+     ( ClassComponent.ClassName = 'TCheckBox' ) )     and
+     ( Copy( ClassComponent.name,4,1 ) = '_' )       THEN
+      Begin
+          Result  := True  ;
+      End Else Begin
+          Result  := False ;
+      End;
+end;
+
+{*************************************************************************
+ Pega componentes
+**************************************************************************}
+Function TMD_Dialog.PegaCmpFrm(ClassComponent: Tcomponent ): Tcomponent ;
+var
+i, tmp: Integer;
+begin
+      //Pega todos o TEduits
+      if (ClassComponent.ClassName = 'TEdit')             Then
+      Begin
+         Result  := Tedit( ClassComponent ) ;
+      End Else
+      //Pega todos o TMaskEdit
+      if ( ClassComponent.ClassName = 'TMaskEdit' )       then
+      Begin
+          Result  := TMaskEdit( ClassComponent ) ;
+      End Else
+      //Pega todos o TComboBox
+      if ( ClassComponent.ClassName = 'TComboBox' )       then
+      Begin
+          Result  := TComboBox( ClassComponent ) ;
+      End Else
+      //Pega todos o TDateTimePiker
+      if ( ClassComponent.ClassName = 'TDateTimePicker' ) then
+      Begin
+          Result  := TDateTimePicker( ClassComponent ) ;
+      End Else
+      //Pega todos o TButtonedEdit
+      if ( ClassComponent.ClassName = 'TButtonedEdit' )   then
+      Begin
+          Result  := TButtonedEdit( ClassComponent ) ;
+      End Else
+      //Pega todos o TMemo
+      if ( ClassComponent.ClassName = 'TRichEdit' )       then
+      Begin
+          Result  := TRichEdit( ClassComponent ) ;
+      End Else
+      //Pega todos o TMemo
+      if ( ClassComponent.ClassName = 'TMemo' )           then
+      Begin
+          Result  := TMemo( ClassComponent ) ;
+      End Else
+      if ( ClassComponent.ClassName = 'TImage' )          then
+      Begin
+          Result  := TImage( ClassComponent ) ;
+      End Else
+      If ( ClassComponent.ClassName = 'TCheckBox' )       Then
+      Begin
+          Result  := TCheckBox( ClassComponent ) ;
+      End Else
+      If ( ClassComponent.ClassName = 'TDBGrid' )       Then
+      Begin
+          Result  := TDBGrid( ClassComponent ) ;
+      End Else
+      If ( ClassComponent.ClassName = 'TRadioButton' )    Then
+      Begin
+          Result  := TRadioButton( ClassComponent ) ;
+      End Else
+      If ( ClassComponent.ClassName = 'TGroupBox' )    Then
+      Begin
+          Result  := TGroupBox( ClassComponent ) ;
+      End Else Begin
+          Result  := Nil;
+      End;
+
+End;
+
+procedure TMD_Dialog.DoAfterScroll(DataSet: TDataset);
+begin
+if Not dsQuery.DataSet.IsEmpty then
+  begin
+    dsCrud.DataSet.Filter := GetKeyField+' = '+dsQuery.DataSet.FieldByName(GetQueryKeyFiled).AsString;
+    dsCrud.DataSet.Filtered := True;
+    if not dsCrud.DataSet.Active then dsCrud.DataSet.Open;
+
+  end;
+
+end;
+
+
+
+
+procedure TMD_Dialog.FormShow(Sender: TObject);
+begin
+  // Viabiliza a conexão
+  Visible                   := True ;
+  if Not dmSistema.fdConecta.Connected then
+     ShowMessage('Sistema não conectado');
+
+  dsCrud.DataSet.Active     := True ;
+  dsCrud.DataSet.Open;
+  tabCrud.ActivePage        := tbItemLista ;
+  tabCrud.ScrollOpposite    := False ;
+  OcultarSheets(tabCrud);
+
+  //edPesquisa.Clear;
+  edPesquisa.TextHint         := 'Selecione uma coluna para pesquisar ';
+  dbgCrud.DataSource.DataSet.Last;
+  dbgCrud.DataSource.DataSet.First;
+  FRecordState              := rsNil ;
+  prefixo ;
+  AtivaBtns ;
+
+
+
+end;
+procedure TMD_Dialog.AtivaBtns;
+var
+cSql: String;
+SqlP : TFdQuery;
+Begin
+   Self.btnNovo.Enabled     := (  Not ( dsCrud.State in [dsInsert, dsEdit ] )) ;
+   Self.btnEditar.Enabled   := (( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.IsEmpty ));
+   Self.btnExcluir.Enabled  := (( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.IsEmpty ));
+   Self.btnGravar.Enabled   := ( dsCrud.State in [dsInsert, dsEdit ] ) ;
+   Self.btnCancela.Enabled  := ( dsCrud.State in [dsInsert, dsEdit ] ) ;
+   Self.btnVizualiza.Enabled:= ( Not ( dsCrud.State in [dsInsert, dsEdit ] ) ) ;
+
+   Self.btnInicio.Enabled   :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.IsEmpty ) );
+   Self.btnAnterior.Enabled :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.IsEmpty ) );
+   Self.btnProximo.Enabled  :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.IsEmpty ) );
+   Self.btnTermino.Enabled  :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.IsEmpty ) );
+   RefrehTitulos ;
+end;
+procedure TMD_Dialog.BarraNavega;
+begin
+    Self.btnInicio.Enabled   :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.Bof ) );
+    Self.btnAnterior.Enabled :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.Bof ) );
+    Self.btnProximo.Enabled  :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.Eof ) );
+    Self.btnTermino.Enabled  :=(( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.Eof ) );
+end;
+procedure TMD_Dialog.RefrehTitulos ;
+begin
+    lbTotalReg.Caption := FormatCurr('#,###,##0', dsCrud.DataSet.RecordCount )
+end;
+
+procedure TMD_Dialog.prefixo;
+begin
+  cPref :=  Copy( dsCrud.DataSet.Fields[1].FieldName,1,4);
+end;
+procedure TMD_Dialog.OcultarSheets(PageControl: TPageControl);
+var
+iPage: Integer;
+begin
+  lVerif := False;
+  for iPage := 0 to PageControl.PageCount - 1 do
+      PageControl.Pages[iPage].TabVisible := False;
+
+  if ( PageControl.PageCount > 0 ) then
+      PageControl.ActivePage := PageControl.Pages[0];
+
+  PageControl.Style := tsButtons;
+  lVerif := True;
+end;
+
+initialization
+  RegisterClass(TMD_Dialog);
+
+end.
+inherited
+
+{
+
+Var
+  cKey: String;
+begin
+  cKey:=Key;
+  MoedaKeyEdit( Key, Sender );
+  Key := #0 ;
+
+
+}

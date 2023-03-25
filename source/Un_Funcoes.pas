@@ -361,17 +361,17 @@ begin
    cCanvas  := TControlCanvas.Create;
    TControlCanvas(cCanvas).Control := Application.MainForm;
 
-   if (Key in ['0'..'9',chr(vk_back)]) then
+   if CharInSet(Key,['0'..'9',chr(vk_back)]) then
    begin
       // limito a 23 caracteres senão haverá um erro na função StrToInt64()
-      if (key in ['0'..'9']) and (Length(Trim(edMoeda.Text))>23) then
+      if CharInSet(key,['0'..'9']) and (Length(Trim(edMoeda.Text))>23) then
          key := #0;
 
       // pego somente os caracteres de 0 a 9, ignorando a pontuação
       Texto2 := '0';
       Texto := Trim(edMoeda.Text)+Key;
       for i := 1 to Length(Texto) do
-         if Texto[i] in ['0'..'9'] then
+         if CharInSet(Texto[i],['0'..'9']) then
             Texto2 := Texto2 + Texto[i];
 
       // se foi pressionado BACKSPACE (única tecla válida, fora os números)
@@ -412,7 +412,7 @@ begin
    cCanvas  := TControlCanvas.Create;
    TControlCanvas(cCanvas).Control := Application.MainForm;
 
-   if (Key in ['0'..'9',chr(vk_back)]) then
+   if CharInSet(Key ,['0'..'9',chr(vk_back)]) then
    begin
       // limito a 23 caracteres senão haverá um erro na função StrToInt64()
       if (key in ['0'..'9']) and (Length(Trim(edMoeda.Text))>23) then

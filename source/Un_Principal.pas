@@ -133,4 +133,14 @@ begin
 
 end;
 
+function Tfrm_principal.GetKeyField: String;
+begin
+  Result := '';
+end;
+
+function Tfrm_principal.GetQueryKeyFiled: String;
+begin
+  Result := '';
+end;
+
 end.

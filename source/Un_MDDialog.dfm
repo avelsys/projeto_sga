@@ -13,14 +13,12 @@ object MD_Dialog: TMD_Dialog
   Font.Style = []
   FormStyle = fsMDIChild
   KeyPreview = True
-  OldCreateOrder = False
   Position = poOwnerFormCenter
   ShowHint = True
   Visible = True
   OnClose = FormClose
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object pnModelo: TPanel
     Left = 0
@@ -32,6 +30,7 @@ object MD_Dialog: TMD_Dialog
     Color = clNavy
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 1197
     object lbTitulo: TLabel
       Left = 10
       Top = 9
@@ -56,6 +55,7 @@ object MD_Dialog: TMD_Dialog
     CustomHint = HintPrincipal
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 1197
     DesignSize = (
       1201
       36)
@@ -246,7 +246,7 @@ object MD_Dialog: TMD_Dialog
         FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
     end
     object SpeedButton5: TSpeedButton
-      Left = 1089
+      Left = 1085
       Top = 1
       Width = 97
       Height = 34
@@ -414,6 +414,8 @@ object MD_Dialog: TMD_Dialog
     TabOrder = 2
     Touch.ParentTabletOptions = False
     Touch.TabletOptions = [toPressAndHold]
+    ExplicitWidth = 1197
+    ExplicitHeight = 433
     object tbItemLista: TTabSheet
       CustomHint = HintPrincipal
       Caption = 'tbItemLista'
@@ -428,6 +430,7 @@ object MD_Dialog: TMD_Dialog
         Align = alTop
         ShowCaption = False
         TabOrder = 0
+        ExplicitWidth = 1189
         object lbTitReg: TLabel
           Left = 417
           Top = 4
@@ -634,6 +637,8 @@ object MD_Dialog: TMD_Dialog
         Text = '[Esc] Sair'
         Width = 50
       end>
+    ExplicitTop = 510
+    ExplicitWidth = 1197
   end
   object imlCrud: TImageList
     ColorDepth = cd32Bit
@@ -641,7 +646,7 @@ object MD_Dialog: TMD_Dialog
     Width = 24
     Left = 392
     Bitmap = {
-      494C01010C002800700018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010C002800040018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000006000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

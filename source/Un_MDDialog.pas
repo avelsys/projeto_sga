@@ -6,8 +6,9 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   System.Actions, Vcl.ActnList, Vcl.ImgList, Data.DB, Vcl.Grids, Vcl.DBGrids,
-  Vcl.ComCtrls, System.Generics.Collections,
-  FireDAC.Comp.Client, System.UITypes, Vcl.Mask, EditTuning, Un_ClassPesq;
+  Vcl.ComCtrls, System.Generics.Collections, FireDAC.Stan.Param,
+  FireDAC.Comp.Client, System.UITypes, Vcl.Mask, EditTuning, Un_ClassPesq,
+  System.ImageList;
 
 type
   TRecordState = ( rsNew, rsEdit, rsDelete, rsVizu, rsNil );
@@ -79,9 +80,7 @@ type
     FCheckUnique  : Tdictionary<String, String>;
     FRecordState  : TRecordState;
     FRecNo        : Integer;
-    btnAtiva      : TAction ;
     aGets, aCpts  : TArrayComp;
-    aCmps         : array of String;
     cPref, cPesqStr : String;
     pBtn          : TAction ;
     titleindex    : Integer;
@@ -100,7 +99,7 @@ type
     function NomeCampos(Source: TObject): String;
     function SetCampos(Source: TObject): Variant;
     function ChecaComp(ClassComponent: Tcomponent): Boolean;
-    procedure DoAfterScroll(DataSet: TDataset);
+    //    procedure DoAfterScroll(DataSet: TDataset);
     function PegaCmpFrm(ClassComponent: Tcomponent): Tcomponent;
     procedure XSetFocus;
     procedure MaskEditLabel(Sender: TObject; var Key: Char);
@@ -127,9 +126,9 @@ type
     cnsConsulta : TConsulta;
     aTabDel  : array of array[0..1] of string;
     property nRecno      : integer                      read FRecNo       write FRecNo ;
- published
+ public
     procedure PesquisaSql(cPesquisa, cCampo: String );
-    constructor Create(AOwner : TComponent; fBtn : TObject);
+    constructor Create(AOwner : TComponent; fBtn : TObject); reintroduce ;
 
   end;
 
@@ -228,8 +227,6 @@ begin
   Stream            := TMemoryStream.Create;
   oBj               := TObject.Create;
   sqlQuery          := TFDQuery.Create(nil);
-  qTrf              := TFDQuery.Create(nil);
-  Configs           := TConfig.GetInstance;
   case FRecordState of
    rsNew     : if MessageDlg('Confirma gravação?', mtConfirmation,mbYesNo, 0) = mrNo    then exit;
    rsEdit    : if MessageDlg('Confirma Edição?',   mtConfirmation,mbYesNo, 0) = mrNo    then exit;
@@ -502,7 +499,6 @@ end;
 
 Function TMD_Dialog.InCodigoText( Source: TObject ): String;
 Var
-cSql : String;
 nTamanho : Integer  ;
 qQry     : TFDQuery ;
 Begin
@@ -794,8 +790,6 @@ begin
 end;
 
 procedure TMD_Dialog.dbgCrudTitleClick(Column: TColumn);
-Var
-  sqlUsu : TFDQuery ;
 begin
   inherited;
 
@@ -816,7 +810,6 @@ end;
 function TMD_Dialog.DoCheckUnique: Boolean;
 Var
 Clone: TClientDataSet;
-Field: String;
 begin
   Result := True;
   Clone:= TClientDataSet.Create(Self);
@@ -954,7 +947,6 @@ end;
 
 function TMD_Dialog.ChkNulo(cField : String ): boolean;
 Var
-cSql : String;
 qQry : TFDQuery ;
 Begin
   cField  := LowerCase( cField ) ;
@@ -1079,7 +1071,6 @@ end;
 procedure TMD_Dialog.GetDados;
 Var
 i : Integer;
-c : String;
 begin
   inherited;
   if ( FRecordState in [ rsNew, rsEdit, rsDelete, rsVizu ] ) then begin
@@ -1232,9 +1223,6 @@ begin
      pBtn.Enabled := True;
 
   self.Release;
-  self := nil;
-
-
 end;
 
 
@@ -1252,7 +1240,7 @@ end;
 constructor TMD_Dialog.Create(AOwner: TComponent; fBtn: TObject);
 Var
   I: Integer;
-  cSt, cN : String;
+  cSt: String;
 begin
   inherited Create(AOwner);
   pBtn := TAction( fBtn ) ;
@@ -1335,8 +1323,6 @@ end;
  Pega componentes
 **************************************************************************}
 Function TMD_Dialog.PegaCmpFrm(ClassComponent: Tcomponent ): Tcomponent ;
-var
-i, tmp: Integer;
 begin
       //Pega todos o TEduits
       if (ClassComponent.ClassName = 'TEdit')             Then
@@ -1398,17 +1384,17 @@ begin
 
 End;
 
-procedure TMD_Dialog.DoAfterScroll(DataSet: TDataset);
-begin
-if Not dsQuery.DataSet.IsEmpty then
-  begin
-    dsCrud.DataSet.Filter := GetKeyField+' = '+dsQuery.DataSet.FieldByName(GetQueryKeyFiled).AsString;
-    dsCrud.DataSet.Filtered := True;
-    if not dsCrud.DataSet.Active then dsCrud.DataSet.Open;
-
-  end;
-
-end;
+//procedure TMD_Dialog.DoAfterScroll(DataSet: TDataset);
+//begin
+//if Not dsQuery.DataSet.IsEmpty then
+//  begin
+//    dsCrud.DataSet.Filter := GetKeyField+' = '+dsQuery.DataSet.FieldByName(GetQueryKeyFiled).AsString;
+//    dsCrud.DataSet.Filtered := True;
+//    if not dsCrud.DataSet.Active then dsCrud.DataSet.Open;
+//
+//  end;
+//
+//end;
 
 
 
@@ -1438,9 +1424,6 @@ begin
 
 end;
 procedure TMD_Dialog.AtivaBtns;
-var
-cSql: String;
-SqlP : TFdQuery;
 Begin
    Self.btnNovo.Enabled     := (  Not ( dsCrud.State in [dsInsert, dsEdit ] )) ;
    Self.btnEditar.Enabled   := (( Not ( dsCrud.State in [dsInsert, dsEdit ] )) and ( Not dbgCrud.DataSource.DataSet.IsEmpty ));
@@ -1489,9 +1472,6 @@ end;
 initialization
   RegisterClass(TMD_Dialog);
 
-end.
-inherited
-
 {
 
 Var
@@ -1503,3 +1483,7 @@ begin
 
 
 }
+
+end.
+
+

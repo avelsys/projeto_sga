@@ -4,17 +4,15 @@ interface
 Type
   TConfig = Class
   Strict Private
-    Class Var FInstance : TConfig;
-    Constructor CreatePrivate;
+//    Class Var FInstance : TConfig;
   private
     FConfirmaGravacao: Boolean;
     FConfirmaCancelamento: Boolean;
-    constructor Create;
     procedure SetConfirmaCancelamento(const Value: Boolean);
     procedure SetConfirmaGravacao(const Value: Boolean);
   Public
     CLass function GetInstance : TConfig;
-  published
+
     property ConfirmaGravacao : Boolean read FConfirmaGravacao write SetConfirmaGravacao;
     property ConfirmaCancelamento : Boolean read FConfirmaCancelamento write SetConfirmaCancelamento;
   End;
@@ -25,18 +23,9 @@ uses
 
 { TConfig }
 
-constructor TConfig.Create;
-begin
-  raise Exception.Create('Para obert ma isntancia de TConfig, use TConfig.getinstan ce');
-end;
-
-constructor TConfig.CreatePrivate;
-begin
-  Inherited Create;
-end;
-
 class function TConfig.GetInstance: TConfig;
 begin
+  Result := nil;
 {
   if not Assigned(Finstance) then
      FInstance := TConfig.Create;

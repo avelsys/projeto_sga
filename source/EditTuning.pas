@@ -9,10 +9,11 @@ type
     TEdit       = class(vcl.StdCtrls.TEdit)
     private
         FOldColor: TColor;
-        procedure AfterConstruction; override;
+    protected
         procedure DoEnter; override;  { Estamos reescrevendo o método DoEnter, para adaptar de acordo com a nossa necessidade}
         procedure DoExit; override;  { Estamos reescrevendo o método DoExit, para adaptar de acordo com a nossa necessidade}
     public
+        procedure AfterConstruction; override;
     Published
 //        property Color default clGradientInactiveCaption ;
     end;
@@ -23,9 +24,10 @@ type
     private
         FOldColor: TColor;
     protected
-        procedure AfterConstruction; override;
         procedure DoEnter; override;  { Estamos reescrevendo o método DoEnter, para adaptar de acordo com a nossa necessidade}
         procedure DoExit; override;   { Estamos reescrevendo o método DoExit, para adaptar de acordo com a nossa necessidade}
+    public
+        procedure AfterConstruction; override;
     end;
 
 type
@@ -34,9 +36,10 @@ type
     private
         FOldColor: TColor;
     protected
-        procedure AfterConstruction; override;
         procedure DoEnter; override;  { Estamos reescrevendo o método DoEnter, para adaptar de acordo com a nossa necessidade}
         procedure DoExit; override;   { Estamos reescrevendo o método DoExit, para adaptar de acordo com a nossa necessidade}
+    public
+        procedure AfterConstruction; override;
     end;
 
 
