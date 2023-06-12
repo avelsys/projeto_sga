@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/02/08 20:30:56.000.164,=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/04/18 09:54:07.000.326,=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/06/12 20:52:49.445,=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/06/12 20:53:25.922,D:\projetos\projeto_sga\SGA.dproj=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2023/06/12 20:53:52.972,=D:\projetos\projeto_sga\source\EditTuning.pas</Transaction>
+    <Transaction>2023/06/12 20:53:53.037,=D:\projetos\projeto_sga\source\U_ClassConfig.pas</Transaction>
+    <Transaction>2023/06/12 20:53:57.026,=D:\projetos\projeto_sga\source\Un_Abastece.pas</Transaction>
+    <Transaction>2023/06/12 20:53:58.117,=D:\projetos\projeto_sga\source\Un_Bomba.pas</Transaction>
+    <Transaction>2023/06/12 20:53:58.191,=D:\projetos\projeto_sga\source\un_ClassCalculo.pas</Transaction>
+    <Transaction>2023/06/12 20:53:58.307,=D:\projetos\projeto_sga\source\Un_ClassPesq.pas</Transaction>
+    <Transaction>2023/06/12 20:53:59.058,=D:\projetos\projeto_sga\source\Un_Combustivel.pas</Transaction>
+    <Transaction>2023/06/12 20:53:59.343,=D:\projetos\projeto_sga\source\Un_DmSistema.pas</Transaction>
+    <Transaction>2023/06/12 20:53:59.369,=D:\projetos\projeto_sga\source\Un_Funcoes.pas</Transaction>
+    <Transaction>2023/06/12 20:53:59.615,=D:\projetos\projeto_sga\source\Un_MDDialog.pas</Transaction>
+    <Transaction>2023/06/12 20:53:59.824,=D:\projetos\projeto_sga\source\un_Posto.pas</Transaction>
+    <Transaction>2023/06/12 20:53:59.952,=D:\projetos\projeto_sga\source\Un_Principal.pas</Transaction>
+    <Transaction>2023/06/12 20:54:00.087,=D:\projetos\projeto_sga\source\Un_RelAbastece.pas</Transaction>
+    <Transaction>2023/06/12 20:54:00.302,=D:\projetos\projeto_sga\source\un_Tanque.pas</Transaction>
+    <Transaction>2023/06/12 20:54:00.514,=D:\projetos\projeto_sga\source\Un_Veiculo.pas</Transaction>
+    <Transaction>2023/06/12 20:54:15.857,D:\projetos\projeto_sga\source\EditTuning.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:16.044,D:\projetos\projeto_sga\source\Un_Abastece.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:16.087,D:\projetos\projeto_sga\source\Un_Bomba.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:16.143,D:\projetos\projeto_sga\source\un_ClassCalculo.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:16.197,D:\projetos\projeto_sga\source\Un_ClassPesq.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:16.252,D:\projetos\projeto_sga\source\Un_Combustivel.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:20.236,D:\projetos\projeto_sga\source\Un_DmSistema.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:20.282,D:\projetos\projeto_sga\source\Un_Funcoes.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:21.532,D:\projetos\projeto_sga\source\un_Posto.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:22.997,D:\projetos\projeto_sga\source\Un_Principal.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:23.071,D:\projetos\projeto_sga\source\Un_RelAbastece.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:23.128,D:\projetos\projeto_sga\source\un_Tanque.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:23.176,D:\projetos\projeto_sga\source\Un_Veiculo.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:23.219,D:\projetos\projeto_sga\source\U_ClassConfig.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:27.540,D:\projetos\projeto_sga\source\Un_MDDialog.pas=</Transaction>
+    <Transaction>2023/06/12 20:54:45.561,=D:\projetos\projeto_sga\source\Un_MDDialog.pas</Transaction>
+    <Transaction>2023/06/12 20:55:04.486,=D:\projetos\projeto_sga\source\EditTuning.pas</Transaction>
+    <Transaction>2023/06/12 20:55:04.526,=D:\projetos\projeto_sga\source\U_ClassConfig.pas</Transaction>
+    <Transaction>2023/06/12 20:55:04.801,=D:\projetos\projeto_sga\source\Un_Abastece.pas</Transaction>
+    <Transaction>2023/06/12 20:55:05.028,=D:\projetos\projeto_sga\source\Un_Bomba.pas</Transaction>
+    <Transaction>2023/06/12 20:55:05.052,=D:\projetos\projeto_sga\source\un_ClassCalculo.pas</Transaction>
+    <Transaction>2023/06/12 20:55:05.204,=D:\projetos\projeto_sga\source\Un_ClassPesq.pas</Transaction>
+    <Transaction>2023/06/12 20:55:05.441,=D:\projetos\projeto_sga\source\Un_Combustivel.pas</Transaction>
+    <Transaction>2023/06/12 20:55:05.741,=D:\projetos\projeto_sga\source\Un_DmSistema.pas</Transaction>
+    <Transaction>2023/06/12 20:55:05.769,=D:\projetos\projeto_sga\source\Un_Funcoes.pas</Transaction>
+    <Transaction>2023/06/12 20:55:06.027,=D:\projetos\projeto_sga\source\un_Posto.pas</Transaction>
+    <Transaction>2023/06/12 20:55:06.197,=D:\projetos\projeto_sga\source\Un_Principal.pas</Transaction>
+    <Transaction>2023/06/12 20:55:06.363,=D:\projetos\projeto_sga\source\Un_RelAbastece.pas</Transaction>
+    <Transaction>2023/06/12 20:55:06.628,=D:\projetos\projeto_sga\source\un_Tanque.pas</Transaction>
+    <Transaction>2023/06/12 20:55:06.881,=D:\projetos\projeto_sga\source\Un_Veiculo.pas</Transaction>
+  </Transactions>
+</BorlandProject>
