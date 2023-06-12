@@ -3,8 +3,8 @@ object frmConsulta: TfrmConsulta
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'Consulta'
-  ClientHeight = 212
-  ClientWidth = 566
+  ClientHeight = 210
+  ClientWidth = 558
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,14 +12,12 @@ object frmConsulta: TfrmConsulta
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
-  OldCreateOrder = False
-  PixelsPerInch = 96
   TextHeight = 13
   object GroupBox1: TGroupBox
     Left = 0
     Top = 0
-    Width = 566
-    Height = 212
+    Width = 558
+    Height = 210
     Align = alClient
     Caption = 'Informa'#231#245'es de Consulta / Clique na coluna que deseja consultar'
     TabOrder = 0

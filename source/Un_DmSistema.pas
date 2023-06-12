@@ -9,7 +9,7 @@ uses
   FireDAC.Phys.IBBase, Data.DB, FireDAC.Comp.Client, Vcl.Dialogs,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   Datasnap.Provider, FireDAC.Comp.DataSet, Datasnap.DBClient,
-  FireDAC.VCLUI.Wait, FireDAC.Comp.UI;
+  FireDAC.VCLUI.Wait, FireDAC.Comp.UI, FireDAC.Phys.FBDef;
 
 type
   TdmSistema = class(TDataModule)

@@ -26,12 +26,11 @@ type
     cnsDataSet : TDataSet    ;
     cnsEdtCons : Variant     ;
     cnsNmCampo : string      ;
-    cnsFRetoro: string       ;
 
   public
     { Public declarations }
     Function GetRetorno( cnsCampo : TObject ): String;
-  Published
+  public
     constructor Create( AOwner : TComponent ; BaseCons : TDataSet; xCampoPsq : TObject );
   end;
 
@@ -59,8 +58,7 @@ end;
 
 function TConsulta.GetRetorno( cnsCampo : TObject ): String;
 Var
-cRetono,cSql : String;
-qrySql       : TFDQuery;
+cRetono : String;
 begin
 
   { Pega o Retorno }

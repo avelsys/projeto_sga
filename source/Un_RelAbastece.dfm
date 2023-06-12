@@ -10,8 +10,6 @@ object frmRelAbastece: TfrmRelAbastece
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
   TextHeight = 13
   object frmRLImprimir: TRLReport
     Left = 8
@@ -580,8 +578,8 @@ object frmRelAbastece: TfrmRelAbastece
       Top = 24
       Width = 100
       Height = 21
-      Date = 43055.067260347220000000
-      Time = 43055.067260347220000000
+      Date = 43055.000000000000000000
+      Time = 0.067260347219416870
       TabOrder = 0
     end
     object dtFinal: TDateTimePicker
@@ -589,8 +587,8 @@ object frmRelAbastece: TfrmRelAbastece
       Top = 24
       Width = 100
       Height = 21
-      Date = 43055.067260347220000000
-      Time = 43055.067260347220000000
+      Date = 43055.000000000000000000
+      Time = 0.067260347219416870
       TabOrder = 1
     end
   end
@@ -640,7 +638,6 @@ object frmRelAbastece: TfrmRelAbastece
     Left = 80
   end
   object cdsAbastece_: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspAbastece_'

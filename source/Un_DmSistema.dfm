@@ -1,5 +1,4 @@
 object dmSistema: TdmSistema
-  OldCreateOrder = False
   OnCreate = DataModuleCreate
   Height = 543
   Width = 475
