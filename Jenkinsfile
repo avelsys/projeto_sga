@@ -16,7 +16,6 @@ pipeline{
 			   @SET FrameworkDir=C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319
 			   @SET FrameworkVersion=v4.5
 			   @SET FrameworkSDKDir=
-               @SET PATH=%FrameworkDir%;%FrameworkSDKDir%;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin64;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\cmake;%PATH%			   
 			   @SET LANGDIR=EN
 			   @SET PLATFORM=
 			   @SET PlatformSDK=			   
@@ -24,8 +23,6 @@ pipeline{
                @SET START_BUILD_STR=Start of building			   
 			   @SET SGA_EXE=SGA.exe		
 			   
-			   dir > c:\\lista.txt
-
                @ECHO %SGA_EXE%
                @SET SGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
                @ECHO %START_BUILD_STR% %SGA_DPROJ%
