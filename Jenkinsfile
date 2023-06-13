@@ -22,10 +22,10 @@ pipeline{
 			   @SET PlatformSDK=			   
 			   @SET BUILD_CONFIG=Release
                @SET START_BUILD_STR=Start of building			   
-			   @SET SGA_EXE=SGA.exe		
-			   @ECHO %PATH%
+			   @SET SGA_EXE=SGA.exe					   
 			   
                @ECHO %SGA_EXE%
+			   @ECHO descricao do path do windows %PATH%			   
                @SET SGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
                @ECHO %START_BUILD_STR% %SGA_DPROJ%
                DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\"%SGA_EXE%
