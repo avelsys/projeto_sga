@@ -24,7 +24,7 @@ pipeline{
                @SET START_BUILD_STR=Start of building			   
 			   @SET SGA_EXE=SGA.exe		
 			   
-			   dir > c:\lista.txt
+			   dir > c:\\lista.txt
 
                @ECHO %SGA_EXE%
                @SET SGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
