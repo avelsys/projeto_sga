@@ -6,5 +6,10 @@ pipeline{
               echo 'Iniciando a Pipiline'
          }
       }
+       stage('Prepara'){     
+         steps{
+              echo 'Iniciando Testes'
+         }
+      }	  
    }
 }   
