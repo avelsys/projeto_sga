@@ -17,7 +17,7 @@ pipeline{
                @SET FortesReportkDir=C:\\componentes_delphi\\fortesreport-ce\\Source
                @SET FrameworkVersion=v4.5
                @SET FrameworkSDKDir=
-               @SET PATH=%FortesReportkDir%;%FrameworkDir%;%FrameworkSDKDir%;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin64;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\cmake;%PATH%
+               @SET PATH=%FrameworkDir%;%FrameworkSDKDir%;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin64;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\cmake;%PATH%
                @SET LANGDIR=EN
                @SET PLATFORM=
                @SET PlatformSDK=
@@ -33,7 +33,7 @@ pipeline{
                REM Limpando a compilanção anterior
                MSBuild %LO_Slos% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                REM Compilando projeto
-               MSBuild %LO_Slos% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 /p:_EnvLibraryPath="C:\\componentes_delphi\\fortesreport-ce\\Source"
+               MSBuild %LO_Slos% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 /p:_EnvLibraryPath=FortesReportkDir
 
                @ECHO Build %BUILD_CONFIG% done!'''          
          }
