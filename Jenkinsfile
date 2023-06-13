@@ -5,9 +5,6 @@ pipeline{
          steps{
               echo 'Iniciando a Pipiline'
          }
-         steps{
-              echo 'Cria testes'
-         }		 
       }
    }
 }   
