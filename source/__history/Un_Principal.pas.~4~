@@ -91,7 +91,6 @@ begin
    frmCombustivel.Show;
 end;
 
-
 procedure Tfrm_principal.btnPostoExecute(Sender: TObject);
 begin
    frmPosto := TfrmPosto.Create(Self,Sender);

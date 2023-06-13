@@ -2052,8 +2052,6 @@ object frm_principal: Tfrm_principal
         Text = 'Usu'#225'rio: ADMIN'
         Width = 50
       end>
-    ExplicitTop = 554
-    ExplicitWidth = 918
   end
   object ToolBar1: TToolBar
     Left = 0
@@ -2065,7 +2063,6 @@ object frm_principal: Tfrm_principal
     Caption = 'ToolBar1'
     DrawingStyle = dsGradient
     TabOrder = 1
-    ExplicitWidth = 918
     object SpeedButton6: TSpeedButton
       Left = 0
       Top = 0
