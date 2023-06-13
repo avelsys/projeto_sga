@@ -32,7 +32,8 @@ pipeline{
                @ECHO Limpando a compilancao anterior
                MSBuild %SGA_DPROJ% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                @ECHO Compilando projeto
-               MSBuild %SGA_DPROJ% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 /v:diagnostic
+               MSBuild %SGA_DPROJ% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 
+			   REM /v:diagnostic
 
                @ECHO Build %BUILD_CONFIG% done!'''
          }
