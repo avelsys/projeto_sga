@@ -10,7 +10,7 @@ pipeline{
          steps{               
                bat '''@ECHO OFF
                REM Busca compilador
-  			   @SET BDS=C:\\Program Files (x86)\\Embarcadero\Studio\22.0
+  			   @SET BDS=C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0
 			   @SET BDSINCLUDE=C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\include
 			   @SET BDSCOMMONDIR=C:\\Users\\Public\\Documents\\Embarcadero\\Studio\\22.0
 			   @SET FrameworkDir=C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319
@@ -24,13 +24,13 @@ pipeline{
                @SET START_BUILD_STR=Start of building			   
 	                
                REM SGA.exe
-               @SET SGA_EXE="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
-               @ECHO %START_BUILD_STR% %SGA_EXE%
+               @SET SGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
+               @ECHO %START_BUILD_STR% %SGA_DPROJ%
                DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.exe"
                REM Limpando a compilanção anterior
-               MSBuild %SGA_EXE% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
+               MSBuild %SGA_DPROJ% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                REM Compilando projeto
-               MSBuild %SGA_EXE% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 
+               MSBuild %SGA_DPROJ% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 
 			   REM '/v:diagnostic'
 
                @ECHO Build %BUILD_CONFIG% done!'''          
