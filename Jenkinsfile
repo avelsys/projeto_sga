@@ -21,7 +21,7 @@ pipeline{
                @SET LANGDIR=EN
                @SET PLATFORM=
                @SET PlatformSDK=
-               @SET BUILD_CONFIG=ReleaseConsumer
+               @SET BUILD_CONFIG=Release
                @SET START_BUILD_STR=Start of building
 
                REM LO_SintPro.dll
