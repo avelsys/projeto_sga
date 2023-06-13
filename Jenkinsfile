@@ -22,12 +22,13 @@ pipeline{
 			   @SET PlatformSDK=			   
 			   @SET BUILD_CONFIG=Release
                @SET START_BUILD_STR=Start of building			   
+			   @SET SGA_EXE=SGA.exe			   
 	                
-               REM SGA.exe
+               @ECHO %SGA_EXE%
                @SET SGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
                @ECHO %START_BUILD_STR% %SGA_DPROJ%
-               DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.exe"
-               REM Limpando a compilanção anterior
+               DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\"%SGA_EXE%
+               @ECHO  Limpando a compilanção anterior
                MSBuild %SGA_DPROJ% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                REM Compilando projeto
                MSBuild %SGA_DPROJ% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 
