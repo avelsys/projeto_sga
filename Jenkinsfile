@@ -6,5 +6,10 @@ pipeline{
               echo 'Iniciando a Pipiline'
          }
       }
+       stage('Iniciando Compilacção'){     
+         steps{
+              echo 'Iniciando a Pipiline'
+         }
+      }	  
    }
 }   
