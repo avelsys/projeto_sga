@@ -10,7 +10,7 @@ pipeline{
          steps{               
                bat '''@ECHO OFF
                @ECHO Busca compilador
-			   "C:\Program Files (x86)\Embarcadero\Studio\22.0\bin\rsvars.bat"	   
+			   call "C:\Program Files (x86)\Embarcadero\Studio\22.0\bin\rsvars.bat"	   
 			   @SET BUILD_CONFIG=Release
                @SET START_BUILD_STR=Start of building			   
 			   @SET SGA_EXE=SGA.exe					   
