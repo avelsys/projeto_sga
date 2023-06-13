@@ -33,7 +33,7 @@ pipeline{
                REM Limpando a compilanção anterior
                MSBuild %LO_Slos% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                REM Compilando projeto
-               MSBuild %LO_Slos% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 /p:_EnvLibraryPath=FortesReportkDir
+               MSBuild %LO_Slos% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 /p:_EnvLibraryPath=FortesReportkDir /v:diagnostic
 
                @ECHO Build %BUILD_CONFIG% done!'''          
          }
