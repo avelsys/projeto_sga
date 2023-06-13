@@ -17,7 +17,7 @@ pipeline{
                @SET FortesReportkDir=C:\\componentes_delphi\\fortesreport-ce\\Source
                @SET FrameworkVersion=v4.5
                @SET FrameworkSDKDir=
-               @SET PATH=%FrameworkDir%;%FrameworkSDKDir%;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin64;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\cmake;%PATH%
+               @SET PATH=%FrameworkDir%;%FrameworkSDKDir%;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin64;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\cmake
                @SET LANGDIR=EN
                @SET PLATFORM=
                @SET PlatformSDK=
