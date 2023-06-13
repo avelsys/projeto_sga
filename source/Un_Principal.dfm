@@ -2145,6 +2145,13 @@ object frm_principal: Tfrm_principal
       Layout = blGlyphTop
     end
   end
+  object cxTextEdit1: TcxTextEdit
+    Left = 304
+    Top = 256
+    TabOrder = 2
+    Text = 'cxTextEdit1'
+    Width = 121
+  end
   object mnPrincipal: TMainMenu
     Images = imlPrincipal
     Left = 32
