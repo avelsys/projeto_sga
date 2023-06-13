@@ -3,22 +3,22 @@
 	<Transactions>
     <Transaction>2023/02/08 20:30:56.000.164,=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>2023/04/18 09:54:07.000.326,=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2023/06/13 15:36:36.250,=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2023/06/13 15:36:56.491,D:\projetos\projeto_sga\SGA.dproj=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
-    <Transaction>2023/06/13 15:37:15.440,=D:\projetos\projeto_sga\source\Un_MDDialog.pas</Transaction>
-    <Transaction>2023/06/13 15:37:35.370,=D:\projetos\projeto_sga\source\EditTuning.pas</Transaction>
-    <Transaction>2023/06/13 15:37:35.411,=D:\projetos\projeto_sga\source\U_ClassConfig.pas</Transaction>
-    <Transaction>2023/06/13 15:37:35.651,=D:\projetos\projeto_sga\source\Un_Abastece.pas</Transaction>
-    <Transaction>2023/06/13 15:37:35.825,=D:\projetos\projeto_sga\source\Un_Bomba.pas</Transaction>
-    <Transaction>2023/06/13 15:37:35.872,=D:\projetos\projeto_sga\source\un_ClassCalculo.pas</Transaction>
-    <Transaction>2023/06/13 15:37:35.979,=D:\projetos\projeto_sga\source\Un_ClassPesq.pas</Transaction>
-    <Transaction>2023/06/13 15:37:36.165,=D:\projetos\projeto_sga\source\Un_Combustivel.pas</Transaction>
-    <Transaction>2023/06/13 15:37:36.491,=D:\projetos\projeto_sga\source\Un_DmSistema.pas</Transaction>
-    <Transaction>2023/06/13 15:37:36.513,=D:\projetos\projeto_sga\source\Un_Funcoes.pas</Transaction>
-    <Transaction>2023/06/13 15:37:36.710,=D:\projetos\projeto_sga\source\un_Posto.pas</Transaction>
-    <Transaction>2023/06/13 15:37:36.824,=D:\projetos\projeto_sga\source\Un_Principal.pas</Transaction>
-    <Transaction>2023/06/13 15:37:37.094,=D:\projetos\projeto_sga\source\Un_RelAbastece.pas</Transaction>
-    <Transaction>2023/06/13 15:37:37.273,=D:\projetos\projeto_sga\source\un_Tanque.pas</Transaction>
-    <Transaction>2023/06/13 15:37:37.464,=D:\projetos\projeto_sga\source\Un_Veiculo.pas</Transaction>
+    <Transaction>2023/06/13 15:36:36.000.250,=C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/06/13 15:36:56.000.491,C:\Users\aveli\OneDrive\Documentos\Embarcadero\Studio\Projects\Project2.dproj=D:\projetos\projeto_sga\SGA.dproj</Transaction>
+    <Transaction>2023/06/13 15:37:15.000.440,=D:\projetos\projeto_sga\source\Un_MDDialog.pas</Transaction>
+    <Transaction>2023/06/13 15:37:35.000.370,=D:\projetos\projeto_sga\source\EditTuning.pas</Transaction>
+    <Transaction>2023/06/13 15:37:35.000.979,=D:\projetos\projeto_sga\source\Un_ClassPesq.pas</Transaction>
+    <Transaction>2023/06/13 15:37:35.000.651,=D:\projetos\projeto_sga\source\Un_Abastece.pas</Transaction>
+    <Transaction>2023/06/13 15:37:35.000.411,=D:\projetos\projeto_sga\source\U_ClassConfig.pas</Transaction>
+    <Transaction>2023/06/13 15:37:35.000.825,=D:\projetos\projeto_sga\source\Un_Bomba.pas</Transaction>
+    <Transaction>2023/06/13 15:37:35.000.872,=D:\projetos\projeto_sga\source\un_ClassCalculo.pas</Transaction>
+    <Transaction>2023/06/13 15:37:36.000.491,=D:\projetos\projeto_sga\source\Un_DmSistema.pas</Transaction>
+    <Transaction>2023/06/13 15:37:36.000.824,=D:\projetos\projeto_sga\source\Un_Principal.pas</Transaction>
+    <Transaction>2023/06/13 15:37:36.000.710,=D:\projetos\projeto_sga\source\un_Posto.pas</Transaction>
+    <Transaction>2023/06/13 15:37:36.000.165,=D:\projetos\projeto_sga\source\Un_Combustivel.pas</Transaction>
+    <Transaction>2023/06/13 15:37:36.000.513,=D:\projetos\projeto_sga\source\Un_Funcoes.pas</Transaction>
+    <Transaction>2023/06/13 15:37:37.000.464,=D:\projetos\projeto_sga\source\Un_Veiculo.pas</Transaction>
+    <Transaction>2023/06/13 15:37:37.000.273,=D:\projetos\projeto_sga\source\un_Tanque.pas</Transaction>
+    <Transaction>2023/06/13 15:37:37.000.094,=D:\projetos\projeto_sga\source\Un_RelAbastece.pas</Transaction>
   </Transactions>
 </BorlandProject>

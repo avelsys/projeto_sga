@@ -2,8 +2,8 @@ object frm_principal: Tfrm_principal
   Left = 0
   Top = 0
   Caption = 'Sistema de Gest'#227'o de Abastecimento'
-  ClientHeight = 575
-  ClientWidth = 926
+  ClientHeight = 574
+  ClientWidth = 922
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,16 +12,14 @@ object frm_principal: Tfrm_principal
   Font.Style = []
   FormStyle = fsMDIForm
   Menu = mnPrincipal
-  OldCreateOrder = False
   WindowState = wsMaximized
   OnClose = FormClose
-  PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
     Left = 0
     Top = 65
-    Width = 926
-    Height = 491
+    Width = 922
+    Height = 490
     Align = alClient
     Picture.Data = {
       0A544A504547496D6167652EFB0000FFD8FFE1001845786966000049492A0008
@@ -2042,8 +2040,8 @@ object frm_principal: Tfrm_principal
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 556
-    Width = 926
+    Top = 555
+    Width = 922
     Height = 19
     Panels = <
       item
@@ -2054,17 +2052,20 @@ object frm_principal: Tfrm_principal
         Text = 'Usu'#225'rio: ADMIN'
         Width = 50
       end>
+    ExplicitTop = 554
+    ExplicitWidth = 918
   end
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 926
+    Width = 922
     Height = 65
     ButtonHeight = 65
     ButtonWidth = 57
     Caption = 'ToolBar1'
     DrawingStyle = dsGradient
     TabOrder = 1
+    ExplicitWidth = 918
     object SpeedButton6: TSpeedButton
       Left = 0
       Top = 0
@@ -2144,6 +2145,13 @@ object frm_principal: Tfrm_principal
       Layout = blGlyphTop
     end
   end
+  object cxTextEdit1: TcxTextEdit
+    Left = 304
+    Top = 256
+    TabOrder = 2
+    Text = 'cxTextEdit1'
+    Width = 121
+  end
   object mnPrincipal: TMainMenu
     Images = imlPrincipal
     Left = 32
@@ -2198,7 +2206,7 @@ object frm_principal: Tfrm_principal
     Left = 32
     Top = 192
     Bitmap = {
-      494C010180011402580020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010180011402040020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000080000000200C000001002000000000000040
       1800000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -53472,7 +53480,7 @@ object frm_principal: Tfrm_principal
     Left = 32
     Top = 248
     Bitmap = {
-      494C010101001400240012001200FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010101001400040012001200FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000480000001200000001002000000000004014
       0000000000000000000000000000000000000000000000000000000000000000
       000003030364CECFCEFFD0CFCFFFD2D3D2FFD4D4D4FFD4D4D4FFD4D4D3FFD2D3
