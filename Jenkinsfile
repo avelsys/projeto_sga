@@ -27,9 +27,9 @@ pipeline{
                REM LO_SintPro.dll
 
                REM LO_Slos.dll
-               @SET LO_Slos="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Projeto_SGA\\SGA.dproj"
+               @SET LO_Slos="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
                @ECHO %START_BUILD_STR% %LO_Slos%
-               DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\Projeto_SGA\\SGA.exe"
+               DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.exe"
                REM Limpando a compilanção anterior
                MSBuild %LO_Slos% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                REM Compilando projeto
