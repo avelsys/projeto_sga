@@ -20,10 +20,8 @@ pipeline{
                @SET SGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
                @ECHO %START_BUILD_STR% %SGA_DPROJ%
                DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\"%SGA_EXE%
-               @ECHO Limpando a compilancao anterior
-               MSBuild %SGA_DPROJ% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                @ECHO Compilando projeto
-               MSBuild %SGA_DPROJ% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32 
+               MSBuild %SGA_DPROJ% /t:Build /p:config=%BUILD_CONFIG%
 			   REM /v:diagnostic
 
                @ECHO Build %BUILD_CONFIG% done!'''
