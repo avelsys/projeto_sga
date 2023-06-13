@@ -7,7 +7,7 @@ pipeline{
          }
       }
        stage('Compila'){
-
+         steps{
 powershell '''@ECHO OFF
 REM Busca compilador
 @SET BDS=C:\\\\Program Files (x86)\\\\Embarcadero\\\\Studio\\\\22.0
