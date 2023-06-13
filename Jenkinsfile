@@ -33,7 +33,7 @@ pipeline{
                REM Limpando a compilanção anterior
                MSBuild %LO_Slos% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32
                REM Compilando projeto
-               MSBuild %LO_Slos% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32
+               MSBuild /target:Rebuild %LO_Slos% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32
 
                @ECHO Build %BUILD_CONFIG% done!'''          
          }
