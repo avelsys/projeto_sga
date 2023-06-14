@@ -21,7 +21,7 @@ pipeline{
                @ECHO %START_BUILD_STR% %SGA_DPROJ%
                DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\"%SGA_EXE%
                @ECHO Compilando projeto
-               MSBuild %SGA_DPROJ% /t:Build /p:config=%BUILD_CONFIG% /p:_EnvLibraryPath="C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\lib;C:\\componentes_delphi\\fortesreport-ce\\Binary\\LibD28"
+               MSBuild %SGA_DPROJ% 
 			   REM /v:diagnostic
 
                @ECHO Build %BUILD_CONFIG% done!'''
