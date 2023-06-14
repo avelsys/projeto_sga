@@ -21,7 +21,7 @@ pipeline{
                @ECHO %START_BUILD_STR% %SGA_DPROJ%
                DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\"%SGA_EXE%
                @ECHO Compilando projeto
-               MSBuild %SGA_DPROJ% /t:Build /p:config=%BUILD_CONFIG% /p:_EnvLibraryPath="C:\Program Files (x86)\Embarcadero\Studio\22.0;C:\Program Files (x86)\Embarcadero\Studio\22.0\include;C:\Program Files (x86)\Embarcadero\Studio\22.0\bin;C:\Program Files (x86)\Embarcadero\Studio\22.0\bin64;C:\Program Files (x86)\Embarcadero\Studio\22.0\cmake"
+               MSBuild %SGA_DPROJ% /t:Build /p:config=%BUILD_CONFIG% /p:_EnvLibraryPath="C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\include;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\bin64;C:\\Program Files (x86)\\Embarcadero\\Studio\\22.0\\cmake"
 			   REM /v:diagnostic
 
                @ECHO Build %BUILD_CONFIG% done!'''
