@@ -97,10 +97,8 @@ type
     procedure btnVizuClick(Sender: TObject);
     procedure btnImpClick(Sender: TObject);
   private
-    { Private declarations }
     procedure imprimir(Opcao:Boolean);
   public
-    { Public declarations }
   end;
 
 var
