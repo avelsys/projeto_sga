@@ -40,6 +40,7 @@ end;
 
 procedure TTesteSGA.Test2(const AValue1 : Integer;const AValue2 : Integer);
 begin
+  Assert.AreEqual(AValue1, AValue2,'Os valores não são iguais')
 end;
 
 initialization
