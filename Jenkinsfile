@@ -6,7 +6,7 @@ pipeline{
             echo 'Iniciando a Pipiline'
          }
       }
-       stage('Build Aplicação'){
+       stage('Build Aplicacao'){
          steps{               
 			bat '''@ECHO OFF
 			@ECHO "----------------------------------------------------------------------------"
@@ -76,7 +76,7 @@ pipeline{
 			@ECHO Build %BUILD_CONFIG% done!'''
          }
       }	  
-       stage('Executa Testes'){
+       stage('Executa Testes Unitários'){
          steps{               
 			bat '''
 			@ECHO OFF
@@ -85,7 +85,7 @@ pipeline{
 			@ECHO "----------------------------------------------------------------------------"			
 			@ECHO OFF
 			@SET TESTESGA_EXE=TesteSga.exe					   
-			"C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\TesteSga.exe
+			"C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\bin\\TesteSga.exe
 			'''
          }
       }	  
