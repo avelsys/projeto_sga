@@ -13,7 +13,7 @@ uses
   DUnitX.Loggers.Xml.NUnit,
   {$ENDIF }
   DUnitX.TestFramework,
-  Teste.Main in 'src\Teste.Main.pas';
+  TesteSGA.Main in 'src\TesteSGA.Main.pas';
 
 {$IFNDEF TESTINSIGHT}
 var
