@@ -64,7 +64,7 @@ pipeline{
 			@SET TESTESGA_EXE=TesteSga.exe					   
 
 			@ECHO %TESTESGA_EXE%
-			@SET TESTESGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Tese\\TesteSga.dproj"
+			@SET TESTESGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\TesteSga.dproj"
 			@ECHO %START_BUILD_STR% %TESTESGA_DPROJ%
 			DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\"%TESTESGA_EXE%
 			@ECHO Limpando a compilancao anterior
