@@ -66,7 +66,6 @@ type
     Abastecer1: TMenuItem;
     btnRelAbastece: TAction;
     RelatriodeAbastecimentoporData1: TMenuItem;
-    cxTextEdit1: TcxTextEdit;
     procedure btnCombustivelExecute(Sender: TObject);
     procedure btnTanqueExecute(Sender: TObject);
     procedure btnSairExecute(Sender: TObject);

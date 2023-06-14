@@ -6,6 +6,9 @@
         <Projects Include="SGA.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Teste\TesteSga.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="SGA:Make">
         <MSBuild Projects="SGA.dproj" Targets="Make"/>
     </Target>
+    <Target Name="TesteSga">
+        <MSBuild Projects="Teste\TesteSga.dproj"/>
+    </Target>
+    <Target Name="TesteSga:Clean">
+        <MSBuild Projects="Teste\TesteSga.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TesteSga:Make">
+        <MSBuild Projects="Teste\TesteSga.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SGA"/>
+        <CallTarget Targets="SGA;TesteSga"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SGA:Clean"/>
+        <CallTarget Targets="SGA:Clean;TesteSga:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SGA:Make"/>
+        <CallTarget Targets="SGA:Make;TesteSga:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
