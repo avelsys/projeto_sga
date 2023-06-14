@@ -36,10 +36,9 @@ pipeline{
 			@ECHO Build %BUILD_CONFIG% done!'''
          }
       }       
-     stages{           
        stage('Envio de Email'){     
          steps{
-			mail bcc: '', body: 'Contrução de Aplicação', cc: '', from: '', replyTo: '', subject: 'Jenkins', to: 'avelinoalessandro@gmail.com'            echo 'Iniciando a Pipiline'
+			mail bcc: '', body: 'Contrução de Aplicação', cc: '', from: '', replyTo: '', subject: 'Jenkins', to: 'avelinoalessandro@gmail.com'
          }
       }   	  
    }
