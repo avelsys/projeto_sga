@@ -68,7 +68,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <DCC_UnitSearchPath>$(BDSLIB)\$(Platform)\release;$(BDSUSERDIR)\Imports;$(BDSUSERDIR)\Imports\$(Platform);$(BDS)\Imports;$(BDSCOMMONDIR)\Dcp;$(BDS)\include;C:\componentes_delphi\ACBrTrunk2\Lib\Delphi\LibD28\Win32;C:\componentes_delphi\JEDI\jcl\jcl\lib\d28\win32;C:\componentes_delphi\JEDI\jcl\jcl\source\include;$(SKIADIR)\Source;$(SKIADIR)\Source\FMX;$(SKIADIR)\Source\VCL;$(SKIADIR)\Source\FMX\Designtime;$(SKIADIR)\Source\VCL\Designtime;$(SKIADIR)\Library\RAD Studio 11 Alexandria\Win32\Release;C:\Users\aveli\AppData\Local\Programs\TestInsight\Source;C:\componentes_delphi\fortesreport-ce\Binary\LibD28;C:\componentes_delphi\DevexpressD11\Library\RS28;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <DCC_ExeOutput>D:\projetos\projeto_sga\</DCC_ExeOutput>
+        <DCC_ExeOutput>.\bin\</DCC_ExeOutput>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">

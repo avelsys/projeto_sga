@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Console</AppType>
@@ -82,7 +82,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_ExeOutput>D:\projetos\projeto_sga\Teste\</DCC_ExeOutput>
+        <DCC_ExeOutput>..\bin\</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
         <DCC_N>false</DCC_N>
         <DCC_S>false</DCC_S>
@@ -147,17 +147,16 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <DCC_ExeOutput>D:\projetos\projeto_sga\Teste\</DCC_ExeOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Manifest_File>(None)</Manifest_File>
-        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_ExeOutput>.\..\bin\</DCC_ExeOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <DCC_ExeOutput>D:\projetos\projeto_sga\Teste\</DCC_ExeOutput>
+        <DCC_ExeOutput>..\bin\</DCC_ExeOutput>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UnitSearchPath>$(BDSLIB)\$(Platform)\release;$(BDSUSERDIR)\Imports;$(BDSUSERDIR)\Imports\$(Platform);$(BDS)\Imports;$(BDSCOMMONDIR)\Dcp;$(BDS)\include;C:\componentes_delphi\ACBrTrunk2\Lib\Delphi\LibD28\Win32;C:\componentes_delphi\JEDI\jcl\jcl\lib\d28\win32;C:\componentes_delphi\JEDI\jcl\jcl\source\include;$(SKIADIR)\Source;$(SKIADIR)\Source\FMX;$(SKIADIR)\Source\VCL;$(SKIADIR)\Source\FMX\Designtime;$(SKIADIR)\Source\VCL\Designtime;$(SKIADIR)\Library\RAD Studio 11 Alexandria\Win32\Release;C:\Users\aveli\AppData\Local\Programs\TestInsight\Source;C:\componentes_delphi\fortesreport-ce\Binary\LibD28;C:\componentes_delphi\DevexpressD11\Library\RS28;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
