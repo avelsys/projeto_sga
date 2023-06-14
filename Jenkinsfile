@@ -61,7 +61,7 @@ pipeline{
 
 			@SET BUILD_CONFIG=Release
 			@SET START_BUILD_STR=Start of building			   
-			@SET TESTESGA_EXE=TesteSga.exe					   
+			@SET TESTESGA_EXE=TesteSga.exe
 
 			@ECHO %TESTESGA_EXE%
 			@SET TESTESGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\TesteSga.dproj"
@@ -81,11 +81,11 @@ pipeline{
 			bat '''
 			@ECHO OFF
 			@ECHO "----------------------------------------------------------------------------"
-			@ECHO Preparando a Aplicacao de Testes
+			@ECHO Testes Unitários
 			@ECHO "----------------------------------------------------------------------------"			
 			@ECHO OFF
 			@SET TESTESGA_EXE=TesteSga.exe					   
-			"C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\"%TESTESGA_EXE%
+			"C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\TesteSga.exe
 			'''
          }
       }	  
