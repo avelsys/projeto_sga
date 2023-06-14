@@ -76,7 +76,7 @@ pipeline{
 			@ECHO Build %BUILD_CONFIG% done!'''
          }
       }	  
-       stage('Executa Testes Unitários'){
+       stage('Executa Testes Unitarios'){
          steps{               
 			bat '''
 			@ECHO OFF
