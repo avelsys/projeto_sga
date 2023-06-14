@@ -78,14 +78,15 @@ pipeline{
       }	  
        stage('Executa Testes'){
          steps{               
-			bat '''@ECHO OFF
+			bat '''
+			@ECHO OFF
 			@ECHO "----------------------------------------------------------------------------"
 			@ECHO Preparando a Aplicacao de Testes
 			@ECHO "----------------------------------------------------------------------------"			
 			@ECHO OFF
 			@SET TESTESGA_EXE=TesteSga.exe					   
 			"C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\"%TESTESGA_EXE%
-
+			'''
          }
       }	  
    }
