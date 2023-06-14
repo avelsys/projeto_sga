@@ -33,7 +33,7 @@ pipeline{
 			@ECHO %START_BUILD_STR% %SGA_DPROJ%
 			DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\"%SGA_EXE%
 			@ECHO Limpando a compilancao anterior
-			MSBuild %LO_Slos% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32			
+			MSBuild %SGA_DPROJ% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32			
 			@ECHO Compilando projeto
 			MSBuild %SGA_DPROJ% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32
 			REM /v:diagnostic
@@ -68,7 +68,7 @@ pipeline{
 			@ECHO %START_BUILD_STR% %TESTESGA_DPROJ%
 			DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\Teste\\"%TESTESGA_EXE%
 			@ECHO Limpando a compilancao anterior
-			MSBuild %LO_Slos% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32			
+			MSBuild %TESTESGA_DPROJ% -t:clean -p:config=%BUILD_CONFIG% -p:platform=Win32			
 			@ECHO Compilando projeto
 			MSBuild %TESTESGA_DPROJ% -t:Build -p:config=%BUILD_CONFIG% -p:platform=Win32
 			REM /v:diagnostic
