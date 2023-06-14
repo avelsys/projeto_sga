@@ -2,8 +2,8 @@ object frm_principal: Tfrm_principal
   Left = 0
   Top = 0
   Caption = 'Sistema de Gest'#227'o de Abastecimento'
-  ClientHeight = 575
-  ClientWidth = 926
+  ClientHeight = 574
+  ClientWidth = 922
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,8 +18,8 @@ object frm_principal: Tfrm_principal
   object Image1: TImage
     Left = 0
     Top = 65
-    Width = 926
-    Height = 491
+    Width = 922
+    Height = 490
     Align = alClient
     Picture.Data = {
       0A544A504547496D6167652EFB0000FFD8FFE1001845786966000049492A0008
@@ -2040,8 +2040,8 @@ object frm_principal: Tfrm_principal
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 556
-    Width = 926
+    Top = 555
+    Width = 922
     Height = 19
     Panels = <
       item
@@ -2052,20 +2052,20 @@ object frm_principal: Tfrm_principal
         Text = 'Usu'#225'rio: ADMIN'
         Width = 50
       end>
-    ExplicitTop = 555
-    ExplicitWidth = 922
+    ExplicitTop = 554
+    ExplicitWidth = 918
   end
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 926
+    Width = 922
     Height = 65
     ButtonHeight = 65
     ButtonWidth = 57
     Caption = 'ToolBar1'
     DrawingStyle = dsGradient
     TabOrder = 1
-    ExplicitWidth = 922
+    ExplicitWidth = 918
     object SpeedButton6: TSpeedButton
       Left = 0
       Top = 0
@@ -2144,6 +2144,13 @@ object frm_principal: Tfrm_principal
       Flat = True
       Layout = blGlyphTop
     end
+  end
+  object cxTextEdit1: TcxTextEdit
+    Left = 472
+    Top = 224
+    TabOrder = 2
+    Text = 'cxTextEdit1'
+    Width = 121
   end
   object mnPrincipal: TMainMenu
     Images = imlPrincipal

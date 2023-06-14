@@ -26,7 +26,6 @@ pipeline{
 			@SET SGA_EXE=SGA.exe					   
 
 			@ECHO %SGA_EXE%
-			@ECHO descricao do path do windows %PATH%			   
 			@SET SGA_DPROJ="C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\SGA.dproj"
 			@ECHO %START_BUILD_STR% %SGA_DPROJ%
 			DEL "C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\"%SGA_EXE%
@@ -37,5 +36,11 @@ pipeline{
 			@ECHO Build %BUILD_CONFIG% done!'''
          }
       }       
+     stages{           
+       stage('Envio de Email'){     
+         steps{
+			mail bcc: '', body: 'Contrução de Aplicação', cc: '', from: '', replyTo: '', subject: 'Jenkins', to: 'avelinoalessandro@gmail.com'            echo 'Iniciando a Pipiline'
+         }
+      }   	  
    }
 }   
