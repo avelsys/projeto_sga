@@ -4,6 +4,7 @@ pipeline{
        stage('Prepara'){     
          steps{
             echo 'Iniciando a Pipiline'
+			scanForIssues tool: msBuild(name: 'Compilação', reportEncoding: 'UTF-8')
          }
       }
        stage('Build Aplicacao'){
@@ -88,9 +89,6 @@ pipeline{
 			"C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\bin\\TesteSga.exe
 			'''
          }
-         steps{               
-			scanForIssues tool: msBuild(name: 'Compilação', reportEncoding: 'UTF-8')
-         }		 
 		 
       }	  
    }
