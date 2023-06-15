@@ -78,7 +78,7 @@ pipeline{
       }	  
        stage('Executa Testes Unitarios'){
          steps{    
-		 	scanForIssues tool: msBuild(name: 'Compilação', reportEncoding: 'UTF-8')
+		 	scanForIssues tool: msBuild(reportEncoding: 'UTF-8')
 			bat '''
 			@ECHO OFF
 			@ECHO "----------------------------------------------------------------------------"
