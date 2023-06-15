@@ -88,6 +88,10 @@ pipeline{
 			"C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\SGA\\bin\\TesteSga.exe
 			'''
          }
+         steps{               
+			scanForIssues tool: msBuild(name: 'Compilação', reportEncoding: 'UTF-8')
+         }		 
+		 
       }	  
    }
 }   
