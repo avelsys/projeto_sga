@@ -4,7 +4,6 @@ pipeline{
        stage('Prepara'){     
          steps{
             echo 'Iniciando a Pipiline'
-			scanForIssues tool: msBuild(name: 'Compilação', reportEncoding: 'UTF-8')
          }
       }
        stage('Build Aplicacao'){
@@ -78,7 +77,8 @@ pipeline{
          }
       }	  
        stage('Executa Testes Unitarios'){
-         steps{               
+         steps{    
+		 	scanForIssues tool: msBuild(name: 'Compilação', reportEncoding: 'UTF-8')
 			bat '''
 			@ECHO OFF
 			@ECHO "----------------------------------------------------------------------------"
