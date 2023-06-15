@@ -75,7 +75,7 @@ pipeline{
 
 			@ECHO Build %BUILD_CONFIG% done!'''
          }
-      }	  	  
+      }	  
        stage('Executa Testes Unitarios'){
          steps{    
 		 	scanForIssues tool: msBuild(reportEncoding: 'UTF-8')
