@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Un_MDDialog, Data.DB, System.Actions,
   Vcl.ActnList, Vcl.ImgList, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Grids, Vcl.DBGrids,
-  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Mask;
+  Vcl.Buttons, Vcl.ExtCtrls, Vcl.Mask, System.ImageList;
 
 type
   TfrmTanque = class(TMD_Dialog)
@@ -25,10 +25,9 @@ type
     tnq_etqatu: TMaskEdit;
     Label7: TLabel;
     procedure tnq_codcmbExit(Sender: TObject);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
+protected
+    Function  GetKeyField: String; override;
+    Function  GetQueryKeyFiled: String;  override;
   end;
 
 var
@@ -40,6 +39,16 @@ implementation
 
 uses EditTuning, U_ClassConfig, Un_DmSistema, Un_Funcoes, Un_Principal,
   Un_ClassPesq;
+
+function TfrmTanque.GetKeyField: String;
+begin
+  result := EmptyStr;
+end;
+
+function TfrmTanque.GetQueryKeyFiled: String;
+begin
+  result := EmptyStr;
+end;
 
 procedure TfrmTanque.tnq_codcmbExit(Sender: TObject);
 begin
